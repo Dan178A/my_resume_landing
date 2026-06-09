@@ -1,0 +1,27 @@
+:root {
+  --midnight-blue: #0a1b2d;
+  --midnight-lighter: #13273d;
+  --ivory: #f5f2eb;
+  --ivory-muted: #c2bfb8;
+  --accent-cyan: #00e5ff; /* Un toque de brillo sutil para interacciones */
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--midnight-blue);
+  color: var(--ivory);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
