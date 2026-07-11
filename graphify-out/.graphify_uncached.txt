@@ -1,0 +1,4 @@
+/sessions/lucid-dreamy-volta/mnt/my_resume_landing/README.md
+/sessions/lucid-dreamy-volta/mnt/my_resume_landing/index.html
+/sessions/lucid-dreamy-volta/mnt/my_resume_landing/public/1699966173589.jpg
+/sessions/lucid-dreamy-volta/mnt/my_resume_landing/public/avatar.jpg

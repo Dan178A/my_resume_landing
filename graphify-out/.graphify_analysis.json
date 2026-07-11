@@ -1,0 +1,287 @@
+{
+  "communities": {
+    "0": [
+      "jsdom",
+      "npm_run_all2",
+      "package_devdependencies",
+      "package_devdependencies_jsdom",
+      "package_devdependencies_npm_run_all2",
+      "package_devdependencies_tsconfig_node24",
+      "package_devdependencies_types_jsdom",
+      "package_devdependencies_types_node",
+      "package_devdependencies_typescript",
+      "package_devdependencies_vite",
+      "package_devdependencies_vite_plugin_vue_devtools",
+      "package_devdependencies_vitejs_plugin_vue",
+      "package_devdependencies_vitest",
+      "package_devdependencies_vue_test_utils",
+      "package_devdependencies_vue_tsc",
+      "package_devdependencies_vue_tsconfig",
+      "tsconfig_node24",
+      "types_jsdom",
+      "types_node",
+      "typescript",
+      "vite",
+      "vite_plugin_vue_devtools",
+      "vitejs_plugin_vue",
+      "vitest",
+      "vue_test_utils",
+      "vue_tsc",
+      "vue_tsconfig"
+    ],
+    "1": [
+      "package",
+      "package_engines",
+      "package_engines_node",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_build_only",
+      "package_scripts_dev",
+      "package_scripts_preview",
+      "package_scripts_test_unit",
+      "package_scripts_type_check",
+      "package_type",
+      "package_version"
+    ],
+    "2": [
+      "ref_src",
+      "ref_src_vue",
+      "ref_vue_tsconfig_tsconfig_dom_json",
+      "tsconfig_app",
+      "tsconfig_app_compileroptions",
+      "tsconfig_app_compileroptions_nouncheckedindexedaccess",
+      "tsconfig_app_compileroptions_paths",
+      "tsconfig_app_compileroptions_tsbuildinfofile",
+      "tsconfig_app_exclude",
+      "tsconfig_app_extends",
+      "tsconfig_app_include",
+      "tsconfig_app_json_ref_env_d_ts",
+      "tsconfig_app_json_ref_src_tests",
+      "tsconfig_app_paths"
+    ],
+    "3": [
+      "ref_jsdom",
+      "ref_node",
+      "ref_tsconfig_app_json",
+      "tsconfig_vitest",
+      "tsconfig_vitest_compileroptions",
+      "tsconfig_vitest_compileroptions_lib",
+      "tsconfig_vitest_compileroptions_tsbuildinfofile",
+      "tsconfig_vitest_compileroptions_types",
+      "tsconfig_vitest_exclude",
+      "tsconfig_vitest_extends",
+      "tsconfig_vitest_include",
+      "tsconfig_vitest_json_ref_env_d_ts",
+      "tsconfig_vitest_json_ref_src_tests"
+    ],
+    "4": [
+      "src_app",
+      "src_components_portfolio",
+      "src_components_portfolio_error",
+      "src_components_portfolio_fetchrepositories",
+      "src_components_portfolio_githubrepo",
+      "src_components_portfolio_loading",
+      "src_components_portfolio_repos",
+      "src_components_portfolio_selectedrepos",
+      "src_main",
+      "src_main_app",
+      "src_router_index",
+      "src_router_index_router",
+      "src_tests_app_spec"
+    ],
+    "5": [
+      "avatar-photo",
+      "contact-channels",
+      "daniel-silva",
+      "design-glassmorphism",
+      "font-awesome",
+      "github-api-integration",
+      "portfolio-site",
+      "selected-repos",
+      "vue-vite-template"
+    ],
+    "6": [
+      "package_dependencies",
+      "package_dependencies_pinia",
+      "package_dependencies_vercel_analytics",
+      "package_dependencies_vue",
+      "package_dependencies_vue_router",
+      "pinia",
+      "vercel_analytics",
+      "vue",
+      "vue_router"
+    ],
+    "7": [
+      "tsconfig",
+      "tsconfig_files",
+      "tsconfig_references"
+    ],
+    "8": [
+      "src_stores_counter",
+      "src_stores_counter_usecounterstore"
+    ],
+    "9": [
+      "vercel",
+      "vercel_rewrites"
+    ],
+    "10": [
+      "vite_config",
+      "vitest_config"
+    ],
+    "11": [
+      "env_d"
+    ]
+  },
+  "cohesion": {
+    "0": 0.07407407407407407,
+    "1": 0.14285714285714285,
+    "2": 0.15384615384615385,
+    "3": 0.15384615384615385,
+    "4": 0.1794871794871795,
+    "5": 0.25,
+    "6": 0.2222222222222222,
+    "7": 0.6666666666666666,
+    "8": 1.0,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0
+  },
+  "gods": [
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 7
+    },
+    {
+      "id": "portfolio-site",
+      "label": "Portfolio Landing",
+      "degree": 7
+    },
+    {
+      "id": "tsconfig_app_include",
+      "label": "include",
+      "degree": 4
+    },
+    {
+      "id": "tsconfig_app_compileroptions",
+      "label": "compilerOptions",
+      "degree": 4
+    },
+    {
+      "id": "tsconfig_vitest_compileroptions",
+      "label": "compilerOptions",
+      "degree": 4
+    },
+    {
+      "id": "tsconfig_vitest_include",
+      "label": "include",
+      "degree": 3
+    },
+    {
+      "id": "tsconfig_vitest_compileroptions_types",
+      "label": "types",
+      "degree": 3
+    },
+    {
+      "id": "package_dependencies_vercel_analytics",
+      "label": "@vercel/analytics",
+      "degree": 2
+    },
+    {
+      "id": "package_dependencies_pinia",
+      "label": "pinia",
+      "degree": 2
+    },
+    {
+      "id": "package_dependencies_vue",
+      "label": "vue",
+      "degree": 2
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Portfolio Landing",
+      "target": "Daniel Silva",
+      "source_files": [
+        "index.html",
+        "src/components/Portfolio.vue"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "presenta a",
+      "why": "crosses file types (code ↔ doc); connects across different repos/directories; peripheral node `Daniel Silva` unexpectedly reaches hub `Portfolio Landing`"
+    },
+    {
+      "source": "Portfolio Landing",
+      "target": "avatar.jpg / 1699966173589.jpg",
+      "source_files": [
+        "index.html",
+        "public/1699966173589.jpg"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "muestra",
+      "why": "crosses file types (doc ↔ image); connects across different repos/directories; peripheral node `avatar.jpg / 1699966173589.jpg` unexpectedly reaches hub `Portfolio Landing`"
+    },
+    {
+      "source": "Portfolio Landing",
+      "target": "Canales de contacto",
+      "source_files": [
+        "index.html",
+        "src/components/Portfolio.vue"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "ofrece",
+      "why": "crosses file types (doc ↔ code); connects across different repos/directories; peripheral node `Canales de contacto` unexpectedly reaches hub `Portfolio Landing`"
+    },
+    {
+      "source": "Portfolio Landing",
+      "target": "Diseño glassmorphism midnight/ivory",
+      "source_files": [
+        "index.html",
+        "src/components/Portfolio.vue"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "usa estilo",
+      "why": "crosses file types (doc ↔ code); connects across different repos/directories; peripheral node `Diseño glassmorphism midnight/ivory` unexpectedly reaches hub `Portfolio Landing`"
+    },
+    {
+      "source": "Portfolio Landing",
+      "target": "GitHub REST API",
+      "source_files": [
+        "index.html",
+        "src/components/Portfolio.vue"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "consume",
+      "why": "crosses file types (doc ↔ code); connects across different repos/directories; peripheral node `GitHub REST API` unexpectedly reaches hub `Portfolio Landing`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `devDependencies` connect `Community 0` to `Community 1`?",
+      "why": "High betweenness centrality (0.157) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `Community 6` to `Community 1`?",
+      "why": "High betweenness centrality (0.061) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `name`, `version`, `private` to the rest of the system?",
+      "why": "58 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

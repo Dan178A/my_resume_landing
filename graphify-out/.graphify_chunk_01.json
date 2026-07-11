@@ -1,0 +1,27 @@
+{
+  "nodes": [
+    {"id": "daniel-silva", "label": "Daniel Silva", "type": "person", "description": "Full Stack Developer; dueño del portfolio. GitHub Dan178A, LinkedIn daniel-alejandro-silva-rojas, email dsrglrm@gmail.com", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"id": "portfolio-site", "label": "Portfolio Landing", "type": "concept", "description": "SPA Vue 3 + Vite desplegada en Vercel (daniel-silva-portfolio.vercel.app), título 'Daniel Silva | Portfolio'", "confidence": "EXTRACTED", "source_file": "index.html"},
+    {"id": "github-api-integration", "label": "GitHub REST API", "type": "external_service", "description": "fetch a api.github.com/users/Dan178A/repos?per_page=100, filtrado local por lista selectedRepos de 6 proyectos", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"id": "selected-repos", "label": "Proyectos Destacados", "type": "concept", "description": "System_Stabilitation_Interpolation, RealtimeVoiceAssistant, Socket-Communication-System, Socket-File-Sharing-Protocol, Traffic_Simulation_Model, FlowNet_Video_Stabilization", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"id": "design-glassmorphism", "label": "Diseño glassmorphism midnight/ivory", "type": "concept", "description": "Paleta CSS vars --ivory, --ivory-muted, --midnight-blue; blobs con blur, cards glass, acento cian #00e5ff", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"id": "font-awesome", "label": "Font Awesome 6.7.2 CDN", "type": "external_service", "description": "Iconos vía cdnjs en index.html", "confidence": "EXTRACTED", "source_file": "index.html"},
+    {"id": "avatar-photo", "label": "avatar.jpg / 1699966173589.jpg", "type": "image", "description": "Fotos de perfil en /public; 1699966173589.jpg se usa como avatar del hero", "confidence": "EXTRACTED", "source_file": "public/1699966173589.jpg"},
+    {"id": "contact-channels", "label": "Canales de contacto", "type": "concept", "description": "WhatsApp wa.me/584142317561, mailto dsrglrm@gmail.com, GitHub, LinkedIn", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"id": "vue-vite-template", "label": "Vue 3 + Vite template docs", "type": "document", "description": "README estándar del template Vue3/Vite: setup, vue-tsc, Vitest", "confidence": "EXTRACTED", "source_file": "README.md"}
+  ],
+  "edges": [
+    {"source": "portfolio-site", "target": "daniel-silva", "relation": "presenta a", "confidence": "EXTRACTED", "source_file": "index.html"},
+    {"source": "portfolio-site", "target": "github-api-integration", "relation": "consume", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"source": "github-api-integration", "target": "selected-repos", "relation": "provee datos de", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"source": "portfolio-site", "target": "design-glassmorphism", "relation": "usa estilo", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"source": "portfolio-site", "target": "font-awesome", "relation": "carga", "confidence": "EXTRACTED", "source_file": "index.html"},
+    {"source": "portfolio-site", "target": "avatar-photo", "relation": "muestra", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"source": "portfolio-site", "target": "contact-channels", "relation": "ofrece", "confidence": "EXTRACTED", "source_file": "src/components/Portfolio.vue"},
+    {"source": "portfolio-site", "target": "vue-vite-template", "relation": "documentado por", "confidence": "EXTRACTED", "source_file": "README.md"},
+    {"source": "selected-repos", "target": "daniel-silva", "relation": "evidencian trayectoria de", "confidence": "INFERRED", "source_file": "src/components/Portfolio.vue"}
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

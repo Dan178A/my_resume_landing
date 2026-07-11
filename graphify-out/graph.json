@@ -1,0 +1,2157 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "env.d.ts",
+      "file_type": "code",
+      "source_file": "env.d.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "env_d",
+      "community": 11,
+      "norm_label": "env.d.ts"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "package",
+      "community": 1,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "package_name",
+      "community": 1,
+      "norm_label": "name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "package_version",
+      "community": 1,
+      "norm_label": "version"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "package_private",
+      "community": 1,
+      "norm_label": "private"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "package_type",
+      "community": 1,
+      "norm_label": "type"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "package_scripts",
+      "community": 1,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "package_scripts_dev",
+      "community": 1,
+      "norm_label": "dev"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "package_scripts_build",
+      "community": 1,
+      "norm_label": "build"
+    },
+    {
+      "label": "preview",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "package_scripts_preview",
+      "community": 1,
+      "norm_label": "preview"
+    },
+    {
+      "label": "test:unit",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "package_scripts_test_unit",
+      "community": 1,
+      "norm_label": "test:unit"
+    },
+    {
+      "label": "build-only",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "package_scripts_build_only",
+      "community": 1,
+      "norm_label": "build-only"
+    },
+    {
+      "label": "type-check",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "package_scripts_type_check",
+      "community": 1,
+      "norm_label": "type-check"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "package_dependencies",
+      "community": 6,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "@vercel/analytics",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "package_dependencies_vercel_analytics",
+      "community": 6,
+      "norm_label": "@vercel/analytics"
+    },
+    {
+      "label": "@vercel/analytics",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "vercel_analytics",
+      "community": 6,
+      "norm_label": "@vercel/analytics"
+    },
+    {
+      "label": "pinia",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "package_dependencies_pinia",
+      "community": 6,
+      "norm_label": "pinia"
+    },
+    {
+      "label": "pinia",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "pinia",
+      "community": 6,
+      "norm_label": "pinia"
+    },
+    {
+      "label": "vue",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "package_dependencies_vue",
+      "community": 6,
+      "norm_label": "vue"
+    },
+    {
+      "label": "vue",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "vue",
+      "community": 6,
+      "norm_label": "vue"
+    },
+    {
+      "label": "vue-router",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "package_dependencies_vue_router",
+      "community": 6,
+      "norm_label": "vue-router"
+    },
+    {
+      "label": "vue-router",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "vue_router",
+      "community": 6,
+      "norm_label": "vue-router"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "package_devdependencies",
+      "community": 0,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@tsconfig/node24",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "package_devdependencies_tsconfig_node24",
+      "community": 0,
+      "norm_label": "@tsconfig/node24"
+    },
+    {
+      "label": "@tsconfig/node24",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "tsconfig_node24",
+      "community": 0,
+      "norm_label": "@tsconfig/node24"
+    },
+    {
+      "label": "@types/jsdom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "package_devdependencies_types_jsdom",
+      "community": 0,
+      "norm_label": "@types/jsdom"
+    },
+    {
+      "label": "@types/jsdom",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "types_jsdom",
+      "community": 0,
+      "norm_label": "@types/jsdom"
+    },
+    {
+      "label": "@types/node",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "package_devdependencies_types_node",
+      "community": 0,
+      "norm_label": "@types/node"
+    },
+    {
+      "label": "@types/node",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "types_node",
+      "community": 0,
+      "norm_label": "@types/node"
+    },
+    {
+      "label": "@vitejs/plugin-vue",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "package_devdependencies_vitejs_plugin_vue",
+      "community": 0,
+      "norm_label": "@vitejs/plugin-vue"
+    },
+    {
+      "label": "@vitejs/plugin-vue",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "vitejs_plugin_vue",
+      "community": 0,
+      "norm_label": "@vitejs/plugin-vue"
+    },
+    {
+      "label": "@vue/test-utils",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "package_devdependencies_vue_test_utils",
+      "community": 0,
+      "norm_label": "@vue/test-utils"
+    },
+    {
+      "label": "@vue/test-utils",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "vue_test_utils",
+      "community": 0,
+      "norm_label": "@vue/test-utils"
+    },
+    {
+      "label": "@vue/tsconfig",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "package_devdependencies_vue_tsconfig",
+      "community": 0,
+      "norm_label": "@vue/tsconfig"
+    },
+    {
+      "label": "@vue/tsconfig",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "vue_tsconfig",
+      "community": 0,
+      "norm_label": "@vue/tsconfig"
+    },
+    {
+      "label": "jsdom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "package_devdependencies_jsdom",
+      "community": 0,
+      "norm_label": "jsdom"
+    },
+    {
+      "label": "jsdom",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "jsdom",
+      "community": 0,
+      "norm_label": "jsdom"
+    },
+    {
+      "label": "npm-run-all2",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "package_devdependencies_npm_run_all2",
+      "community": 0,
+      "norm_label": "npm-run-all2"
+    },
+    {
+      "label": "npm-run-all2",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "npm_run_all2",
+      "community": 0,
+      "norm_label": "npm-run-all2"
+    },
+    {
+      "label": "typescript",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "package_devdependencies_typescript",
+      "community": 0,
+      "norm_label": "typescript"
+    },
+    {
+      "label": "typescript",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "typescript",
+      "community": 0,
+      "norm_label": "typescript"
+    },
+    {
+      "label": "vite",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "package_devdependencies_vite",
+      "community": 0,
+      "norm_label": "vite"
+    },
+    {
+      "label": "vite",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "vite",
+      "community": 0,
+      "norm_label": "vite"
+    },
+    {
+      "label": "vite-plugin-vue-devtools",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "package_devdependencies_vite_plugin_vue_devtools",
+      "community": 0,
+      "norm_label": "vite-plugin-vue-devtools"
+    },
+    {
+      "label": "vite-plugin-vue-devtools",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "vite_plugin_vue_devtools",
+      "community": 0,
+      "norm_label": "vite-plugin-vue-devtools"
+    },
+    {
+      "label": "vitest",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "package_devdependencies_vitest",
+      "community": 0,
+      "norm_label": "vitest"
+    },
+    {
+      "label": "vitest",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "vitest",
+      "community": 0,
+      "norm_label": "vitest"
+    },
+    {
+      "label": "vue-tsc",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "package_devdependencies_vue_tsc",
+      "community": 0,
+      "norm_label": "vue-tsc"
+    },
+    {
+      "label": "vue-tsc",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "vue_tsc",
+      "community": 0,
+      "norm_label": "vue-tsc"
+    },
+    {
+      "label": "engines",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "package_engines",
+      "community": 1,
+      "norm_label": "engines"
+    },
+    {
+      "label": "node",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "package_engines_node",
+      "community": 1,
+      "norm_label": "node"
+    },
+    {
+      "label": "App.vue",
+      "file_type": "code",
+      "source_file": "src/App.vue",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app",
+      "community": 4,
+      "norm_label": "app.vue"
+    },
+    {
+      "label": "App.spec.ts",
+      "file_type": "code",
+      "source_file": "src/__tests__/App.spec.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_tests_app_spec",
+      "community": 4,
+      "norm_label": "app.spec.ts"
+    },
+    {
+      "label": "Portfolio.vue",
+      "file_type": "code",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_portfolio",
+      "community": 4,
+      "norm_label": "portfolio.vue"
+    },
+    {
+      "label": "GitHubRepo",
+      "file_type": "code",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "src_components_portfolio_githubrepo",
+      "community": 4,
+      "norm_label": "githubrepo"
+    },
+    {
+      "label": "selectedRepos",
+      "file_type": "code",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "src_components_portfolio_selectedrepos",
+      "community": 4,
+      "norm_label": "selectedrepos"
+    },
+    {
+      "label": "repos",
+      "file_type": "code",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "src_components_portfolio_repos",
+      "community": 4,
+      "norm_label": "repos"
+    },
+    {
+      "label": "loading",
+      "file_type": "code",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "src_components_portfolio_loading",
+      "community": 4,
+      "norm_label": "loading"
+    },
+    {
+      "label": "error",
+      "file_type": "code",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "src_components_portfolio_error",
+      "community": 4,
+      "norm_label": "error"
+    },
+    {
+      "label": "fetchRepositories()",
+      "file_type": "code",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "src_components_portfolio_fetchrepositories",
+      "community": 4,
+      "norm_label": "fetchrepositories()"
+    },
+    {
+      "label": "main.ts",
+      "file_type": "code",
+      "source_file": "src/main.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_main",
+      "community": 4,
+      "norm_label": "main.ts"
+    },
+    {
+      "label": "app",
+      "file_type": "code",
+      "source_file": "src/main.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "src_main_app",
+      "community": 4,
+      "norm_label": "app"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "src/router/index.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_router_index",
+      "community": 4,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "router",
+      "file_type": "code",
+      "source_file": "src/router/index.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "src_router_index_router",
+      "community": 4,
+      "norm_label": "router"
+    },
+    {
+      "label": "counter.ts",
+      "file_type": "code",
+      "source_file": "src/stores/counter.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_stores_counter",
+      "community": 8,
+      "norm_label": "counter.ts"
+    },
+    {
+      "label": "useCounterStore",
+      "file_type": "code",
+      "source_file": "src/stores/counter.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "src_stores_counter_usecounterstore",
+      "community": 8,
+      "norm_label": "usecounterstore"
+    },
+    {
+      "label": "tsconfig.app.json",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tsconfig_app",
+      "community": 2,
+      "norm_label": "tsconfig.app.json"
+    },
+    {
+      "label": "extends",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "tsconfig_app_extends",
+      "community": 2,
+      "norm_label": "extends"
+    },
+    {
+      "label": "@vue/tsconfig/tsconfig.dom.json",
+      "file_type": "concept",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "ref_vue_tsconfig_tsconfig_dom_json",
+      "community": 2,
+      "norm_label": "@vue/tsconfig/tsconfig.dom.json"
+    },
+    {
+      "label": "include",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "tsconfig_app_include",
+      "community": 2,
+      "norm_label": "include"
+    },
+    {
+      "label": "env.d.ts",
+      "file_type": "concept",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "tsconfig_app_json_ref_env_d_ts",
+      "community": 2,
+      "norm_label": "env.d.ts"
+    },
+    {
+      "label": "src/**/*",
+      "file_type": "concept",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "ref_src",
+      "community": 2,
+      "norm_label": "src/**/*"
+    },
+    {
+      "label": "src/**/*.vue",
+      "file_type": "concept",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "ref_src_vue",
+      "community": 2,
+      "norm_label": "src/**/*.vue"
+    },
+    {
+      "label": "exclude",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "tsconfig_app_exclude",
+      "community": 2,
+      "norm_label": "exclude"
+    },
+    {
+      "label": "src/**/__tests__/*",
+      "file_type": "concept",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "tsconfig_app_json_ref_src_tests",
+      "community": 2,
+      "norm_label": "src/**/__tests__/*"
+    },
+    {
+      "label": "compilerOptions",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "tsconfig_app_compileroptions",
+      "community": 2,
+      "norm_label": "compileroptions"
+    },
+    {
+      "label": "noUncheckedIndexedAccess",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "tsconfig_app_compileroptions_nouncheckedindexedaccess",
+      "community": 2,
+      "norm_label": "nouncheckedindexedaccess"
+    },
+    {
+      "label": "paths",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "tsconfig_app_compileroptions_paths",
+      "community": 2,
+      "norm_label": "paths"
+    },
+    {
+      "label": "@/*",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "tsconfig_app_paths",
+      "community": 2,
+      "norm_label": "@/*"
+    },
+    {
+      "label": "tsBuildInfoFile",
+      "file_type": "code",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "tsconfig_app_compileroptions_tsbuildinfofile",
+      "community": 2,
+      "norm_label": "tsbuildinfofile"
+    },
+    {
+      "label": "tsconfig.json",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tsconfig",
+      "community": 7,
+      "norm_label": "tsconfig.json"
+    },
+    {
+      "label": "files",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "tsconfig_files",
+      "community": 7,
+      "norm_label": "files"
+    },
+    {
+      "label": "references",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "tsconfig_references",
+      "community": 7,
+      "norm_label": "references"
+    },
+    {
+      "label": "tsconfig.vitest.json",
+      "file_type": "code",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tsconfig_vitest",
+      "community": 3,
+      "norm_label": "tsconfig.vitest.json"
+    },
+    {
+      "label": "extends",
+      "file_type": "code",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_extends",
+      "community": 3,
+      "norm_label": "extends"
+    },
+    {
+      "label": "./tsconfig.app.json",
+      "file_type": "concept",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "ref_tsconfig_app_json",
+      "community": 3,
+      "norm_label": "./tsconfig.app.json"
+    },
+    {
+      "label": "include",
+      "file_type": "code",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_include",
+      "community": 3,
+      "norm_label": "include"
+    },
+    {
+      "label": "src/**/__tests__/*",
+      "file_type": "concept",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_json_ref_src_tests",
+      "community": 3,
+      "norm_label": "src/**/__tests__/*"
+    },
+    {
+      "label": "env.d.ts",
+      "file_type": "concept",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_json_ref_env_d_ts",
+      "community": 3,
+      "norm_label": "env.d.ts"
+    },
+    {
+      "label": "exclude",
+      "file_type": "code",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_exclude",
+      "community": 3,
+      "norm_label": "exclude"
+    },
+    {
+      "label": "compilerOptions",
+      "file_type": "code",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_compileroptions",
+      "community": 3,
+      "norm_label": "compileroptions"
+    },
+    {
+      "label": "lib",
+      "file_type": "code",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_compileroptions_lib",
+      "community": 3,
+      "norm_label": "lib"
+    },
+    {
+      "label": "types",
+      "file_type": "code",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_compileroptions_types",
+      "community": 3,
+      "norm_label": "types"
+    },
+    {
+      "label": "node",
+      "file_type": "concept",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "ref_node",
+      "community": 3,
+      "norm_label": "node"
+    },
+    {
+      "label": "jsdom",
+      "file_type": "concept",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "ref_jsdom",
+      "community": 3,
+      "norm_label": "jsdom"
+    },
+    {
+      "label": "tsBuildInfoFile",
+      "file_type": "code",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "tsconfig_vitest_compileroptions_tsbuildinfofile",
+      "community": 3,
+      "norm_label": "tsbuildinfofile"
+    },
+    {
+      "label": "vercel.json",
+      "file_type": "code",
+      "source_file": "vercel.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "vercel",
+      "community": 9,
+      "norm_label": "vercel.json"
+    },
+    {
+      "label": "rewrites",
+      "file_type": "code",
+      "source_file": "vercel.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "vercel_rewrites",
+      "community": 9,
+      "norm_label": "rewrites"
+    },
+    {
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "vite.config.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "vite_config",
+      "community": 10,
+      "norm_label": "vite.config.ts"
+    },
+    {
+      "label": "vitest.config.ts",
+      "file_type": "code",
+      "source_file": "vitest.config.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "vitest_config",
+      "community": 10,
+      "norm_label": "vitest.config.ts"
+    },
+    {
+      "label": "Daniel Silva",
+      "type": "person",
+      "description": "Full Stack Developer; due\u00f1o del portfolio. GitHub Dan178A, LinkedIn daniel-alejandro-silva-rojas, email dsrglrm@gmail.com",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "file_type": "concept",
+      "id": "daniel-silva",
+      "community": 5,
+      "norm_label": "daniel silva"
+    },
+    {
+      "label": "Portfolio Landing",
+      "type": "concept",
+      "description": "SPA Vue 3 + Vite desplegada en Vercel (daniel-silva-portfolio.vercel.app), t\u00edtulo 'Daniel Silva | Portfolio'",
+      "confidence": "EXTRACTED",
+      "source_file": "index.html",
+      "file_type": "concept",
+      "id": "portfolio-site",
+      "community": 5,
+      "norm_label": "portfolio landing"
+    },
+    {
+      "label": "GitHub REST API",
+      "type": "external_service",
+      "description": "fetch a api.github.com/users/Dan178A/repos?per_page=100, filtrado local por lista selectedRepos de 6 proyectos",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "file_type": "concept",
+      "id": "github-api-integration",
+      "community": 5,
+      "norm_label": "github rest api"
+    },
+    {
+      "label": "Proyectos Destacados",
+      "type": "concept",
+      "description": "System_Stabilitation_Interpolation, RealtimeVoiceAssistant, Socket-Communication-System, Socket-File-Sharing-Protocol, Traffic_Simulation_Model, FlowNet_Video_Stabilization",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "file_type": "concept",
+      "id": "selected-repos",
+      "community": 5,
+      "norm_label": "proyectos destacados"
+    },
+    {
+      "label": "Dise\u00f1o glassmorphism midnight/ivory",
+      "type": "concept",
+      "description": "Paleta CSS vars --ivory, --ivory-muted, --midnight-blue; blobs con blur, cards glass, acento cian #00e5ff",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "file_type": "concept",
+      "id": "design-glassmorphism",
+      "community": 5,
+      "norm_label": "diseno glassmorphism midnight/ivory"
+    },
+    {
+      "label": "Font Awesome 6.7.2 CDN",
+      "type": "external_service",
+      "description": "Iconos v\u00eda cdnjs en index.html",
+      "confidence": "EXTRACTED",
+      "source_file": "index.html",
+      "file_type": "concept",
+      "id": "font-awesome",
+      "community": 5,
+      "norm_label": "font awesome 6.7.2 cdn"
+    },
+    {
+      "label": "avatar.jpg / 1699966173589.jpg",
+      "type": "image",
+      "description": "Fotos de perfil en /public; 1699966173589.jpg se usa como avatar del hero",
+      "confidence": "EXTRACTED",
+      "source_file": "public/1699966173589.jpg",
+      "file_type": "concept",
+      "id": "avatar-photo",
+      "community": 5,
+      "norm_label": "avatar.jpg / 1699966173589.jpg"
+    },
+    {
+      "label": "Canales de contacto",
+      "type": "concept",
+      "description": "WhatsApp wa.me/584142317561, mailto dsrglrm@gmail.com, GitHub, LinkedIn",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "file_type": "concept",
+      "id": "contact-channels",
+      "community": 5,
+      "norm_label": "canales de contacto"
+    },
+    {
+      "label": "Vue 3 + Vite template docs",
+      "type": "document",
+      "description": "README est\u00e1ndar del template Vue3/Vite: setup, vue-tsc, Vitest",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "file_type": "concept",
+      "id": "vue-vite-template",
+      "community": 5,
+      "norm_label": "vue 3 + vite template docs"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_engines",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_build_only",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_preview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_test_unit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_type_check",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_pinia",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_vercel_analytics",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_vue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_vue_router",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_dependencies_vercel_analytics",
+      "target": "vercel_analytics",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_dependencies_pinia",
+      "target": "pinia",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_dependencies_vue",
+      "target": "vue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_dependencies_vue_router",
+      "target": "vue_router",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_jsdom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_npm_run_all2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_tsconfig_node24",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_jsdom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vite_plugin_vue_devtools",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vitejs_plugin_vue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vitest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vue_test_utils",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vue_tsc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vue_tsconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_tsconfig_node24",
+      "target": "tsconfig_node24",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_types_jsdom",
+      "target": "types_jsdom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_types_node",
+      "target": "types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_vitejs_plugin_vue",
+      "target": "vitejs_plugin_vue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_vue_test_utils",
+      "target": "vue_test_utils",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_vue_tsconfig",
+      "target": "vue_tsconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_jsdom",
+      "target": "jsdom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_npm_run_all2",
+      "target": "npm_run_all2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_typescript",
+      "target": "typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_vite",
+      "target": "vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_vite_plugin_vue_devtools",
+      "target": "vite_plugin_vue_devtools",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_vitest",
+      "target": "vitest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_vue_tsc",
+      "target": "vue_tsc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "package_engines",
+      "target": "package_engines_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.vue",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_components_portfolio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_main",
+      "target": "src_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/__tests__/App.spec.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_tests_app_spec",
+      "target": "src_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "src_components_portfolio",
+      "target": "src_components_portfolio_error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "src_components_portfolio",
+      "target": "src_components_portfolio_fetchrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_components_portfolio",
+      "target": "src_components_portfolio_githubrepo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "src_components_portfolio",
+      "target": "src_components_portfolio_loading",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "src_components_portfolio",
+      "target": "src_components_portfolio_repos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_components_portfolio",
+      "target": "src_components_portfolio_selectedrepos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "src_components_portfolio_fetchrepositories",
+      "target": "src_components_portfolio_error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_main",
+      "target": "src_main_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "src_main",
+      "target": "src_router_index",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "src_main",
+      "target": "src_router_index_router",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/router/index.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_router_index",
+      "target": "src_router_index_router",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/stores/counter.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_stores_counter",
+      "target": "src_stores_counter_usecounterstore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_app",
+      "target": "ref_vue_tsconfig_tsconfig_dom_json",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tsconfig_app",
+      "target": "tsconfig_app_compileroptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "tsconfig_app",
+      "target": "tsconfig_app_exclude",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tsconfig_app",
+      "target": "tsconfig_app_extends",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tsconfig_app",
+      "target": "tsconfig_app_include",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_app_include",
+      "target": "ref_src",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_app_include",
+      "target": "ref_src_vue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_app_include",
+      "target": "tsconfig_app_json_ref_env_d_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_app_paths",
+      "target": "ref_src",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_app_exclude",
+      "target": "tsconfig_app_json_ref_src_tests",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tsconfig_app_compileroptions",
+      "target": "tsconfig_app_compileroptions_nouncheckedindexedaccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tsconfig_app_compileroptions",
+      "target": "tsconfig_app_compileroptions_paths",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "tsconfig_app_compileroptions",
+      "target": "tsconfig_app_compileroptions_tsbuildinfofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "tsconfig_app_compileroptions_paths",
+      "target": "tsconfig_app_paths",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tsconfig",
+      "target": "tsconfig_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tsconfig",
+      "target": "tsconfig_references",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_vitest",
+      "target": "ref_tsconfig_app_json",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tsconfig_vitest",
+      "target": "tsconfig_vitest_compileroptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "tsconfig_vitest",
+      "target": "tsconfig_vitest_exclude",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tsconfig_vitest",
+      "target": "tsconfig_vitest_extends",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tsconfig_vitest",
+      "target": "tsconfig_vitest_include",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_vitest_include",
+      "target": "tsconfig_vitest_json_ref_env_d_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_vitest_include",
+      "target": "tsconfig_vitest_json_ref_src_tests",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "tsconfig_vitest_compileroptions",
+      "target": "tsconfig_vitest_compileroptions_lib",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "tsconfig_vitest_compileroptions",
+      "target": "tsconfig_vitest_compileroptions_tsbuildinfofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "tsconfig_vitest_compileroptions",
+      "target": "tsconfig_vitest_compileroptions_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_vitest_compileroptions_types",
+      "target": "ref_jsdom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "tsconfig.vitest.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "source": "tsconfig_vitest_compileroptions_types",
+      "target": "ref_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vercel.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "vercel",
+      "target": "vercel_rewrites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "vitest.config.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "vitest_config",
+      "target": "vite_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "presenta a",
+      "confidence": "EXTRACTED",
+      "source_file": "index.html",
+      "source": "portfolio-site",
+      "target": "daniel-silva",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "evidencian trayectoria de",
+      "confidence": "INFERRED",
+      "source_file": "src/components/Portfolio.vue",
+      "source": "selected-repos",
+      "target": "daniel-silva",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "muestra",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source": "portfolio-site",
+      "target": "avatar-photo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "ofrece",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source": "portfolio-site",
+      "target": "contact-channels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "usa estilo",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source": "portfolio-site",
+      "target": "design-glassmorphism",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "carga",
+      "confidence": "EXTRACTED",
+      "source_file": "index.html",
+      "source": "portfolio-site",
+      "target": "font-awesome",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "consume",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source": "portfolio-site",
+      "target": "github-api-integration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "documentado por",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source": "portfolio-site",
+      "target": "vue-vite-template",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "provee datos de",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Portfolio.vue",
+      "source": "github-api-integration",
+      "target": "selected-repos",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "8e55258d7bc3b801bc327bda61a169a2199aa174"
+}

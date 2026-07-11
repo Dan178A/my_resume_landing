@@ -1,13 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
+/* ============================================================
+   DESIGN TOKENS — capa 1: primitivos
+   ============================================================ */
 :root {
-  --midnight-blue: #0a1b2d;
-  --midnight-light: #13273d;
-  --ivory: #f5f2eb;
-  --ivory-muted: #c2bfb8;
-  --border-soft: rgba(245, 242, 235, 0.18);
-  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.25);
-  --radius: 16px;
+  /* Color primitives */
+  --blue-950: #0a1b2d;
+  --blue-900: #0e2238;
+  --blue-800: #13273d;
+  --blue-700: #1a3450;
+  --ivory-100: #f5f2eb;
+  --ivory-400: #c2bfb8;
+  --ivory-600: #8b8a86;
+  --cyan-400: #00e5ff;
+  --cyan-600: #00b8cc;
+  --violet-400: #a78bfa;
+  --amber-400: #fbbf24;
+  --emerald-400: #34d399;
+  --red-300: #ffb4b4;
+
+  /* Typography primitives */
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --text-xs: 0.8rem;
+  --text-sm: 0.9rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.4rem;
+  --text-xl: clamp(1.6rem, 4vw, 2.2rem);
+  --text-2xl: clamp(2rem, 5vw, 2.7rem);
+  --text-hero: clamp(2.6rem, 8vw, 4.2rem);
+
+  /* Spacing scale (base 4px) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+
+  /* Elevation scale */
+  --shadow-1: 0 4px 15px rgba(0, 0, 0, 0.2);
+  --shadow-2: 0 15px 35px rgba(0, 0, 0, 0.4);
+  --shadow-3: 0 25px 50px rgba(0, 0, 0, 0.5);
+
+  /* Motion */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 400ms;
+
+  /* ============================================================
+     DESIGN TOKENS — capa 2: semánticos
+     ============================================================ */
+  --color-bg: var(--blue-950);
+  --color-bg-raised: var(--blue-800);
+  --color-text: var(--ivory-100);
+  --color-text-muted: var(--ivory-400);
+  --color-accent: var(--cyan-400);
+  --color-accent-strong: var(--cyan-600);
+  --color-danger: var(--red-300);
+  --color-border: rgba(245, 242, 235, 0.12);
+  --color-border-strong: rgba(245, 242, 235, 0.4);
+  --color-glass: rgba(19, 39, 61, 0.5);
+  --color-glass-deep: rgba(10, 27, 45, 0.8);
+  --focus-ring: 0 0 0 3px rgba(0, 229, 255, 0.55);
+
+  /* Gradientes premium */
+  --grad-accent: linear-gradient(135deg, var(--cyan-400) 0%, var(--violet-400) 100%);
+  --grad-text: linear-gradient(120deg, #ffffff 0%, var(--cyan-400) 35%, var(--violet-400) 65%, #ffffff 100%);
+  --grad-border: conic-gradient(from var(--border-angle, 0deg), transparent 0%, var(--cyan-400) 10%, transparent 25%, transparent 50%, var(--violet-400) 60%, transparent 75%);
+
+  /* Glows por categoría */
+  --glow-cv: 0 0 40px rgba(0, 229, 255, 0.25);
+  --glow-ai: 0 0 40px rgba(167, 139, 250, 0.25);
+  --glow-web: 0 0 40px rgba(52, 211, 153, 0.25);
+  --glow-api: 0 0 40px rgba(251, 191, 36, 0.25);
+
+  /* Category accents (proyectos) */
+  --cat-cv: var(--cyan-400);
+  --cat-ai: var(--violet-400);
+  --cat-web: var(--emerald-400);
+  --cat-api: var(--amber-400);
+
+  /* ============================================================
+     DESIGN TOKENS — capa 3: componentes
+     ============================================================ */
+  --card-bg: linear-gradient(145deg, var(--color-glass) 0%, var(--color-glass-deep) 100%);
+  --card-border: 1px solid var(--color-border);
+  --card-radius: var(--radius-lg);
+  --btn-radius: var(--radius-full);
+  --btn-pad: var(--space-3) var(--space-6);
+  --chip-bg: rgba(19, 39, 61, 0.8);
+  --nav-bg: rgba(10, 27, 45, 0.75);
+
+  /* Legacy aliases (compat) */
+  --midnight-blue: var(--blue-950);
+  --midnight-light: var(--blue-800);
+  --ivory: var(--ivory-100);
+  --ivory-muted: var(--ivory-400);
+  --border-soft: var(--color-border);
+  --shadow-soft: var(--shadow-2);
+  --radius: var(--radius-md);
 }
 
 *,
@@ -21,6 +125,10 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #app {
@@ -29,12 +137,20 @@ body,
 
 body {
   min-height: 100vh;
-  background: radial-gradient(circle at top right, rgba(19, 39, 61, 0.75), transparent 55%),
-    var(--midnight-blue);
-  color: var(--ivory);
-  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-  line-height: 1.5;
+  background:
+    radial-gradient(circle at top right, rgba(19, 39, 61, 0.75), transparent 55%),
+    var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.2;
 }
 
 a {
@@ -45,4 +161,63 @@ a {
 img {
   display: block;
   max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Accesibilidad: focus visible en todo elemento interactivo */
+a:focus-visible,
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Ángulo animable para bordes conic-gradient */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Reveal on scroll (activado por IntersectionObserver) */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
