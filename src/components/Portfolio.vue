@@ -153,7 +153,7 @@ const specialtyList = computed(() => ([
 
 /* Stats con count-up */
 const statDefs = computed(() => ([
-    { n: 3, suffix: '+', label: t.value.stats.years },
+    { n: 5, suffix: '+', label: t.value.stats.years },
     { n: 60, suffix: '+', label: t.value.stats.repos },
     { n: 4, suffix: '', label: t.value.stats.areas },
     { n: 1, suffix: '', label: t.value.stats.thesis },
