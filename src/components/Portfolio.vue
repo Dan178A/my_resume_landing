@@ -209,6 +209,18 @@ const marqueeBottom = [
 ]
 
 /* Interacciones premium: reveal, spotlight y tilt */
+/* Reloj en vivo de la barra de menú */
+const clock = ref('--:--:--')
+let clockTimer: ReturnType<typeof setInterval> | undefined
+const tickClock = () => {
+    clock.value = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+}
+
+/* Nombre de archivo retro por proyecto */
+const fileExt: Record<Category, string> = { cv: '.py', ai: '.exe', web: '.vue', api: '.sh' }
+const fileName = (p: Project): string =>
+    p.name.toLowerCase().replace(/[^a-z0-9]+/g, '_') + fileExt[p.category]
+
 /* Visor de CV en modal */
 const showCv = ref(false)
 
@@ -256,6 +268,8 @@ const onTiltLeave = (e: MouseEvent) => {
 onMounted(async () => {
     reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     window.addEventListener('keydown', onKeydown)
+    tickClock()
+    clockTimer = setInterval(tickClock, 1000)
 
     /* Reveal on scroll */
     observer = new IntersectionObserver(
@@ -292,6 +306,7 @@ onBeforeUnmount(() => {
     observer?.disconnect()
     if (wordTimer) clearInterval(wordTimer)
     window.removeEventListener('keydown', onKeydown)
+    if (clockTimer) clearInterval(clockTimer)
     document.body.style.overflow = ''
 })
 </script>
@@ -308,16 +323,19 @@ onBeforeUnmount(() => {
 
     <!-- NAV -->
     <nav class="nav" aria-label="Principal">
-      <a href="#hero" class="nav__brand">DS<span class="nav__brand-dot">.</span></a>
+      <a href="#hero" class="nav__brand">daniel@dev<span class="nav__brand-dot">:~$</span></a>
       <div class="nav__links">
         <a href="#specialties">{{ t.nav.specialties }}</a>
         <a href="#projects">{{ t.nav.projects }}</a>
         <a href="#stack">{{ t.nav.stack }}</a>
         <a href="#contact">{{ t.nav.contact }}</a>
       </div>
-      <button class="nav__lang" @click="toggleLang" :aria-label="lang === 'es' ? 'Switch to English' : 'Cambiar a español'">
-        <i class="fa-solid fa-globe" aria-hidden="true"></i> {{ lang === 'es' ? 'EN' : 'ES' }}
-      </button>
+      <div class="nav__right">
+        <span class="nav__clock" aria-hidden="true">{{ clock }}</span>
+        <button class="nav__lang" @click="toggleLang" :aria-label="lang === 'es' ? 'Switch to English' : 'Cambiar a español'">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i> {{ lang === 'es' ? 'EN' : 'ES' }}
+        </button>
+      </div>
     </nav>
 
     <!-- HERO -->
@@ -342,10 +360,12 @@ onBeforeUnmount(() => {
       </p>
 
       <p class="hero__rotator" aria-live="polite">
+        <span class="hero__prompt" aria-hidden="true">&gt;</span>
         {{ t.hero.wordsPrefix }}
         <Transition name="word-flip" mode="out-in">
           <span :key="currentWord" class="hero__word">{{ currentWord }}</span>
         </Transition>
+        <span class="term-cursor" aria-hidden="true"></span>
       </p>
 
       <p class="hero__tagline">{{ t.hero.tagline }}</p>
@@ -387,6 +407,7 @@ onBeforeUnmount(() => {
     <!-- SPECIALTIES -->
     <section id="specialties" class="section" aria-labelledby="specialties-title">
       <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ cat {{ t.nav.specialties.toLowerCase() }}.md</span>
         <h2 id="specialties-title">{{ t.specialties.title }}</h2>
         <p class="section-subtitle">{{ t.specialties.subtitle }}</p>
         <div class="header-decoration" aria-hidden="true"></div>
@@ -399,6 +420,10 @@ onBeforeUnmount(() => {
           :style="{ '--reveal-delay': `${i * 80}ms` }"
           @mousemove="onTiltMove" @mouseleave="onTiltLeave"
         >
+          <div class="win-bar">
+            <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="win-bar__file">{{ sp.id }}.sys</span>
+          </div>
           <div class="specialty-card__inner">
             <div class="specialty-card__top">
               <div class="specialty-card__icon" aria-hidden="true"><i :class="sp.icon"></i></div>
@@ -414,6 +439,7 @@ onBeforeUnmount(() => {
     <!-- PROJECTS -->
     <section id="projects" class="section" aria-labelledby="projects-title">
       <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ ls {{ t.nav.projects.toLowerCase() }}/</span>
         <h2 id="projects-title">{{ t.projects.title }}</h2>
         <p class="section-subtitle">{{ t.projects.subtitle }}</p>
         <div class="header-decoration" aria-hidden="true"></div>
@@ -442,6 +468,10 @@ onBeforeUnmount(() => {
           class="project-card" :data-cat="p.category"
           @mousemove="onCardMove"
         >
+          <div class="win-bar">
+            <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="win-bar__file">{{ fileName(p) }}</span>
+          </div>
           <div class="project-card__content">
             <div class="project-card__header">
               <div class="project-card__badge" :data-cat="p.category" aria-hidden="true">
@@ -468,6 +498,7 @@ onBeforeUnmount(() => {
     <!-- STACK (marquee) -->
     <section id="stack" class="section" aria-labelledby="stack-title">
       <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ which --all</span>
         <h2 id="stack-title">{{ t.stack.title }}</h2>
         <p class="section-subtitle">{{ t.stack.subtitle }}</p>
         <div class="header-decoration" aria-hidden="true"></div>
@@ -492,6 +523,10 @@ onBeforeUnmount(() => {
     <!-- CONTACT -->
     <section id="contact" class="section contact" aria-labelledby="contact-title">
       <div class="contact__card reveal">
+        <div class="win-bar contact__winbar">
+          <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="win-bar__file">{{ t.nav.contact.toLowerCase() }}.md</span>
+        </div>
         <div class="contact__glow" aria-hidden="true"></div>
         <h2 id="contact-title">{{ t.contact.title }}</h2>
         <p>{{ t.contact.subtitle }}</p>
@@ -576,7 +611,7 @@ onBeforeUnmount(() => {
   width: 45vw;
   max-width: 620px;
   aspect-ratio: 1;
-  background: rgba(0, 229, 255, 0.09);
+  background: rgba(57, 255, 136, 0.09);
 }
 
 .bg-blob--2 {
@@ -585,7 +620,7 @@ onBeforeUnmount(() => {
   width: 50vw;
   max-width: 680px;
   aspect-ratio: 1;
-  background: rgba(167, 139, 250, 0.09);
+  background: rgba(255, 121, 198, 0.09);
   animation-delay: -6s;
 }
 
@@ -595,7 +630,7 @@ onBeforeUnmount(() => {
   width: 30vw;
   max-width: 420px;
   aspect-ratio: 1;
-  background: rgba(52, 211, 153, 0.05);
+  background: rgba(57, 255, 136, 0.05);
   animation-delay: -12s;
 }
 
@@ -608,8 +643,8 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(245, 242, 235, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(245, 242, 235, 0.025) 1px, transparent 1px);
+    linear-gradient(rgba(215, 254, 224, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(215, 254, 224, 0.025) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 40%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 40%, transparent 100%);
@@ -670,6 +705,25 @@ onBeforeUnmount(() => {
 .nav__links a:hover { color: var(--color-text); }
 .nav__links a:hover::after { width: 100%; left: 0; }
 
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav__clock {
+  display: none;
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 10px rgba(57, 255, 136, 0.4);
+}
+
+@media (min-width: 640px) {
+  .nav__clock { display: inline; }
+}
+
 .nav__lang {
   display: inline-flex;
   align-items: center;
@@ -686,7 +740,7 @@ onBeforeUnmount(() => {
 .nav__lang:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 15px rgba(57, 255, 136, 0.2);
 }
 
 /* ===== HERO ===== */
@@ -704,8 +758,8 @@ onBeforeUnmount(() => {
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
-  border: 1px solid rgba(52, 211, 153, 0.3);
-  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(57, 255, 136, 0.3);
+  background: rgba(57, 255, 136, 0.08);
   color: var(--emerald-400);
   font-size: var(--text-xs);
   font-weight: 600;
@@ -722,8 +776,8 @@ onBeforeUnmount(() => {
 }
 
 @keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); }
-  50% { box-shadow: 0 0 0 7px rgba(52, 211, 153, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(57, 255, 136, 0.5); }
+  50% { box-shadow: 0 0 0 7px rgba(57, 255, 136, 0); }
 }
 
 .hero__avatar-wrap {
@@ -760,7 +814,7 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: -20px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 229, 255, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(57, 255, 136, 0.3) 0%, transparent 70%);
   filter: blur(18px);
   z-index: 0;
 }
@@ -828,6 +882,13 @@ onBeforeUnmount(() => {
   min-height: 1.8em;
 }
 
+.hero__prompt {
+  color: var(--color-accent);
+  font-weight: 700;
+  margin-right: 0.3ch;
+  text-shadow: 0 0 10px rgba(57, 255, 136, 0.5);
+}
+
 .hero__word {
   display: inline-block;
   margin-left: 0.4ch;
@@ -873,7 +934,7 @@ onBeforeUnmount(() => {
   transform: translateY(-8px) scale(1.1);
   border-color: var(--color-accent);
   color: var(--color-accent);
-  box-shadow: 0 10px 25px rgba(0, 229, 255, 0.25);
+  box-shadow: 0 10px 25px rgba(57, 255, 136, 0.25);
 }
 
 .hero__actions {
@@ -885,14 +946,14 @@ onBeforeUnmount(() => {
 
 /* Botón CV con acento */
 .btn--cv {
-  border-color: rgba(0, 229, 255, 0.4);
+  border-color: rgba(57, 255, 136, 0.4);
   color: var(--color-accent);
 }
 
 .btn--cv:hover {
-  background: rgba(0, 229, 255, 0.08);
+  background: rgba(57, 255, 136, 0.08);
   border-color: var(--color-accent);
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 20px rgba(57, 255, 136, 0.2);
 }
 
 /* ===== BOTONES ===== */
@@ -919,7 +980,7 @@ onBeforeUnmount(() => {
 .btn--gradient {
   background: var(--grad-accent);
   color: var(--blue-950);
-  box-shadow: 0 4px 20px rgba(0, 229, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(57, 255, 136, 0.3);
 }
 
 /* Barrido de brillo */
@@ -942,7 +1003,7 @@ onBeforeUnmount(() => {
 
 .btn--gradient:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(0, 229, 255, 0.45);
+  box-shadow: 0 12px 35px rgba(57, 255, 136, 0.45);
 }
 
 .btn--outline {
@@ -953,7 +1014,7 @@ onBeforeUnmount(() => {
 }
 
 .btn--outline:hover {
-  background: rgba(245, 242, 235, 0.1);
+  background: rgba(215, 254, 224, 0.1);
   border-color: var(--color-text);
   transform: translateY(-3px);
 }
@@ -1054,6 +1115,12 @@ onBeforeUnmount(() => {
   margin-bottom: var(--space-12);
 }
 
+.section-cmd {
+  font-size: var(--text-sm);
+  color: var(--ivory-600);
+  letter-spacing: 0.05em;
+}
+
 .section-header h2 {
   font-size: var(--text-2xl);
   font-weight: 700;
@@ -1071,7 +1138,7 @@ onBeforeUnmount(() => {
   margin-top: var(--space-2);
   background: var(--grad-accent);
   border-radius: 2px;
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 15px rgba(57, 255, 136, 0.5);
 }
 
 /* ===== SPECIALTIES (tilt 3D + glow) ===== */
@@ -1085,6 +1152,7 @@ onBeforeUnmount(() => {
 .specialty-card {
   --rx: 0deg;
   --ry: 0deg;
+  overflow: hidden;
   border-radius: var(--card-radius);
   background: var(--card-bg);
   border: var(--card-border);
@@ -1102,10 +1170,10 @@ onBeforeUnmount(() => {
   transform: translateZ(24px);
 }
 
-.specialty-card[data-cat='cv']:hover { box-shadow: var(--glow-cv); border-color: rgba(0, 229, 255, 0.35); }
-.specialty-card[data-cat='ai']:hover { box-shadow: var(--glow-ai); border-color: rgba(167, 139, 250, 0.35); }
-.specialty-card[data-cat='web']:hover { box-shadow: var(--glow-web); border-color: rgba(52, 211, 153, 0.35); }
-.specialty-card[data-cat='api']:hover { box-shadow: var(--glow-api); border-color: rgba(251, 191, 36, 0.35); }
+.specialty-card[data-cat='cv']:hover { box-shadow: var(--glow-cv); border-color: rgba(57, 255, 136, 0.35); }
+.specialty-card[data-cat='ai']:hover { box-shadow: var(--glow-ai); border-color: rgba(255, 121, 198, 0.35); }
+.specialty-card[data-cat='web']:hover { box-shadow: var(--glow-web); border-color: rgba(57, 255, 136, 0.35); }
+.specialty-card[data-cat='api']:hover { box-shadow: var(--glow-api); border-color: rgba(255, 180, 84, 0.35); }
 
 .specialty-card__top {
   display: flex;
@@ -1129,10 +1197,10 @@ onBeforeUnmount(() => {
   50% { transform: translateY(-5px) rotate(3deg); }
 }
 
-.specialty-card[data-cat='cv'] .specialty-card__icon { background: linear-gradient(135deg, var(--cyan-400), var(--cyan-600)); box-shadow: 0 6px 18px rgba(0, 229, 255, 0.35); }
-.specialty-card[data-cat='ai'] .specialty-card__icon { background: linear-gradient(135deg, var(--violet-400), #7c5cd6); box-shadow: 0 6px 18px rgba(167, 139, 250, 0.35); }
-.specialty-card[data-cat='web'] .specialty-card__icon { background: linear-gradient(135deg, var(--emerald-400), #0d9e6e); box-shadow: 0 6px 18px rgba(52, 211, 153, 0.35); }
-.specialty-card[data-cat='api'] .specialty-card__icon { background: linear-gradient(135deg, var(--amber-400), #d97706); box-shadow: 0 6px 18px rgba(251, 191, 36, 0.35); }
+.specialty-card[data-cat='cv'] .specialty-card__icon { background: linear-gradient(135deg, var(--cyan-400), var(--cyan-600)); box-shadow: 0 6px 18px rgba(57, 255, 136, 0.35); }
+.specialty-card[data-cat='ai'] .specialty-card__icon { background: linear-gradient(135deg, var(--violet-400), #d1479b); box-shadow: 0 6px 18px rgba(255, 121, 198, 0.35); }
+.specialty-card[data-cat='web'] .specialty-card__icon { background: linear-gradient(135deg, var(--emerald-400), #19d968); box-shadow: 0 6px 18px rgba(57, 255, 136, 0.35); }
+.specialty-card[data-cat='api'] .specialty-card__icon { background: linear-gradient(135deg, var(--amber-400), #e08c2a); box-shadow: 0 6px 18px rgba(255, 180, 84, 0.35); }
 
 .specialty-card__count {
   font-family: var(--font-display);
@@ -1183,7 +1251,7 @@ onBeforeUnmount(() => {
 .filters__chip--active {
   color: var(--color-text);
   border-color: var(--chip-accent, var(--color-accent));
-  box-shadow: 0 0 14px rgba(0, 229, 255, 0.18);
+  box-shadow: 0 0 14px rgba(57, 255, 136, 0.18);
 }
 
 /* ===== PROJECTS (spotlight + borde animado) ===== */
@@ -1203,7 +1271,7 @@ onBeforeUnmount(() => {
 .spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid rgba(245, 242, 235, 0.05);
+  border: 4px solid rgba(215, 254, 224, 0.05);
   border-top-color: var(--color-accent);
   border-right-color: var(--violet-400);
   border-radius: 50%;
@@ -1244,7 +1312,7 @@ onBeforeUnmount(() => {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(360px circle at var(--mx) var(--my), rgba(0, 229, 255, 0.08), transparent 65%);
+  background: radial-gradient(360px circle at var(--mx) var(--my), rgba(57, 255, 136, 0.08), transparent 65%);
   opacity: 0;
   transition: opacity var(--duration-base) ease;
   pointer-events: none;
@@ -1320,10 +1388,10 @@ onBeforeUnmount(() => {
   transform: scale(1.12) rotate(-6deg);
 }
 
-.project-card__badge[data-cat='cv'] { background: linear-gradient(135deg, var(--cyan-400), var(--cyan-600)); box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3); }
-.project-card__badge[data-cat='ai'] { background: linear-gradient(135deg, var(--violet-400), #7c5cd6); box-shadow: 0 5px 15px rgba(167, 139, 250, 0.3); }
-.project-card__badge[data-cat='web'] { background: linear-gradient(135deg, var(--emerald-400), #0d9e6e); box-shadow: 0 5px 15px rgba(52, 211, 153, 0.3); }
-.project-card__badge[data-cat='api'] { background: linear-gradient(135deg, var(--amber-400), #d97706); box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3); }
+.project-card__badge[data-cat='cv'] { background: linear-gradient(135deg, var(--cyan-400), var(--cyan-600)); box-shadow: 0 5px 15px rgba(57, 255, 136, 0.3); }
+.project-card__badge[data-cat='ai'] { background: linear-gradient(135deg, var(--violet-400), #d1479b); box-shadow: 0 5px 15px rgba(255, 121, 198, 0.3); }
+.project-card__badge[data-cat='web'] { background: linear-gradient(135deg, var(--emerald-400), #19d968); box-shadow: 0 5px 15px rgba(57, 255, 136, 0.3); }
+.project-card__badge[data-cat='api'] { background: linear-gradient(135deg, var(--amber-400), #e08c2a); box-shadow: 0 5px 15px rgba(255, 180, 84, 0.3); }
 
 .project-card__header h3 {
   font-size: var(--text-lg);
@@ -1339,7 +1407,7 @@ onBeforeUnmount(() => {
   height: 44px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: rgba(245, 242, 235, 0.05);
+  background: rgba(215, 254, 224, 0.05);
   transition: all var(--duration-slow) var(--ease-spring);
   display: flex;
   align-items: center;
@@ -1395,7 +1463,7 @@ onBeforeUnmount(() => {
   height: 8px;
   border-radius: 50%;
   background: var(--color-accent);
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+  box-shadow: 0 0 10px rgba(57, 255, 136, 0.6);
   flex-shrink: 0;
 }
 
@@ -1467,6 +1535,14 @@ onBeforeUnmount(() => {
   overflow: hidden;
 }
 
+.contact__winbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+}
+
 .contact__glow {
   position: absolute;
   top: -60%;
@@ -1474,7 +1550,7 @@ onBeforeUnmount(() => {
   transform: translateX(-50%);
   width: 70%;
   aspect-ratio: 2/1;
-  background: radial-gradient(ellipse, rgba(0, 229, 255, 0.12), transparent 70%);
+  background: radial-gradient(ellipse, rgba(57, 255, 136, 0.12), transparent 70%);
   filter: blur(30px);
   animation: glow-breathe 5s ease-in-out infinite alternate;
   pointer-events: none;
@@ -1594,18 +1670,18 @@ onBeforeUnmount(() => {
 .cv-panel__btn:hover {
   color: var(--color-text);
   border-color: var(--color-border-strong);
-  background: rgba(245, 242, 235, 0.06);
+  background: rgba(215, 254, 224, 0.06);
 }
 
 .cv-panel__btn--accent {
   color: var(--color-accent);
-  border-color: rgba(0, 229, 255, 0.35);
+  border-color: rgba(57, 255, 136, 0.35);
 }
 
 .cv-panel__btn--accent:hover {
   color: var(--color-accent);
   border-color: var(--color-accent);
-  box-shadow: 0 0 14px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 14px rgba(57, 255, 136, 0.2);
 }
 
 .cv-panel__frame {
