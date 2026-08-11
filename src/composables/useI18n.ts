@@ -17,7 +17,7 @@ const lang = ref<Lang>(detectLang())
 
 const messages = {
     es: {
-        nav: { specialties: 'Especialidades', projects: 'Proyectos', stack: 'Stack', contact: 'Contacto' },
+        nav: { flagship: 'Caso destacado', specialties: 'Especialidades', projects: 'Proyectos', stack: 'Stack', contact: 'Contacto' },
         hero: {
             role: 'Ingeniero de Software · Full Stack & IA',
             available: 'Disponible para proyectos',
@@ -38,6 +38,23 @@ const messages = {
             repos: 'Repositorios públicos',
             areas: 'Áreas de especialidad',
             thesis: 'Tesis en estabilización de video',
+        },
+        flagship: {
+            badge: 'En producción',
+            role: 'Fundador & Arquitecto de Software',
+            title: 'DropAudio CCS',
+            tagline: 'Plataforma e-commerce completa en producción: tienda pública y panel de administración, construida de extremo a extremo.',
+            pitch: 'Diseñé y desplegué DropAudio CCS de principio a fin — desde la arquitectura de datos con Supabase y RLS hasta la experiencia de compra — sobre Nuxt 3 y Vercel. No es una demo: es una tienda real operando.',
+            live: 'Ver en vivo',
+            demo: 'Probar el asesor',
+            caseStudy: 'Caso de estudio',
+            metrics: ['reseñas verificadas', 'modelos en catálogo', 'categorías de uso'],
+            features: [
+                { title: 'Recomendador de audio', desc: 'Asesor interactivo de 3 pasos que sugiere el IEM ideal según gustos y presupuesto.' },
+                { title: 'Comparador técnico', desc: 'Comparación frente a frente de especificaciones entre modelos para decidir con datos.' },
+                { title: 'Checkout multimoneda', desc: 'Pago propio en USDT, Zinli y Pago Móvil con tasas BCV/USDT en vivo.' },
+                { title: 'Panel de administración', desc: 'Inventario, ventas, entregas, pedidos en tiempo real y catálogo PDF en un solo lugar.' },
+            ],
         },
         specialties: {
             title: 'Especialidades',
@@ -80,7 +97,7 @@ const messages = {
         footer: 'Diseñado y construido por Daniel Silva',
     },
     en: {
-        nav: { specialties: 'Specialties', projects: 'Projects', stack: 'Stack', contact: 'Contact' },
+        nav: { flagship: 'Case study', specialties: 'Specialties', projects: 'Projects', stack: 'Stack', contact: 'Contact' },
         hero: {
             role: 'Software Engineer · Full Stack & AI',
             available: 'Available for projects',
@@ -101,6 +118,23 @@ const messages = {
             repos: 'Public repositories',
             areas: 'Specialty areas',
             thesis: 'Thesis on video stabilization',
+        },
+        flagship: {
+            badge: 'In production',
+            role: 'Founder & Software Architect',
+            title: 'DropAudio CCS',
+            tagline: 'A complete e-commerce platform in production: public storefront and admin panel, built end to end.',
+            pitch: 'I designed and shipped DropAudio CCS end to end — from the Supabase data layer with RLS to the buying experience — on Nuxt 3 and Vercel. Not a demo: a real store in operation.',
+            live: 'View live',
+            demo: 'Try the advisor',
+            caseStudy: 'Case study',
+            metrics: ['verified reviews', 'catalogued models', 'use categories'],
+            features: [
+                { title: 'Audio recommender', desc: 'Interactive 3-step advisor that suggests the ideal IEM based on taste and budget.' },
+                { title: 'Technical comparator', desc: 'Head-to-head spec comparison between models to decide with data.' },
+                { title: 'Multi-currency checkout', desc: 'Custom payment in USDT, Zinli and Pago Móvil with live BCV/USDT rates.' },
+                { title: 'Admin panel', desc: 'Inventory, sales, deliveries, real-time orders and a PDF catalog in one place.' },
+            ],
         },
         specialties: {
             title: 'Specialties',

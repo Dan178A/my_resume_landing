@@ -20,6 +20,8 @@ interface Project {
     category: Category
     icon: string
     tech: string
+    url?: string
+    featured?: boolean
     desc: { es: string; en: string }
 }
 
@@ -28,10 +30,45 @@ const linkedInUrl = 'https://www.linkedin.com/in/daniel-alejandro-silva-rojas/'
 const emailAddress = 'dsrglrm@gmail.com'
 const whatsappUrl = 'https://wa.me/584142317561?text=Hola%20Daniel'
 const avatarSrc = '/1699966173589.jpg'
-const cvUrl = '/cv_daniel_silva_rojas.pdf'
+/* CV bilingüe: el visor muestra el PDF del idioma activo */
+const cvUrl = computed(() => (lang.value === 'en' ? '/cv_daniel_silva_en.pdf' : '/cv_daniel_silva_es.pdf'))
+
+/* Caso destacado: DropAudio CCS */
+const dropUrl = 'https://dropaudioccs.com'
+const dropDemoUrl = 'https://dropaudioccs.com/asesorate'
+const dropBoardUrl = '/dropaudioccs-portafolio.html'
+const flagStack = ['Nuxt 3', 'Vue 3 · SSR', 'Supabase', 'PostgreSQL · RLS', 'Vercel', 'Web Push', 'Tailwind']
+const flagMetricDefs = [{ n: 94, suffix: '+' }, { n: 19, suffix: '' }, { n: 6, suffix: '' }]
+const flagIcons = ['fa-solid fa-wand-magic-sparkles', 'fa-solid fa-code-compare', 'fa-solid fa-wallet', 'fa-solid fa-gauge-high']
+const flagMetrics = computed(() => flagMetricDefs.map((d, i) => ({ ...d, label: t.value.flagship.metrics[i] })))
+const flagFeatures = computed(() => t.value.flagship.features.map((f, i) => ({ icon: flagIcons[i], ...f })))
+const flagValues = ref([0, 0, 0])
+let flagAnimated = false
+const animateFlagStats = () => {
+    if (flagAnimated) return
+    flagAnimated = true
+    if (reducedMotion) { flagValues.value = flagMetricDefs.map(m => m.n); return }
+    const dur = 1200
+    const start = performance.now()
+    const tick = (now: number) => {
+        const p = Math.min((now - start) / dur, 1)
+        const e = 1 - Math.pow(1 - p, 3)
+        flagValues.value = flagMetricDefs.map(m => Math.round(m.n * e))
+        if (p < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+}
 
 /* Proyectos curados: metadata local bilingüe, enriquecida con la API de GitHub */
 const projects: Project[] = [
+    {
+        name: 'DropAudio CCS', category: 'web', icon: 'fa-solid fa-headphones', tech: 'Nuxt 3 · Supabase',
+        url: 'https://dropaudioccs.com', featured: true,
+        desc: {
+            es: 'E-commerce completo en producción con panel de administración: catálogo, checkout multimoneda, recomendador de audio y entregas en tiempo real.',
+            en: 'Complete e-commerce in production with an admin panel: catalog, multi-currency checkout, audio recommender and real-time deliveries.',
+        },
+    },
     {
         name: 'System_Stabilitation_Interpolation', category: 'cv', icon: 'fa-solid fa-video', tech: 'Python · OpenCV',
         desc: {
@@ -141,7 +178,7 @@ const apiRepos = ref<Map<string, GitHubRepo>>(new Map())
 const loading = ref(true)
 
 const repoUrl = (p: Project): string =>
-    apiRepos.value.get(p.name)?.html_url ?? `https://github.com/${githubUsername}/${p.name}`
+    p.url ?? apiRepos.value.get(p.name)?.html_url ?? `https://github.com/${githubUsername}/${p.name}`
 const repoTag = (p: Project): string => apiRepos.value.get(p.name)?.language ?? p.tech
 
 const specialtyList = computed(() => ([
@@ -278,6 +315,7 @@ onMounted(async () => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible')
                     if ((entry.target as HTMLElement).dataset.stats !== undefined) animateStats()
+                    if ((entry.target as HTMLElement).dataset.flagstats !== undefined) animateFlagStats()
                     observer?.unobserve(entry.target)
                 }
             }
@@ -325,6 +363,7 @@ onBeforeUnmount(() => {
     <nav class="nav" aria-label="Principal">
       <a href="#hero" class="nav__brand">daniel@dev<span class="nav__brand-dot">:~$</span></a>
       <div class="nav__links">
+        <a href="#flagship">{{ t.nav.flagship }}</a>
         <a href="#specialties">{{ t.nav.specialties }}</a>
         <a href="#projects">{{ t.nav.projects }}</a>
         <a href="#stack">{{ t.nav.stack }}</a>
@@ -402,6 +441,62 @@ onBeforeUnmount(() => {
         <span class="scroll-mouse" aria-hidden="true"><span class="scroll-wheel"></span></span>
         {{ t.hero.scroll }}
       </a>
+    </section>
+
+    <!-- FLAGSHIP CASE STUDY -->
+    <section id="flagship" class="section" aria-labelledby="flagship-title">
+      <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ ./deploy dropaudioccs --prod</span>
+        <h2 id="flagship-title">{{ t.flagship.title }}</h2>
+        <p class="section-subtitle">{{ t.flagship.tagline }}</p>
+        <div class="header-decoration" aria-hidden="true"></div>
+      </div>
+
+      <article class="flagship reveal" data-cat="web" @mousemove="onCardMove">
+        <div class="win-bar">
+          <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="win-bar__file">dropaudioccs.com</span>
+          <span class="flagship__live"><span class="badge-dot" aria-hidden="true"></span> {{ t.flagship.badge }}</span>
+        </div>
+
+        <div class="flagship__body">
+          <div class="flagship__intro">
+            <span class="flagship__role"><i class="fa-solid fa-crown" aria-hidden="true"></i> {{ t.flagship.role }}</span>
+            <p class="flagship__pitch">{{ t.flagship.pitch }}</p>
+            <div class="flagship__actions">
+              <a :href="dropUrl" target="_blank" rel="noopener noreferrer" class="btn btn--gradient">
+                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> {{ t.flagship.live }}
+              </a>
+              <a :href="dropBoardUrl" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+                <i class="fa-solid fa-object-group" aria-hidden="true"></i> {{ t.flagship.caseStudy }}
+              </a>
+              <a :href="dropDemoUrl" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+                <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> {{ t.flagship.demo }}
+              </a>
+            </div>
+            <ul class="flagship__metrics reveal" data-flagstats aria-label="Métricas del proyecto">
+              <li v-for="(m, i) in flagMetrics" :key="m.label">
+                <span class="flagship__metric-val">{{ flagValues[i] }}{{ m.suffix }}</span>
+                <span class="flagship__metric-label">{{ m.label }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="flagship__features">
+            <div v-for="f in flagFeatures" :key="f.title" class="flagship__feature">
+              <span class="flagship__feature-ic" aria-hidden="true"><i :class="f.icon"></i></span>
+              <div class="flagship__feature-txt">
+                <h3>{{ f.title }}</h3>
+                <p>{{ f.desc }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flagship__stack" aria-label="Stack">
+          <span v-for="s in flagStack" :key="s" class="flagship__tag">{{ s }}</span>
+        </div>
+      </article>
     </section>
 
     <!-- SPECIALTIES -->
@@ -1716,6 +1811,177 @@ onBeforeUnmount(() => {
   .cv-overlay { padding: 0; }
   .cv-panel { width: 100%; height: 100dvh; border-radius: 0; }
   .cv-panel__btn-label { display: none; }
+}
+
+/* ===== FLAGSHIP CASE STUDY ===== */
+.flagship {
+  position: relative;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-2), var(--glow-web);
+}
+
+/* Borde cónico animado permanente (sutil) */
+.flagship::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  padding: 1.5px;
+  background: var(--grad-border);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-spin 6s linear infinite;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* Spotlight que sigue el cursor */
+.flagship::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(520px circle at var(--mx) var(--my), rgba(57, 255, 136, 0.09), transparent 60%);
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.flagship:hover::before { opacity: 1; }
+
+.flagship__live {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.flagship__body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-6);
+}
+
+.flagship__role {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--amber-400);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid rgba(255, 180, 84, 0.3);
+  border-radius: var(--radius-full);
+  background: rgba(255, 180, 84, 0.08);
+}
+
+.flagship__pitch {
+  margin-top: var(--space-4);
+  color: var(--color-text);
+  font-size: var(--text-md);
+  line-height: 1.7;
+  max-width: 48ch;
+}
+
+.flagship__actions {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.flagship__metrics {
+  margin-top: var(--space-8);
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+.flagship__metrics li { display: flex; flex-direction: column; gap: 2px; }
+.flagship__metric-val {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  line-height: 1;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.flagship__metric-label { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+.flagship__features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  align-content: start;
+}
+.flagship__feature {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-4);
+  background: var(--chip-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-base) ease, transform var(--duration-base) var(--ease-smooth);
+}
+.flagship__feature:hover { border-color: var(--color-border-strong); transform: translateY(-3px); }
+.flagship__feature-ic {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  color: var(--color-accent);
+  background: rgba(57, 255, 136, 0.1);
+  border: 1px solid var(--color-border-strong);
+  font-size: 1rem;
+}
+.flagship__feature-txt h3 { font-size: var(--text-base); color: var(--color-text); margin: 0 0 2px; }
+.flagship__feature-txt p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0; }
+
+.flagship__stack {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6) var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+.flagship__tag {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  padding: var(--space-1) var(--space-3);
+  background: rgba(14, 26, 18, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+@media (min-width: 860px) {
+  .flagship__body { grid-template-columns: 1.05fr 1fr; align-items: start; }
+}
+@media (max-width: 460px) {
+  .flagship__metrics { grid-template-columns: 1fr 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flagship::after { animation: none; }
 }
 
 /* ===== FOOTER ===== */

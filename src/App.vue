@@ -4,6 +4,5 @@ import Portfolio from './components/Portfolio.vue'
 </script>
 
 <template>
-  <Analytics />
   <Portfolio />
 </template>

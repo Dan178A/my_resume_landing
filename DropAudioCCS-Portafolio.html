@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DropAudio CCS · Board de diseño (Figma)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Paleta oficial DropAudio CCS */
+  --negro:#0C0B09;      /* Negro audio */
+  --hueso:#FAF9F7;      /* Blanco hueso */
+  --tinta:#1A1717;      /* Texto sobre claro */
+  --hueso-2:#F0EDE8;    /* Texto sobre negro */
+  --oro:#CDA860;        /* Dorado vivo */
+  --oro-deep:#967337;   /* Dorado profundo */
+  --oro-line:#B89246;   /* Dorado línea */
+  --grad:linear-gradient(135deg,#16130D 0%,#3A2C12 55%,#B8923A 100%);
+  --vino:#8A1F2B;
+  /* Chrome del board (fuera de los frames) */
+  --canvas:#E7E7EA;
+  --panel:#ffffff;
+  --line:#D9D9DE;
+  --ink-2:#6b6b73;
+  --fig-blue:#0d99ff;
+  --shadow:0 10px 30px rgba(12,11,9,.14),0 2px 8px rgba(12,11,9,.08);
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--canvas);
+  background-image:radial-gradient(circle,#cfcfd4 1px,transparent 1px);
+  background-size:22px 22px;
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  color:var(--tinta);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.dsp{font-family:'Space Grotesk',sans-serif}
+
+/* ---------- Toolbar tipo Figma ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:14px;
+  padding:10px 20px;background:#1e1e22;color:#fff;
+  box-shadow:0 1px 0 rgba(255,255,255,.06);
+}
+.toolbar .logo{display:flex;align-items:center;gap:9px;font-family:'Space Grotesk';font-weight:700;letter-spacing:.3px}
+.toolbar .logo .dot{color:var(--oro)}
+.toolbar .wave{width:26px;height:26px;color:var(--oro)}
+.toolbar .file{color:#c9c9d1;font-size:13px}
+.toolbar .file b{color:#fff;font-weight:600}
+.toolbar .spacer{flex:1}
+.toolbar .pill{font-size:11.5px;padding:5px 11px;border-radius:999px;background:#2c2c33;color:#c9c9d1}
+.toolbar .pill.on{background:var(--oro);color:#1a1305;font-weight:700}
+.toolbar .avatar{width:26px;height:26px;border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#1a1305;font-weight:700;font-size:12px}
+
+.wrap{max-width:1320px;margin:0 auto;padding:44px 28px 120px}
+
+/* ---------- Encabezados de página del board ---------- */
+.page-head{display:flex;align-items:center;gap:14px;margin:56px 0 22px}
+.page-head:first-of-type{margin-top:8px}
+.page-head .num{width:34px;height:34px;border-radius:9px;background:var(--negro);color:var(--oro);display:grid;place-items:center;font-family:'Space Grotesk';font-weight:700}
+.page-head h2{margin:0;font-size:22px;letter-spacing:-.4px}
+.page-head p{margin:2px 0 0;color:var(--ink-2);font-size:13px}
+.hair{height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--oro-line),transparent);opacity:.6}
+
+/* ---------- Frames (artboards) ---------- */
+.canvas-row{display:flex;flex-wrap:wrap;gap:34px 30px;align-items:flex-start}
+.frame-wrap{display:flex;flex-direction:column;gap:8px}
+.frame-name{display:flex;align-items:center;gap:7px;font-size:12px;color:#7a7a83;font-weight:600;padding-left:4px}
+.frame-name .sq{width:11px;height:11px;border-radius:3px;border:1.5px solid var(--fig-blue)}
+.frame-name .tag{margin-left:auto;font-size:10px;color:#9a9aa2;font-weight:600}
+.frame{background:var(--hueso);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.frame.dark{background:var(--negro);color:var(--hueso-2)}
+.phone{width:288px}
+.wide{width:760px}
+.mid{width:360px}
+
+/* ---------- Piezas reutilizables de UI ---------- */
+.statusbar{height:22px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:10px;color:inherit;opacity:.7}
+.wave-ico{color:var(--oro)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:'Space Grotesk';font-weight:600;font-size:12px;border-radius:10px;padding:9px 14px;background:var(--oro);color:#1a1305;border:none;cursor:default}
+.btn.ghost{background:transparent;color:var(--oro);border:1px solid var(--oro-line)}
+.btn.dark{background:var(--negro);color:var(--oro)}
+.btn.block{width:100%}
+.badge{display:inline-block;font-size:9px;letter-spacing:.6px;font-weight:700;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:rgba(205,168,96,.16);color:var(--oro-deep)}
+.frame.dark .badge{background:rgba(205,168,96,.18);color:var(--oro)}
+.price{font-family:'Space Grotesk';font-weight:700;color:var(--oro-deep)}
+.frame.dark .price{color:var(--oro)}
+.price .bs{display:block;font-size:9px;font-weight:500;color:var(--ink-2)}
+.frame.dark .price .bs{color:#9a938a}
+.muted{color:var(--ink-2)}
+.frame.dark .muted{color:#9a938a}
+.hairline{height:1px;background:linear-gradient(90deg,transparent,var(--oro-line),transparent);opacity:.5;margin:0}
+
+/* Navbar tienda */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid rgba(205,168,96,.18)}
+.nav .brand{display:flex;align-items:center;gap:7px;font-family:'Space Grotesk';font-weight:700;font-size:14px}
+.nav .brand .dot{color:var(--oro)}
+.nav .icons{display:flex;gap:12px;color:inherit;opacity:.8;font-size:13px}
+.cart-dot{position:relative}
+.cart-dot::after{content:'2';position:absolute;top:-6px;right:-7px;background:var(--oro);color:#1a1305;font-size:8px;font-weight:700;width:13px;height:13px;border-radius:50%;display:grid;place-items:center}
+
+/* chips filtros */
+.chips{display:flex;gap:6px;overflow:hidden;padding:10px 14px}
+.chip{font-size:10px;font-weight:600;padding:6px 10px;border-radius:999px;background:rgba(0,0,0,.05);white-space:nowrap;color:var(--tinta)}
+.frame.dark .chip{background:rgba(255,255,255,.06);color:var(--hueso-2)}
+.chip.on{background:var(--oro);color:#1a1305}
+
+/* card producto */
+.pcard{background:#fff;border:1px solid rgba(205,168,96,.2);border-radius:14px;overflow:hidden}
+.frame.dark .pcard{background:#141210;border-color:rgba(205,168,96,.16)}
+.pcard .ph{aspect-ratio:1;background:radial-gradient(circle at 50% 40%,#26221b,#0c0b09);display:grid;place-items:center;position:relative}
+.pcard .ph .iem{width:46%;height:46%;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:linear-gradient(150deg,#cdas 0,#8a6b32 100%);background:linear-gradient(150deg,#d9c08a,#8a6b32);box-shadow:inset 0 -6px 10px rgba(0,0,0,.35)}
+.pcard .ph .badge{position:absolute;top:7px;left:7px}
+.pcard .meta{padding:9px 10px}
+.pcard .meta h4{margin:0 0 2px;font-size:11.5px}
+.pcard .meta .sig{font-size:9px;color:var(--ink-2);margin-bottom:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 14px}
+
+/* hero */
+.hero{background:var(--grad);color:var(--hueso-2);padding:20px 16px 22px;position:relative;overflow:hidden}
+.hero .kicker{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--oro)}
+.hero h1{font-size:22px;line-height:1.05;margin:8px 0 6px;letter-spacing:-.5px;color:#fff}
+.hero p{font-size:10.5px;margin:0 0 14px;color:#e7ddc9;max-width:80%}
+.hero .cta{display:flex;gap:8px}
+.hero .wavebg{position:absolute;right:-20px;bottom:-10px;width:170px;opacity:.22;color:var(--oro)}
+
+/* generic rows / tables (admin) */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.kpi .lbl{font-size:10px;color:var(--ink-2);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.kpi .val{font-family:'Space Grotesk';font-weight:700;font-size:22px;margin-top:4px}
+.kpi .val small{font-size:11px;color:var(--oro-deep)}
+.kpi.gold{background:var(--negro);color:var(--hueso-2);border-color:transparent}
+.kpi.gold .val{color:var(--oro)}
+.kpi.gold .lbl{color:#b3aa99}
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl th{text-align:left;color:var(--ink-2);font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:9px 10px;border-bottom:1px solid #efeeeb}
+.tbl tr:last-child td{border-bottom:none}
+.st{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px}
+.st.ok{background:#e5f4ea;color:#1c7a45}
+.st.warn{background:#fdf1dd;color:#9a6a12}
+.st.new{background:rgba(205,168,96,.18);color:var(--oro-deep)}
+.st.red{background:#fbe6e8;color:#a12734}
+
+/* admin shell */
+.adm{display:flex;min-height:440px}
+.side{width:172px;background:var(--negro);color:var(--hueso-2);padding:14px 10px;flex-shrink:0}
+.side .brand{display:flex;align-items:center;gap:7px;font-family:'Space Grotesk';font-weight:700;font-size:13px;padding:4px 8px 14px}
+.side .brand .dot{color:var(--oro)}
+.side a{display:flex;align-items:center;gap:9px;font-size:11.5px;color:#c8c1b4;padding:8px 10px;border-radius:8px;margin-bottom:2px}
+.side a .ic{width:14px;height:14px;opacity:.8}
+.side a.on{background:rgba(205,168,96,.16);color:var(--oro);font-weight:600}
+.main{flex:1;background:#f6f5f2;padding:16px 18px;overflow:hidden}
+.main .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.main .top h3{margin:0;font-size:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.section-t{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-2);margin:0 0 10px}
+
+/* bar chart */
+.bars{display:flex;align-items:flex-end;gap:6px;height:80px}
+.bars span{flex:1;background:var(--oro-line);border-radius:3px 3px 0 0;opacity:.85}
+.bars span:last-child{background:var(--oro)}
+/* donut */
+.donut{width:92px;height:92px;border-radius:50%;background:conic-gradient(var(--oro) 0 62%,var(--oro-deep) 62% 82%,#e2ddd2 82% 100%);position:relative}
+.donut::after{content:'';position:absolute;inset:14px;background:#fff;border-radius:50%}
+
+/* design system swatches */
+.sw{display:flex;flex-direction:column;gap:6px}
+.sw .chip-c{height:56px;border-radius:10px;border:1px solid rgba(0,0,0,.06)}
+.sw code{font-size:10px;color:var(--ink-2)}
+.sw b{font-size:11px}
+
+.tiny{font-size:9.5px}
+.note{font-size:11px;color:var(--ink-2);max-width:260px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- ===== TOOLBAR ===== -->
+<div class="toolbar">
+  <svg class="wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2-6 4 14 4-18 3 10h4"/></svg>
+  <div class="logo">DropAudio<span class="dot">·</span>CCS</div>
+  <div class="file">/ <b>Board de diseño</b> — Tienda + Panel + Sistema</div>
+  <div class="spacer"></div>
+  <div class="pill on">Alta fidelidad</div>
+  <div class="pill">21 frames</div>
+  <div class="avatar">D</div>
+</div>
+
+<div class="wrap">
+  <div style="margin-bottom:8px">
+    <div class="dsp" style="font-size:34px;letter-spacing:-1px;margin:0">DropAudio CCS — Design Board</div>
+    <p class="muted" style="max-width:620px;margin:8px 0 0;font-size:14px">Boceto completo del producto: tienda pública de audio KZ (IEM · DAC · accesorios), panel de administración y sistema de diseño de marca. Nuxt 3 · Supabase · Tailwind.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PÁGINA 1 · SISTEMA DE DISEÑO -->
+  <!-- ============================================================ -->
+  <div class="page-head">
+    <div class="num">01</div>
+    <div><h2>Sistema de diseño</h2><p>Paleta oficial · tipografías · componentes de marca</p></div>
+    <div class="hair"></div>
+  </div>
+
+  <div class="canvas-row">
+    <!-- Paleta -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Paleta oficial <span class="tag">Style guide</span></div>
+      <div class="frame" style="width:400px;padding:18px">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div class="sw"><div class="chip-c" style="background:#0C0B09"></div><b>Negro audio</b><code>#0C0B09</code></div>
+          <div class="sw"><div class="chip-c" style="background:#FAF9F7"></div><b>Blanco hueso</b><code>#FAF9F7</code></div>
+          <div class="sw"><div class="chip-c" style="background:#1A1717"></div><b>Tinta</b><code>#1A1717</code></div>
+          <div class="sw"><div class="chip-c" style="background:#F0EDE8"></div><b>Hueso claro</b><code>#F0EDE8</code></div>
+          <div class="sw"><div class="chip-c" style="background:#CDA860"></div><b>Dorado vivo</b><code>#CDA860</code></div>
+          <div class="sw"><div class="chip-c" style="background:#967337"></div><b>Dorado prof.</b><code>#967337</code></div>
+          <div class="sw"><div class="chip-c" style="background:#B89246"></div><b>Dorado línea</b><code>#B89246</code></div>
+          <div class="sw"><div class="chip-c" style="background:#8A1F2B"></div><b>Vino (legado)</b><code>#8A1F2B</code></div>
+        </div>
+        <div style="margin-top:14px" class="sw">
+          <div class="chip-c" style="height:40px;background:linear-gradient(135deg,#16130D,#3A2C12,#B8923A)"></div>
+          <b>Degradado de marca</b><code>#16130D → #3A2C12 → #B8923A · 135°</code>
+        </div>
+        <p class="note" style="margin-top:12px">Proporción ~70% negro/blanco · ~25% neutros · ~5% dorado (el detalle fino).</p>
+      </div>
+    </div>
+
+    <!-- Tipografía + logo -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Tipografía & logo</div>
+      <div class="frame" style="width:320px;padding:18px">
+        <div class="dsp" style="font-size:30px;font-weight:700;letter-spacing:-1px">Space Grotesk</div>
+        <p class="muted tiny" style="margin:2px 0 12px">Títulos / display · Bold · Semibold</p>
+        <div style="font-size:24px;font-weight:600">Plus Jakarta Sans</div>
+        <p class="muted tiny" style="margin:2px 0 16px">Cuerpo / UI · Regular · Medium</p>
+        <div class="hairline" style="margin:0 0 16px"></div>
+        <div style="display:flex;align-items:center;gap:10px;background:var(--negro);padding:14px;border-radius:12px">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#CDA860" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2-6 4 14 4-18 3 10h4"/></svg>
+          <div class="dsp" style="color:#F0EDE8;font-weight:700;font-size:18px">DropAudio<span style="color:#CDA860">·</span>CCS</div>
+        </div>
+        <p class="note" style="margin-top:12px">Onda de sonido que viaja de izquierda a derecha: señal limpia, ruta directa.</p>
+      </div>
+    </div>
+
+    <!-- Componentes -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Componentes</div>
+      <div class="frame" style="width:300px;padding:18px">
+        <p class="section-t">Botones</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+          <span class="btn">Comprar</span>
+          <span class="btn ghost">Ver ficha</span>
+          <span class="btn dark">WhatsApp</span>
+        </div>
+        <p class="section-t">Badges</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+          <span class="badge">Entrada</span><span class="badge">Bass</span><span class="badge">Sin jack 3.5mm</span><span class="badge">Destacado</span>
+        </div>
+        <p class="section-t">Chips de filtro</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+          <span class="chip on">Todos</span><span class="chip">Música</span><span class="chip">Gaming</span><span class="chip">DAC</span>
+        </div>
+        <p class="section-t">Precio</p>
+        <div class="price" style="font-size:22px">$39 <span class="bs">1.560 Bs</span></div>
+        <div class="hairline" style="margin:14px 0 6px"></div>
+        <p class="note">hair-gold: línea con degradado dorado que se desvanece a los lados.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PÁGINA 2 · TIENDA PÚBLICA -->
+  <!-- ============================================================ -->
+  <div class="page-head">
+    <div class="num">02</div>
+    <div><h2>Tienda pública</h2><p>Catálogo · fichas · checkout · asesoría — mobile-first, PWA instalable</p></div>
+    <div class="hair"></div>
+  </div>
+
+  <div class="canvas-row">
+    <!-- HOME -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Home <span class="tag">/ index</span></div>
+      <div class="frame dark phone">
+        <div class="statusbar"><span>9:41</span><span class="wave-ico">▲ ▮▮ ⌁</span></div>
+        <div class="nav" style="border-color:rgba(205,168,96,.2)">
+          <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+          <div class="icons"><span>🔍</span><span class="cart-dot">🛒</span><span>☰</span></div>
+        </div>
+        <div class="hero">
+          <div class="kicker">Audio KZ · Caracas</div>
+          <h1>Audio que suena pro, y te llega directo.</h1>
+          <p>IEM, DACs y accesorios. Entrega en moto por CCS · envíos nacionales.</p>
+          <div class="cta"><span class="btn">Ver catálogo</span><span class="btn ghost">Asesórate</span></div>
+          <svg class="wavebg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 12h3l2-6 4 14 4-18 3 10h4"/></svg>
+        </div>
+        <div class="chips"><span class="chip on">Todos</span><span class="chip">Música</span><span class="chip">Bajos</span><span class="chip">Gaming</span></div>
+        <div class="grid2">
+          <div class="pcard"><div class="ph"><span class="badge">Bass</span><div class="iem"></div></div><div class="meta"><h4>KZ Castor</h4><div class="sig">Bajos con pegada</div><div class="price">$29<span class="bs">1.160 Bs</span></div></div></div>
+          <div class="pcard"><div class="ph"><span class="badge">Entrada</span><div class="iem"></div></div><div class="meta"><h4>KZ EDX Pro</h4><div class="sig">Equilibrado</div><div class="price">$19<span class="bs">760 Bs</span></div></div></div>
+          <div class="pcard"><div class="ph"><span class="badge">DAC</span><div class="iem" style="border-radius:6px;width:52%;height:34%"></div></div><div class="meta"><h4>CX-Pro DAC</h4><div class="sig">USB-C · 32-bit</div><div class="price">$25<span class="bs">1.000 Bs</span></div></div></div>
+          <div class="pcard"><div class="ph"><span class="badge">Detalle</span><div class="iem"></div></div><div class="meta"><h4>KZ D-Fi</h4><div class="sig">Tuning switches</div><div class="price">$45<span class="bs">1.800 Bs</span></div></div></div>
+        </div>
+        <div style="padding:14px;text-align:center"><span class="btn dark block">Ver los 19 modelos</span></div>
+      </div>
+    </div>
+
+    <!-- FICHA PRODUCTO -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Ficha de producto <span class="tag">/ productos/[slug]</span></div>
+      <div class="frame phone">
+        <div class="statusbar" style="color:#1A1717"><span>9:41</span><span>▲ ▮▮ ⌁</span></div>
+        <div class="nav"><span class="muted tiny">← Volver</span><div class="brand" style="font-size:12px">DropAudio<span class="dot">·</span>CCS</div><span class="cart-dot">🛒</span></div>
+        <div style="aspect-ratio:1.1;background:radial-gradient(circle at 50% 40%,#26221b,#0c0b09);display:grid;place-items:center;position:relative">
+          <div class="iem" style="width:44%;height:44%;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:linear-gradient(150deg,#d9c08a,#8a6b32);box-shadow:inset 0 -6px 12px rgba(0,0,0,.4)"></div>
+          <span class="badge" style="position:absolute;top:10px;left:10px">Destacado</span>
+          <div style="position:absolute;bottom:8px;display:flex;gap:5px"><span style="width:6px;height:6px;border-radius:50%;background:var(--oro)"></span><span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)"></span><span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)"></span></div>
+        </div>
+        <div style="padding:12px 14px">
+          <div style="display:flex;justify-content:space-between;align-items:start">
+            <div><h3 style="margin:0;font-size:17px">KZ D-Fi</h3><div class="muted tiny">IEM · 10mm dinámico · 4 tunings</div></div>
+            <div class="price" style="font-size:20px">$45<span class="bs">1.800 Bs</span></div>
+          </div>
+          <div style="display:flex;gap:6px;margin:10px 0"><span class="badge">Detalle</span><span class="badge">Switches</span></div>
+          <span class="btn block" style="margin-bottom:6px">Agregar al carrito</span>
+          <span class="btn dark block">Consultar por WhatsApp</span>
+          <div class="hairline" style="margin:14px 0"></div>
+          <p class="section-t">¿Para quién es?</p>
+          <p class="note" style="max-width:none;margin:0 0 12px">Para quien quiere ajustar el sonido: 4 interruptores para más graves o más detalle.</p>
+          <p class="section-t">Ficha técnica</p>
+          <table class="tbl" style="font-size:10px"><tr><td class="muted">Driver</td><td style="text-align:right">10mm DD</td></tr><tr><td class="muted">Conector</td><td style="text-align:right">2-pin 0.75</td></tr><tr><td class="muted">Impedancia</td><td style="text-align:right">28Ω</td></tr></table>
+          <div class="hairline" style="margin:12px 0"></div>
+          <p class="section-t">Reseña en video</p>
+          <div style="aspect-ratio:16/9;background:#141210;border-radius:10px;display:grid;place-items:center;color:var(--oro)">▶ YouTube</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARRITO / CHECKOUT -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Carrito & Checkout <span class="tag">CartDrawer</span></div>
+      <div class="frame dark phone">
+        <div class="statusbar"><span>9:41</span><span class="wave-ico">▲ ▮▮ ⌁</span></div>
+        <div style="padding:14px 14px 8px;display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0;font-size:16px;color:#fff">Tu carrito</h3><span class="muted">✕</span></div>
+        <div style="padding:0 14px">
+          <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(205,168,96,.15)">
+            <div class="iem" style="width:44px;height:44px;flex-shrink:0;border-radius:8px;background:linear-gradient(150deg,#d9c08a,#8a6b32)"></div>
+            <div style="flex:1"><h4 style="margin:0;font-size:12px;color:#fff">KZ D-Fi</h4><div class="muted tiny">2-pin · Negro</div><div class="price" style="font-size:13px;margin-top:2px">$45</div></div>
+            <div class="muted tiny" style="text-align:right">– 1 +</div>
+          </div>
+          <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(205,168,96,.15)">
+            <div class="iem" style="width:44px;height:44px;flex-shrink:0;border-radius:8px;background:linear-gradient(150deg,#c9c9cf,#5a5a60)"></div>
+            <div style="flex:1"><h4 style="margin:0;font-size:12px;color:#fff">CX-Pro DAC</h4><div class="muted tiny">USB-C</div><div class="price" style="font-size:13px;margin-top:2px">$25</div></div>
+            <div class="muted tiny" style="text-align:right">– 1 +</div>
+          </div>
+        </div>
+        <div style="padding:14px">
+          <p class="section-t" style="color:#b3aa99">Datos de entrega</p>
+          <div style="background:#141210;border:1px solid rgba(205,168,96,.18);border-radius:8px;padding:9px;font-size:11px;color:#9a938a;margin-bottom:6px">Nombre y teléfono</div>
+          <div style="background:#141210;border:1px solid rgba(205,168,96,.18);border-radius:8px;padding:9px;font-size:11px;color:#9a938a;margin-bottom:6px">Zona: Caracas ▾</div>
+          <div style="display:flex;gap:6px;margin-bottom:10px"><span class="chip on">Pago móvil</span><span class="chip">Divisas</span><span class="chip">USDT</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:end;margin:10px 0">
+            <span class="muted">Total</span>
+            <div class="price" style="font-size:22px">$70<span class="bs">2.800 Bs</span></div>
+          </div>
+          <span class="btn dark block" style="background:#25D366;color:#053d18">Confirmar por WhatsApp</span>
+          <p class="note tiny" style="margin-top:8px;color:#9a938a">Revisas tu equipo y luego pagas. Sin letra pequeña.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASESÓRATE -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Asesórate <span class="tag">/ asesorate</span></div>
+      <div class="frame phone">
+        <div class="statusbar" style="color:#1A1717"><span>9:41</span><span>▲ ▮▮ ⌁</span></div>
+        <div class="nav"><div class="brand" style="font-size:12px">DropAudio<span class="dot">·</span>CCS</div><span class="cart-dot">🛒</span></div>
+        <div style="background:var(--grad);color:#F0EDE8;padding:18px 14px"><div class="kicker" style="font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--oro)">Quiz</div><h1 style="font-size:19px;margin:6px 0;color:#fff;font-family:'Space Grotesk'">¿Cuál audífono es para ti?</h1><p style="font-size:10.5px;color:#e7ddc9;margin:0">3 preguntas y te recomiendo el ideal.</p></div>
+        <div style="padding:16px 14px">
+          <p class="section-t">1 · ¿Cómo lo vas a usar?</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="border:1px solid var(--oro-line);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600">🎵 Música / detalle</span><span class="muted">›</span></div>
+            <div style="border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600">🔊 Bajos / fiesta</span><span class="muted">›</span></div>
+            <div style="border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600">🎮 Gaming</span><span class="muted">›</span></div>
+            <div style="border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:600">🏃 Deporte</span><span class="muted">›</span></div>
+          </div>
+          <div style="display:flex;gap:5px;justify-content:center;margin-top:18px"><span style="width:22px;height:4px;border-radius:2px;background:var(--oro)"></span><span style="width:22px;height:4px;border-radius:2px;background:var(--line)"></span><span style="width:22px;height:4px;border-radius:2px;background:var(--line)"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENVIOS -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Envíos <span class="tag">/ envios</span></div>
+      <div class="frame phone" style="width:270px">
+        <div class="statusbar" style="color:#1A1717"><span>9:41</span><span>▲ ▮▮ ⌁</span></div>
+        <div class="nav"><div class="brand" style="font-size:12px">DropAudio<span class="dot">·</span>CCS</div><span>☰</span></div>
+        <div style="padding:16px 14px">
+          <h3 style="margin:0 0 4px;font-size:17px">Envíos y entregas</h3>
+          <p class="note" style="margin:0 0 14px">Entrega en moto (Bera GR) y envíos a toda Venezuela.</p>
+          <div class="card" style="padding:12px;margin-bottom:10px;border-color:var(--oro-line)"><b style="font-size:12px">🏍️ Entrega en moto</b><p class="note tiny" style="margin:4px 0 0">Caracas · Guarenas · Guatire. Coordinada por WhatsApp.</p></div>
+          <div class="card" style="padding:12px;margin-bottom:10px"><b style="font-size:12px">📦 Envío nacional</b><p class="note tiny" style="margin:4px 0 0">Zoom / MRW a todo el país. Tarifa por peso.</p></div>
+          <div class="card" style="padding:12px"><b style="font-size:12px">🛡️ Revisa antes de pagar</b><p class="note tiny" style="margin:4px 0 0">Pruebas tu equipo en la entrega y luego pagas.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GARANTIA -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Garantía <span class="tag">/ garantia</span></div>
+      <div class="frame phone" style="width:270px">
+        <div class="statusbar" style="color:#1A1717"><span>9:41</span><span>▲ ▮▮ ⌁</span></div>
+        <div class="nav"><div class="brand" style="font-size:12px">DropAudio<span class="dot">·</span>CCS</div><span>☰</span></div>
+        <div style="padding:16px 14px">
+          <h3 style="margin:0 0 12px;font-size:17px">Garantía</h3>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:10px"><div style="width:24px;height:24px;border-radius:50%;background:var(--oro);color:#1a1305;display:grid;place-items:center;font-weight:700;font-size:11px;flex-shrink:0">1</div><p class="note tiny" style="margin:2px 0">Prueba en la entrega antes de pagar.</p></div>
+            <div style="display:flex;gap:10px"><div style="width:24px;height:24px;border-radius:50%;background:var(--oro);color:#1a1305;display:grid;place-items:center;font-weight:700;font-size:11px;flex-shrink:0">2</div><p class="note tiny" style="margin:2px 0">Falla de fábrica: cambio en 7 días.</p></div>
+            <div style="display:flex;gap:10px"><div style="width:24px;height:24px;border-radius:50%;background:var(--oro);color:#1a1305;display:grid;place-items:center;font-weight:700;font-size:11px;flex-shrink:0">3</div><p class="note tiny" style="margin:2px 0">Soporte por WhatsApp siempre.</p></div>
+          </div>
+          <div class="hairline" style="margin:16px 0"></div>
+          <p class="section-t">FAQ</p>
+          <div style="border-bottom:1px solid var(--line);padding:10px 0;display:flex;justify-content:space-between"><span class="tiny">¿Hacen envíos nacionales?</span><span class="muted">+</span></div>
+          <div style="border-bottom:1px solid var(--line);padding:10px 0;display:flex;justify-content:space-between"><span class="tiny">¿Puedo revisar antes de pagar?</span><span class="muted">+</span></div>
+          <div style="padding:10px 0;display:flex;justify-content:space-between"><span class="tiny">¿Jack 3.5mm o USB-C?</span><span class="muted">+</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOG -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Blog <span class="tag">/ blog</span></div>
+      <div class="frame phone" style="width:270px">
+        <div class="statusbar" style="color:#1A1717"><span>9:41</span><span>▲ ▮▮ ⌁</span></div>
+        <div class="nav"><div class="brand" style="font-size:12px">DropAudio<span class="dot">·</span>CCS</div><span>☰</span></div>
+        <div style="padding:16px 14px">
+          <h3 style="margin:0 0 12px;font-size:17px">Aprende de audio</h3>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div><div style="aspect-ratio:16/9;background:var(--grad);border-radius:10px;margin-bottom:6px"></div><span class="badge">Educativo</span><h4 style="margin:4px 0 2px;font-size:13px">¿Qué es un DAC y cuándo lo necesitas?</h4><p class="muted tiny">5 min de lectura</p></div>
+            <div style="display:flex;gap:10px"><div style="width:70px;height:52px;background:#26221b;border-radius:8px;flex-shrink:0"></div><div><h4 style="margin:0 0 2px;font-size:12px">BA vs dinámico</h4><p class="muted tiny">¿Cuál suena mejor?</p></div></div>
+            <div style="display:flex;gap:10px"><div style="width:70px;height:52px;background:#26221b;border-radius:8px;flex-shrink:0"></div><div><h4 style="margin:0 0 2px;font-size:12px">¿Jack 3.5mm o USB-C?</h4><p class="muted tiny">Guía rápida</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Login admin <span class="tag">/ login</span></div>
+      <div class="frame dark phone" style="width:270px">
+        <div class="statusbar"><span>9:41</span><span class="wave-ico">▲ ▮▮ ⌁</span></div>
+        <div style="padding:44px 20px;display:flex;flex-direction:column;align-items:center;text-align:center">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#CDA860" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:14px"><path d="M2 12h3l2-6 4 14 4-18 3 10h4"/></svg>
+          <div class="dsp" style="color:#fff;font-weight:700;font-size:18px">DropAudio<span style="color:#CDA860">·</span>CCS</div>
+          <p class="muted tiny" style="margin:6px 0 24px">Panel de administración</p>
+          <div style="width:100%;text-align:left">
+            <label class="tiny muted">Correo</label>
+            <div style="background:#141210;border:1px solid rgba(205,168,96,.2);border-radius:9px;padding:10px;font-size:11px;color:#9a938a;margin:4px 0 10px">admin@dropaudioccs.com</div>
+            <label class="tiny muted">Contraseña</label>
+            <div style="background:#141210;border:1px solid rgba(205,168,96,.2);border-radius:9px;padding:10px;font-size:11px;color:#9a938a;margin:4px 0 16px">••••••••</div>
+            <span class="btn block">Entrar</span>
+          </div>
+          <p class="note tiny" style="margin-top:16px;color:#9a938a">Acceso restringido · lista blanca de admins (RLS).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PÁGINA 3 · PANEL DE ADMINISTRACIÓN -->
+  <!-- ============================================================ -->
+  <div class="page-head">
+    <div class="num">03</div>
+    <div><h2>Panel de administración</h2><p>/admin/* · privado · inventario · ventas · entregas · pedidos en vivo</p></div>
+    <div class="hair"></div>
+  </div>
+
+  <div class="canvas-row">
+    <!-- DASHBOARD -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Dashboard <span class="tag">/ admin</span></div>
+      <div class="frame wide">
+        <div class="adm">
+          <div class="side">
+            <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+            <a class="on"><span class="ic">▣</span> Dashboard</a>
+            <a><span class="ic">▦</span> Inventario</a>
+            <a><span class="ic">✎</span> Productos</a>
+            <a><span class="ic">💲</span> Ventas</a>
+            <a><span class="ic">🏍️</span> Entregas</a>
+            <a><span class="ic">🛒</span> Pedidos web</a>
+            <a><span class="ic">🧮</span> Cotizaciones</a>
+            <a><span class="ic">★</span> Reseñas</a>
+            <a><span class="ic">🎁</span> Combos</a>
+            <a><span class="ic">📄</span> Catálogo PDF</a>
+            <a><span class="ic">⚙</span> Ajustes</a>
+          </div>
+          <div class="main">
+            <div class="top"><h3>Hola, Daniel 👋</h3><span class="btn" style="font-size:11px">+ Nueva venta</span></div>
+            <div class="kpi-grid" style="margin-bottom:14px">
+              <div class="kpi gold"><div class="lbl">Ventas del mes</div><div class="val">$2.480</div></div>
+              <div class="kpi"><div class="lbl">Unidades</div><div class="val">63</div></div>
+              <div class="kpi"><div class="lbl">Pedidos web nuevos</div><div class="val">4 <small>●</small></div></div>
+              <div class="kpi"><div class="lbl">Entregas pend.</div><div class="val">7</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:14px">
+              <div class="card"><p class="section-t">Ventas · últimos 14 días</p><div class="bars"><span style="height:40%"></span><span style="height:55%"></span><span style="height:35%"></span><span style="height:70%"></span><span style="height:50%"></span><span style="height:80%"></span><span style="height:60%"></span><span style="height:45%"></span><span style="height:75%"></span><span style="height:90%"></span><span style="height:65%"></span><span style="height:85%"></span><span style="height:70%"></span><span style="height:100%"></span></div></div>
+              <div class="card"><p class="section-t">Más vendidos</p><table class="tbl"><tr><td>KZ Castor</td><td style="text-align:right"><b>18</b></td></tr><tr><td>KZ EDX Pro</td><td style="text-align:right"><b>14</b></td></tr><tr><td>CX-Pro DAC</td><td style="text-align:right"><b>11</b></td></tr><tr><td>KZ D-Fi</td><td style="text-align:right"><b>7</b></td></tr></table></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:14px"><span class="btn ghost" style="font-size:11px">Inventario</span><span class="btn ghost" style="font-size:11px">Registrar entrega</span><span class="btn ghost" style="font-size:11px">Catálogo PDF</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVENTARIO -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Inventario <span class="tag">/ admin/inventario</span></div>
+      <div class="frame wide">
+        <div class="adm">
+          <div class="side">
+            <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+            <a><span class="ic">▣</span> Dashboard</a><a class="on"><span class="ic">▦</span> Inventario</a><a><span class="ic">✎</span> Productos</a><a><span class="ic">💲</span> Ventas</a><a><span class="ic">🏍️</span> Entregas</a><a><span class="ic">🛒</span> Pedidos web</a><a><span class="ic">🧮</span> Cotizaciones</a><a><span class="ic">★</span> Reseñas</a><a><span class="ic">🎁</span> Combos</a><a><span class="ic">📄</span> Catálogo PDF</a><a><span class="ic">⚙</span> Ajustes</a>
+          </div>
+          <div class="main">
+            <div class="top"><h3>Inventario</h3><span class="btn" style="font-size:11px">⬇ Orden de compra</span></div>
+            <div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:14px">
+              <div class="kpi gold"><div class="lbl">Inversión en stock</div><div class="val">$1.930</div></div>
+              <div class="kpi"><div class="lbl">Valor de venta</div><div class="val">$3.410</div></div>
+              <div class="kpi"><div class="lbl">Margen estimado</div><div class="val">44%</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:14px">
+              <div class="card" style="display:flex;flex-direction:column;align-items:center"><p class="section-t" style="align-self:flex-start">Margen por categoría</p><div class="donut"></div><div style="display:flex;gap:10px;margin-top:12px;font-size:9.5px"><span>🟡 IEM</span><span style="color:var(--oro-deep)">🟤 DAC</span><span class="muted">⚪ Acc.</span></div></div>
+              <div class="card"><p class="section-t">Top por valor en stock</p>
+                <table class="tbl"><thead><tr><th>Producto</th><th>Stock</th><th>Costo</th><th>Valor</th></tr></thead>
+                <tr><td>KZ D-Fi</td><td>12</td><td>$27</td><td><b>$540</b></td></tr>
+                <tr><td>KZ Castor</td><td>20</td><td>$17</td><td><b>$580</b></td></tr>
+                <tr><td>CX-Pro DAC</td><td>9</td><td>$15</td><td><b>$225</b></td></tr>
+                <tr><td>KZ EDX Pro</td><td>25</td><td>$11</td><td><b>$475</b></td></tr></table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS (editor) -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Productos · editor <span class="tag">/ admin/products</span></div>
+      <div class="frame wide">
+        <div class="adm">
+          <div class="side">
+            <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+            <a><span class="ic">▣</span> Dashboard</a><a><span class="ic">▦</span> Inventario</a><a class="on"><span class="ic">✎</span> Productos</a><a><span class="ic">💲</span> Ventas</a><a><span class="ic">🏍️</span> Entregas</a><a><span class="ic">🛒</span> Pedidos web</a><a><span class="ic">🧮</span> Cotizaciones</a><a><span class="ic">★</span> Reseñas</a><a><span class="ic">🎁</span> Combos</a><a><span class="ic">📄</span> Catálogo PDF</a><a><span class="ic">⚙</span> Ajustes</a>
+          </div>
+          <div class="main">
+            <div class="top"><h3>Editar producto · KZ D-Fi</h3><div style="display:flex;gap:6px"><span class="btn ghost" style="font-size:11px">Importar de kz-audio.com</span><span class="btn" style="font-size:11px">Guardar</span></div></div>
+            <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:14px">
+              <div class="card"><p class="section-t">Imágenes</p><div style="aspect-ratio:1;background:radial-gradient(circle at 50% 40%,#26221b,#0c0b09);border-radius:10px;display:grid;place-items:center"><div class="iem" style="width:44%;height:44%;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:linear-gradient(150deg,#d9c08a,#8a6b32)"></div></div><div style="display:flex;gap:6px;margin-top:8px"><div style="width:34px;height:34px;background:#26221b;border-radius:6px"></div><div style="width:34px;height:34px;background:#26221b;border-radius:6px"></div><div style="width:34px;height:34px;border:1px dashed var(--oro-line);border-radius:6px;display:grid;place-items:center;color:var(--oro-deep)">+</div></div></div>
+              <div class="card">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                  <div><label class="tiny muted">Nombre</label><div class="inp">KZ D-Fi</div></div>
+                  <div><label class="tiny muted">Categoría</label><div class="inp">IEM ▾</div></div>
+                  <div><label class="tiny muted">Costo $</label><div class="inp">27.00</div></div>
+                  <div><label class="tiny muted">Precio $</label><div class="inp">45.00</div></div>
+                  <div><label class="tiny muted">Stock</label><div class="inp">12</div></div>
+                  <div><label class="tiny muted">Rentabilidad</label><div class="inp" style="color:#1c7a45;font-weight:700">+40%</div></div>
+                </div>
+                <label class="tiny muted" style="display:block;margin-top:10px">Firma de sonido</label><div class="inp">Detalle con switches</div>
+                <label class="tiny muted" style="display:block;margin-top:8px">Descripción (ficha enriquecida)</label><div class="inp" style="height:44px">Para quien quiere ajustar el sonido…</div>
+                <div style="display:flex;gap:6px;margin-top:10px"><span class="badge">featured</span><span class="badge">is_active</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VENTAS -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Ventas <span class="tag">/ admin/sales</span></div>
+      <div class="frame wide">
+        <div class="adm">
+          <div class="side">
+            <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+            <a><span class="ic">▣</span> Dashboard</a><a><span class="ic">▦</span> Inventario</a><a><span class="ic">✎</span> Productos</a><a class="on"><span class="ic">💲</span> Ventas</a><a><span class="ic">🏍️</span> Entregas</a><a><span class="ic">🛒</span> Pedidos web</a><a><span class="ic">🧮</span> Cotizaciones</a><a><span class="ic">★</span> Reseñas</a><a><span class="ic">🎁</span> Combos</a><a><span class="ic">📄</span> Catálogo PDF</a><a><span class="ic">⚙</span> Ajustes</a>
+          </div>
+          <div class="main">
+            <div class="top"><h3>Ventas</h3><div style="display:flex;gap:8px;align-items:center"><span class="tiny muted">Tasa BCV <b style="color:var(--tinta)">40,10</b> · USDT <b style="color:var(--tinta)">41,20</b></span><span class="btn" style="font-size:11px">+ Registrar</span></div></div>
+            <div class="card" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th>Fecha</th><th>Cliente</th><th>Items</th><th>Total $</th><th>Pago</th><th>Estado</th><th></th></tr></thead>
+                <tr><td>10 ago</td><td>José M.</td><td>KZ D-Fi ×1</td><td><b>$45</b></td><td>Pago móvil</td><td><span class="st ok">Pagado</span></td><td class="muted">→ Entrega</td></tr>
+                <tr><td>10 ago</td><td>Andrea P.</td><td>Castor + DAC</td><td><b>$54</b></td><td>Divisas</td><td><span class="st warn">Pendiente</span></td><td class="muted">✎ ✕</td></tr>
+                <tr><td>09 ago</td><td>Luis R.</td><td>EDX Pro ×2</td><td><b>$38</b></td><td>USDT</td><td><span class="st ok">Entregado</span></td><td class="muted">✎ ✕</td></tr>
+                <tr><td>09 ago</td><td>Marlon G.</td><td>KZ Castor ×1</td><td><b>$29</b></td><td>Mixto</td><td><span class="st ok">Pagado</span></td><td class="muted">→ Entrega</td></tr>
+                <tr><td>08 ago</td><td>Vanessa T.</td><td>D-Fi + estuche</td><td><b>$52</b></td><td>Pago móvil</td><td><span class="st red">Anulado</span></td><td class="muted">✎ ✕</td></tr>
+              </table>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:12px"><span class="tiny muted">Neto real del mes (tras tasa)</span><span class="price" style="font-size:16px">$2.480 · 99.448 Bs</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENTREGAS -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Entregas <span class="tag">/ admin/deliveries</span></div>
+      <div class="frame wide">
+        <div class="adm">
+          <div class="side">
+            <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+            <a><span class="ic">▣</span> Dashboard</a><a><span class="ic">▦</span> Inventario</a><a><span class="ic">✎</span> Productos</a><a><span class="ic">💲</span> Ventas</a><a class="on"><span class="ic">🏍️</span> Entregas</a><a><span class="ic">🛒</span> Pedidos web</a><a><span class="ic">🧮</span> Cotizaciones</a><a><span class="ic">★</span> Reseñas</a><a><span class="ic">🎁</span> Combos</a><a><span class="ic">📄</span> Catálogo PDF</a><a><span class="ic">⚙</span> Ajustes</a>
+          </div>
+          <div class="main">
+            <div class="top"><h3>Entregas · tablero</h3><span class="btn" style="font-size:11px">🔔 Recordatorios push</span></div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+              <div><p class="section-t">Pendiente</p>
+                <div class="card" style="padding:10px;margin-bottom:8px"><b class="tiny">José M.</b><p class="tiny muted" style="margin:3px 0">Chacao · 4,2 km</p><span class="st warn">Hoy 5pm</span></div>
+                <div class="card" style="padding:10px"><b class="tiny">Andrea P.</b><p class="tiny muted" style="margin:3px 0">Guarenas · 22 km</p><span class="st warn">Mañana</span></div>
+              </div>
+              <div><p class="section-t">En ruta</p>
+                <div class="card" style="padding:10px;border-color:var(--oro-line)"><b class="tiny">Marlon G.</b><p class="tiny muted" style="margin:3px 0">Petare · 8,1 km</p><span class="st new">🏍️ Bera GR</span></div>
+              </div>
+              <div><p class="section-t">Entregado</p>
+                <div class="card" style="padding:10px;margin-bottom:8px;opacity:.7"><b class="tiny">Luis R.</b><p class="tiny muted" style="margin:3px 0">Los Ruices</p><span class="st ok">✓ + Reseña</span></div>
+                <div class="card" style="padding:10px;opacity:.7"><b class="tiny">Vanessa T.</b><p class="tiny muted" style="margin:3px 0">Guatire</p><span class="st ok">✓ Hecho</span></div>
+              </div>
+            </div>
+            <p class="note tiny" style="margin-top:12px">km por carretera vía OSRM/Nominatim · pasar entrega → venta con un clic.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PEDIDOS WEB -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Pedidos web (Realtime) <span class="tag">/ admin/pedidos</span></div>
+      <div class="frame wide">
+        <div class="adm">
+          <div class="side">
+            <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+            <a><span class="ic">▣</span> Dashboard</a><a><span class="ic">▦</span> Inventario</a><a><span class="ic">✎</span> Productos</a><a><span class="ic">💲</span> Ventas</a><a><span class="ic">🏍️</span> Entregas</a><a class="on"><span class="ic">🛒</span> Pedidos web</a><a><span class="ic">🧮</span> Cotizaciones</a><a><span class="ic">★</span> Reseñas</a><a><span class="ic">🎁</span> Combos</a><a><span class="ic">📄</span> Catálogo PDF</a><a><span class="ic">⚙</span> Ajustes</a>
+          </div>
+          <div class="main">
+            <div class="top"><h3>Pedidos web <span class="st new" style="vertical-align:middle">● en vivo</span></h3><span class="tiny muted">Realtime · Supabase</span></div>
+            <div class="card" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th>Ref</th><th>Cliente</th><th>Items</th><th>Total</th><th>Zona</th><th>Estado</th><th></th></tr></thead>
+                <tr style="background:rgba(205,168,96,.06)"><td><b>#A7F3</b></td><td>Nuevo · Karla V.</td><td>D-Fi ×1</td><td><b>$45</b></td><td>Sabana Grande</td><td><span class="st new">Nuevo</span></td><td class="muted">→ Venta</td></tr>
+                <tr><td>#B21C</td><td>Pedro N.</td><td>Castor + DAC</td><td><b>$54</b></td><td>Envío nacional</td><td><span class="st warn">Atendido</span></td><td class="muted">→ Venta</td></tr>
+                <tr><td>#C90D</td><td>Gaby L.</td><td>EDX Pro ×1</td><td><b>$19</b></td><td>Guatire</td><td><span class="st ok">Pagado</span></td><td class="muted">→ Venta</td></tr>
+                <tr><td>#D4E8</td><td>Samuel O.</td><td>Combo sin jack</td><td><b>$66</b></td><td>Chacao</td><td><span class="st ok">Cerrado</span></td><td class="muted">✓</td></tr>
+              </table>
+            </div>
+            <p class="note tiny" style="margin-top:12px">Cada pedido del checkout llega aquí en vivo (WebSocket). Botón "→ Venta" crea el registro y descuenta stock.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COTIZACIONES -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Cotizaciones <span class="tag">/ admin/cotizaciones</span></div>
+      <div class="frame wide">
+        <div class="adm">
+          <div class="side">
+            <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+            <a><span class="ic">▣</span> Dashboard</a><a><span class="ic">▦</span> Inventario</a><a><span class="ic">✎</span> Productos</a><a><span class="ic">💲</span> Ventas</a><a><span class="ic">🏍️</span> Entregas</a><a><span class="ic">🛒</span> Pedidos web</a><a class="on"><span class="ic">🧮</span> Cotizaciones</a><a><span class="ic">★</span> Reseñas</a><a><span class="ic">🎁</span> Combos</a><a><span class="ic">📄</span> Catálogo PDF</a><a><span class="ic">⚙</span> Ajustes</a>
+          </div>
+          <div class="main">
+            <div class="top"><h3>Cotización · proveedor</h3><div style="display:flex;gap:6px"><span class="btn ghost" style="font-size:11px">⬇ PDF</span><span class="btn ghost" style="font-size:11px">⬇ CSV</span></div></div>
+            <div style="display:flex;gap:10px;margin-bottom:12px"><div class="kpi" style="flex:1"><div class="lbl">Comisión</div><div class="val" style="font-size:16px">2,99%</div></div><div class="kpi" style="flex:1"><div class="lbl">Envío / libra</div><div class="val" style="font-size:16px">$11,60</div></div><div class="kpi gold" style="flex:1"><div class="lbl">Rentab. total</div><div class="val" style="font-size:16px">38%</div></div></div>
+            <div class="card" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th>Producto</th><th>Precio prov.</th><th>Qty</th><th>Peso lb</th><th>Costo real</th><th>Venta Vzla</th></tr></thead>
+                <tr><td>KZ D-Fi</td><td>$18,00</td><td>10</td><td>0,3</td><td>$21,20</td><td><b>$45</b></td></tr>
+                <tr><td>KZ Castor</td><td>$13,50</td><td>15</td><td>0,3</td><td>$16,60</td><td><b>$29</b></td></tr>
+                <tr><td>CX-Pro DAC</td><td>$12,00</td><td>8</td><td>0,1</td><td>$13,40</td><td><b>$25</b></td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESEÑAS -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Reseñas <span class="tag">/ admin/reviews</span></div>
+      <div class="frame wide">
+        <div class="adm">
+          <div class="side">
+            <div class="brand">DropAudio<span class="dot">·</span>CCS</div>
+            <a><span class="ic">▣</span> Dashboard</a><a><span class="ic">▦</span> Inventario</a><a><span class="ic">✎</span> Productos</a><a><span class="ic">💲</span> Ventas</a><a><span class="ic">🏍️</span> Entregas</a><a><span class="ic">🛒</span> Pedidos web</a><a><span class="ic">🧮</span> Cotizaciones</a><a class="on"><span class="ic">★</span> Reseñas</a><a><span class="ic">🎁</span> Combos</a><a><span class="ic">📄</span> Catálogo PDF</a><a><span class="ic">⚙</span> Ajustes</a>
+          </div>
+          <div class="main">
+            <div class="top"><h3>Reseñas</h3><span class="btn" style="font-size:11px">+ Generar link por entrega</span></div>
+            <div style="display:flex;gap:10px;margin-bottom:12px"><div class="kpi gold" style="flex:1"><div class="lbl">Marketplace</div><div class="val" style="font-size:18px">5,0 ★</div></div><div class="kpi" style="flex:1"><div class="lbl">Propias aprobadas</div><div class="val" style="font-size:18px">27</div></div><div class="kpi" style="flex:1"><div class="lbl">Por moderar</div><div class="val" style="font-size:18px">3</div></div></div>
+            <div class="card" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th>Cliente</th><th>Entregado</th><th>★</th><th>Comentario</th><th>Estado</th><th></th></tr></thead>
+                <tr><td>Luis R.</td><td>EDX Pro</td><td>★★★★★</td><td class="muted">"Brutal el bajo, llegó rapidísimo"</td><td><span class="st warn">Submitted</span></td><td class="muted">Aprobar</td></tr>
+                <tr><td>Vanessa T.</td><td>D-Fi</td><td>★★★★★</td><td class="muted">"Los switches son un lujo"</td><td><span class="st ok">Approved</span></td><td class="muted">Ocultar</td></tr>
+                <tr><td>Karla V.</td><td>Castor</td><td>—</td><td class="muted">Link enviado, esperando…</td><td><span class="st new">Pending</span></td><td class="muted">Copiar link</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBOS -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Combos <span class="tag">/ admin/combos</span></div>
+      <div class="frame wide" style="width:370px">
+        <div class="main" style="border-radius:14px">
+          <div class="top"><h3 style="font-size:15px">Combos por jack</h3><span class="btn" style="font-size:11px">+ Nuevo</span></div>
+          <div class="card" style="padding:12px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:center"><div><b class="tiny">Combo Sin Jack</b><p class="tiny muted" style="margin:3px 0">IEM + DAC USB-C + estuche</p></div><div class="price" style="font-size:15px">$66</div></div><div style="display:flex;gap:5px;margin-top:8px"><span class="badge">Sin jack 3.5mm</span><span class="badge">is_active</span></div></div>
+          <div class="card" style="padding:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><b class="tiny">Combo Bass Pack</b><p class="tiny muted" style="margin:3px 0">Castor + estuche + eartips</p></div><div class="price" style="font-size:15px">$38</div></div><div style="display:flex;gap:5px;margin-top:8px"><span class="badge">Bass</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATALOGO PDF -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Catálogo PDF <span class="tag">/ admin/catalogo</span></div>
+      <div class="frame wide" style="width:370px">
+        <div class="main" style="border-radius:14px">
+          <div class="top"><h3 style="font-size:15px">Catálogo PDF</h3><span class="btn" style="font-size:11px">⬇ Generar</span></div>
+          <div style="display:flex;gap:12px">
+            <div style="width:120px;aspect-ratio:3/4;background:var(--grad);border-radius:8px;flex-shrink:0;padding:12px;color:#fff;position:relative"><div class="tiny" style="color:var(--oro);letter-spacing:1px">CATÁLOGO 2026</div><div class="dsp" style="font-size:13px;margin-top:6px">DropAudio·CCS</div><div style="position:absolute;bottom:10px;right:10px;width:34px;height:34px;background:#fff;border-radius:4px;display:grid;place-items:center;font-size:8px">▣ QR</div></div>
+            <div><p class="note" style="margin:0 0 10px">Catálogo premium con precios actuales (tasa Bs/$) + QR a la web. Portada de marca, badges y fotos del panel.</p><label class="tiny muted">Incluir</label><div style="display:flex;gap:5px;margin-top:6px"><span class="chip on">Precios Bs</span><span class="chip on">QR</span><span class="chip">Combos</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AJUSTES -->
+    <div class="frame-wrap">
+      <div class="frame-name"><span class="sq"></span>Tasa & ajustes <span class="tag">/ admin/settings</span></div>
+      <div class="frame wide" style="width:370px">
+        <div class="main" style="border-radius:14px">
+          <div class="top"><h3 style="font-size:15px">Ajustes</h3><span class="btn" style="font-size:11px">Guardar</span></div>
+          <div class="card" style="margin-bottom:10px"><p class="section-t">Tasa Bs / USD</p><div class="inp" style="font-size:16px;font-weight:700">40,10</div><p class="tiny muted" style="margin:6px 0 0">Se aplica a todos los precios en Bs de la tienda.</p></div>
+          <div class="card" style="margin-bottom:10px"><p class="section-t">Datos de pago (checkout)</p><div class="inp">Pago móvil · 0414-000 0000 · V-00000000</div><div class="inp" style="margin-top:6px">Banco · 0102</div></div>
+          <div class="card"><p class="section-t">Reseñas Marketplace</p><div style="display:flex;justify-content:space-between;align-items:center"><span class="tiny">Conteo mostrado en la web</span><div class="inp" style="width:70px;text-align:center">128</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.inp{background:#f6f5f2;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--tinta);margin-top:3px}
+/* Botón exportar flotante */
+.export-fab{position:fixed;right:22px;bottom:22px;z-index:60;display:flex;gap:8px}
+.export-fab button{font-family:'Space Grotesk';font-weight:600;font-size:13px;border:none;cursor:pointer;border-radius:12px;padding:12px 18px;box-shadow:0 8px 22px rgba(12,11,9,.28);display:inline-flex;align-items:center;gap:8px}
+.export-fab .pdf{background:var(--oro);color:#1a1305}
+.export-fab .pdf:hover{background:#d9b978}
+.export-fab .top{background:#1e1e22;color:#fff}
+/* Impresión / exportar a PDF */
+@media print{
+  @page{size:A3 landscape;margin:12mm}
+  body{background:#fff !important;background-image:none !important}
+  .toolbar,.export-fab{display:none !important}
+  .wrap{max-width:none;padding:0}
+  .page-head{break-before:page;margin:0 0 18px}
+  .page-head:first-of-type{break-before:avoid}
+  .frame{box-shadow:0 0 0 1px #e2ded4 !important;break-inside:avoid}
+  .frame-wrap{break-inside:avoid}
+  .canvas-row{gap:24px}
+}
+</style>
+
+<div class="export-fab">
+  <button class="top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Inicio</button>
+  <button class="pdf" onclick="window.print()">⬇ Exportar a PDF</button>
+</div>
+
+<p style="text-align:center;color:#9a9aa2;font-size:11px;margin:48px 0 40px;font-family:'Plus Jakarta Sans'">DropAudio CCS · Caso de estudio de diseño — Tienda pública + Panel de administración · Nuxt 3 · Supabase · Tailwind</p>
+
+</body>
+</html>
