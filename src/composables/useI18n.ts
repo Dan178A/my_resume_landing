@@ -6,6 +6,7 @@ export type Lang = 'es' | 'en'
 const STORAGE_KEY = 'portfolio-lang'
 
 const detectLang = (): Lang => {
+    if (typeof window === 'undefined') return 'es' // SSR / prerender default
     try {
         const saved = localStorage.getItem(STORAGE_KEY)
         if (saved === 'es' || saved === 'en') return saved
