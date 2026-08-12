@@ -1,7 +1,8 @@
 <script setup lang="ts">
 /* Landing premium: aurora bg, tilt 3D, spotlight, marquee, count-up, i18n */
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useI18n } from '../composables/useI18n'
+import { useI18n, type Lang } from '../composables/useI18n'
+import { projectDetails, type ProjectDetail } from '../composables/projectDetails'
 
 const { lang, t, toggleLang } = useI18n()
 
@@ -30,8 +31,18 @@ const linkedInUrl = 'https://www.linkedin.com/in/daniel-alejandro-silva-rojas/'
 const emailAddress = 'dsrglrm@gmail.com'
 const whatsappUrl = 'https://wa.me/584142317561?text=Hola%20Daniel'
 const avatarSrc = '/1699966173589.jpg'
-/* CV bilingüe: el visor muestra el PDF del idioma activo */
-const cvUrl = computed(() => (lang.value === 'en' ? '/cv_daniel_silva_en.pdf' : '/cv_daniel_silva_es.pdf'))
+/* CV: 4 variantes (idioma × perfil). El visor combina el idioma activo con el perfil elegido. */
+type CvProfile = 'fullstack' | 'backend'
+const cvProfile = ref<CvProfile>('fullstack')
+const cvFiles: Record<Lang, Record<CvProfile, string>> = {
+    en: { fullstack: '/CV_Daniel_Silva_EN_FullStack.pdf', backend: '/CV_Daniel_Silva_EN_Backend-AI.pdf' },
+    es: { fullstack: '/CV_Daniel_Silva_ES_FullStack.pdf', backend: '/CV_Daniel_Silva_ES_Backend-IA.pdf' },
+}
+const cvUrl = computed(() => cvFiles[lang.value][cvProfile.value])
+const cvProfiles = computed(() => ([
+    { id: 'fullstack' as const, label: t.value.hero.cvFullStack },
+    { id: 'backend' as const, label: t.value.hero.cvBackend },
+]))
 
 /* Caso destacado: DropAudio CCS */
 const dropUrl = 'https://dropaudioccs.com'
@@ -181,6 +192,42 @@ const repoUrl = (p: Project): string =>
     p.url ?? apiRepos.value.get(p.name)?.html_url ?? `https://github.com/${githubUsername}/${p.name}`
 const repoTag = (p: Project): string => apiRepos.value.get(p.name)?.language ?? p.tech
 
+/* Visibilidad del repo: override manual, o público si la API de GitHub lo devuelve */
+type Vis = 'public' | 'private' | 'live'
+const visOf = (p: Project): Vis => {
+    const ov = projectDetails[p.name]?.visibility
+    if (ov) return ov
+    return apiRepos.value.has(p.name) ? 'public' : 'private'
+}
+const visMeta: Record<Vis, { icon: string; label: { es: string; en: string } }> = {
+    public: { icon: 'fa-brands fa-github', label: { es: 'Público', en: 'Public' } },
+    private: { icon: 'fa-solid fa-lock', label: { es: 'Privado', en: 'Private' } },
+    live: { icon: 'fa-solid fa-circle-nodes', label: { es: 'En vivo', en: 'Live' } },
+}
+
+/* Detalle del proyecto para el modal: enriquecido si existe, o sintetizado desde la card */
+const activeProject = ref<Project | null>(null)
+const activeDetail = computed<ProjectDetail | null>(() => {
+    const p = activeProject.value
+    if (!p) return null
+    const rich = projectDetails[p.name]
+    if (rich) return rich
+    return {
+        whatThis: { es: p.desc.es, en: p.desc.en },
+        stack: { language: p.tech },
+        oneLiner: { es: p.desc.es, en: p.desc.en },
+    }
+})
+const hasRichDetail = (p: Project): boolean => projectDetails[p.name] !== undefined
+const openDetail = (p: Project) => {
+    activeProject.value = p
+    document.body.style.overflow = 'hidden'
+}
+const closeDetail = () => {
+    activeProject.value = null
+    document.body.style.overflow = ''
+}
+
 const specialtyList = computed(() => ([
     { id: 'cv' as const, icon: 'fa-solid fa-video', count: '10+', ...t.value.specialties.cv },
     { id: 'ai' as const, icon: 'fa-solid fa-brain', count: '6+', ...t.value.specialties.ai },
@@ -272,7 +319,9 @@ const closeCv = () => {
 }
 
 const onKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && showCv.value) closeCv()
+    if (e.key !== 'Escape') return
+    if (showCv.value) closeCv()
+    if (activeProject.value) closeDetail()
 }
 
 let reducedMotion = false
@@ -363,9 +412,10 @@ onBeforeUnmount(() => {
     <nav class="nav" aria-label="Principal">
       <a href="#hero" class="nav__brand">daniel@dev<span class="nav__brand-dot">:~$</span></a>
       <div class="nav__links">
-        <a href="#flagship">{{ t.nav.flagship }}</a>
-        <a href="#specialties">{{ t.nav.specialties }}</a>
+        <a href="#impact">{{ t.nav.impact }}</a>
+        <a href="#experience">{{ t.nav.experience }}</a>
         <a href="#projects">{{ t.nav.projects }}</a>
+        <a href="#education">{{ t.nav.education }}</a>
         <a href="#stack">{{ t.nav.stack }}</a>
         <a href="#contact">{{ t.nav.contact }}</a>
       </div>
@@ -443,6 +493,28 @@ onBeforeUnmount(() => {
       </a>
     </section>
 
+    <!-- IMPACT / WHY HIRE ME -->
+    <section id="impact" class="section" aria-labelledby="impact-title">
+      <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ git log --oneline --stat</span>
+        <h2 id="impact-title">{{ t.impact.title }}</h2>
+        <p class="section-subtitle">{{ t.impact.subtitle }}</p>
+        <div class="header-decoration" aria-hidden="true"></div>
+      </div>
+      <div class="impact__grid">
+        <article
+          v-for="(it, i) in t.impact.items" :key="it.icon"
+          class="impact-card reveal" :style="{ '--reveal-delay': `${i * 80}ms` }"
+          @mousemove="onCardMove"
+        >
+          <span class="impact-card__ic" aria-hidden="true"><i :class="it.icon"></i></span>
+          <span class="impact-card__metric">{{ it.metric }}</span>
+          <h3 class="impact-card__label">{{ it.label }}</h3>
+          <p class="impact-card__desc">{{ it.desc }}</p>
+        </article>
+      </div>
+    </section>
+
     <!-- FLAGSHIP CASE STUDY -->
     <section id="flagship" class="section" aria-labelledby="flagship-title">
       <div class="section-header reveal">
@@ -497,6 +569,39 @@ onBeforeUnmount(() => {
           <span v-for="s in flagStack" :key="s" class="flagship__tag">{{ s }}</span>
         </div>
       </article>
+    </section>
+
+    <!-- EXPERIENCE TIMELINE -->
+    <section id="experience" class="section" aria-labelledby="experience-title">
+      <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ cat experience.log</span>
+        <h2 id="experience-title">{{ t.experience.title }}</h2>
+        <p class="section-subtitle">{{ t.experience.subtitle }}</p>
+        <div class="header-decoration" aria-hidden="true"></div>
+      </div>
+      <ol class="timeline">
+        <li
+          v-for="(job, i) in t.experience.items" :key="job.company"
+          class="tl-item reveal" :data-cat="job.accent" :style="{ '--reveal-delay': `${i * 90}ms` }"
+        >
+          <span class="tl-node" aria-hidden="true"></span>
+          <div class="tl-card" @mousemove="onCardMove">
+            <div class="tl-card__head">
+              <div>
+                <h3 class="tl-card__role">{{ job.role }}</h3>
+                <p class="tl-card__company">{{ job.company }} · <span>{{ job.location }}</span></p>
+              </div>
+              <span class="tl-card__period">{{ job.period }}</span>
+            </div>
+            <ul class="tl-card__bullets">
+              <li v-for="(b, bi) in job.bullets" :key="bi"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> {{ b }}</li>
+            </ul>
+            <div class="tl-card__tags">
+              <span v-for="tg in job.tags" :key="tg" class="tl-tag">{{ tg }}</span>
+            </div>
+          </div>
+        </li>
+      </ol>
     </section>
 
     <!-- SPECIALTIES -->
@@ -560,12 +665,21 @@ onBeforeUnmount(() => {
       <TransitionGroup v-else tag="div" name="card-shuffle" class="projects__grid">
         <article
           v-for="p in filteredProjects" :key="p.name"
-          class="project-card" :data-cat="p.category"
+          class="project-card project-card--clickable" :data-cat="p.category"
+          role="button" tabindex="0"
+          :aria-label="`${t.projects.detail}: ${p.name.replace(/[_-]/g, ' ')}`"
           @mousemove="onCardMove"
+          @click="openDetail(p)"
+          @keydown.enter.prevent="openDetail(p)"
+          @keydown.space.prevent="openDetail(p)"
         >
           <div class="win-bar">
             <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
             <span class="win-bar__file">{{ fileName(p) }}</span>
+            <span class="project-card__vis" :data-vis="visOf(p)">
+              <i :class="visMeta[visOf(p)].icon" aria-hidden="true"></i>
+              {{ visMeta[visOf(p)].label[lang] }}
+            </span>
           </div>
           <div class="project-card__content">
             <div class="project-card__header">
@@ -573,7 +687,7 @@ onBeforeUnmount(() => {
                 <i :class="p.icon"></i>
               </div>
               <h3>{{ p.name.replace(/[_-]/g, ' ') }}</h3>
-              <a :href="repoUrl(p)" target="_blank" rel="noopener noreferrer" class="project-card__icon" :aria-label="`${t.projects.viewRepo}: ${p.name}`">
+              <a :href="repoUrl(p)" target="_blank" rel="noopener noreferrer" class="project-card__icon" :aria-label="`${t.projects.viewRepo}: ${p.name}`" @click.stop>
                 <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
               </a>
             </div>
@@ -583,11 +697,56 @@ onBeforeUnmount(() => {
                 <span class="tag-dot" :style="{ background: `var(--cat-${p.category})` }" aria-hidden="true"></span>
                 {{ repoTag(p) }}
               </span>
-              <span class="project-card__cat">{{ categoryLabel(p.category) }}</span>
+              <span class="project-card__more">{{ t.projects.detail }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
             </div>
           </div>
         </article>
       </TransitionGroup>
+    </section>
+
+    <!-- EDUCATION & CERTIFICATIONS -->
+    <section id="education" class="section" aria-labelledby="education-title">
+      <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ cat education.md</span>
+        <h2 id="education-title">{{ t.education.title }}</h2>
+        <p class="section-subtitle">{{ t.education.subtitle }}</p>
+        <div class="header-decoration" aria-hidden="true"></div>
+      </div>
+      <div class="edu__grid">
+        <article class="edu-card reveal" @mousemove="onCardMove">
+          <div class="win-bar">
+            <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="win-bar__file">education.db</span>
+          </div>
+          <div class="edu-card__body">
+            <h3 class="edu-card__title"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> {{ t.education.degreesTitle }}</h3>
+            <ul class="edu-list">
+              <li v-for="d in t.education.degrees" :key="d.title">
+                <span class="edu-list__main">{{ d.title }}</span>
+                <span class="edu-list__sub">{{ d.school }}</span>
+                <span class="edu-list__meta">{{ d.period }}</span>
+              </li>
+            </ul>
+            <h3 class="edu-card__title edu-card__title--lang"><i class="fa-solid fa-language" aria-hidden="true"></i> {{ t.education.langTitle }}</h3>
+            <p class="edu-lang">{{ t.education.languages }}</p>
+          </div>
+        </article>
+
+        <article class="edu-card reveal" :style="{ '--reveal-delay': '90ms' }" @mousemove="onCardMove">
+          <div class="win-bar">
+            <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="win-bar__file">certifications.db</span>
+          </div>
+          <div class="edu-card__body">
+            <h3 class="edu-card__title"><i class="fa-solid fa-certificate" aria-hidden="true"></i> {{ t.education.certsTitle }}</h3>
+            <ul class="cert-list">
+              <li v-for="c in t.education.certs" :key="c">
+                <i class="fa-solid fa-award" aria-hidden="true"></i> {{ c }}
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
     </section>
 
     <!-- STACK (marquee) -->
@@ -663,11 +822,124 @@ onBeforeUnmount(() => {
                 </button>
               </div>
             </header>
+            <div class="cv-panel__profiles" role="group" :aria-label="t.hero.cvProfile">
+              <span class="cv-panel__profiles-label" aria-hidden="true">{{ t.hero.cvProfile }}:</span>
+              <button
+                v-for="p in cvProfiles" :key="p.id"
+                class="cv-seg" :class="{ 'cv-seg--active': cvProfile === p.id }"
+                :aria-pressed="cvProfile === p.id"
+                @click="cvProfile = p.id"
+              >{{ p.label }}</button>
+              <span class="cv-panel__lang-hint" aria-hidden="true">{{ lang === 'es' ? 'ES' : 'EN' }}</span>
+            </div>
             <iframe :src="cvUrl" class="cv-panel__frame" :title="t.hero.cvTitle"></iframe>
             <p class="cv-panel__fallback">
               {{ t.hero.cvFallback }}
               <a :href="cvUrl" download>{{ t.hero.cvDownload }}</a>
             </p>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+
+    <!-- MODAL DE DETALLE DE PROYECTO -->
+    <Teleport to="body">
+      <Transition name="cv-modal">
+        <div
+          v-if="activeProject && activeDetail"
+          class="detail-overlay" @click.self="closeDetail"
+          role="dialog" aria-modal="true" :aria-label="activeProject.name"
+        >
+          <div class="detail-panel">
+            <header class="detail-panel__bar">
+              <div class="detail-panel__title">
+                <span class="detail-panel__ic" :data-cat="activeProject.category" aria-hidden="true"><i :class="activeProject.icon"></i></span>
+                <div>
+                  <h3>{{ activeProject.name.replace(/[_-]/g, ' ') }}</h3>
+                  <span class="detail-panel__vis" :data-vis="visOf(activeProject)">
+                    <i :class="visMeta[visOf(activeProject)].icon" aria-hidden="true"></i>
+                    {{ visMeta[visOf(activeProject)].label[lang] }}
+                  </span>
+                </div>
+              </div>
+              <div class="detail-panel__actions">
+                <a :href="repoUrl(activeProject)" target="_blank" rel="noopener noreferrer" class="detail-panel__btn">
+                  <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                  <span class="detail-panel__btn-label">{{ visOf(activeProject) === 'live' ? 'Live' : t.projects.viewRepo }}</span>
+                </a>
+                <button class="detail-panel__btn" @click="closeDetail" :aria-label="t.detail.close">
+                  <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+              </div>
+            </header>
+
+            <div class="detail-panel__body">
+              <p v-if="!hasRichDetail(activeProject)" class="detail-note">
+                <i class="fa-solid fa-circle-info" aria-hidden="true"></i> {{ t.detail.pending }}
+              </p>
+
+              <section class="detail-block">
+                <h4>{{ t.detail.whatThis }}</h4>
+                <p>{{ activeDetail.whatThis[lang] }}</p>
+              </section>
+
+              <section v-if="activeDetail.stack" class="detail-block">
+                <h4>{{ t.detail.stack }}</h4>
+                <ul class="detail-stack">
+                  <li v-if="activeDetail.stack.language"><span>{{ t.detail.language }}</span> {{ activeDetail.stack.language }}</li>
+                  <li v-if="activeDetail.stack.runtime"><span>{{ t.detail.runtime }}</span> {{ activeDetail.stack.runtime }}</li>
+                  <li v-if="activeDetail.stack.libs && activeDetail.stack.libs.length"><span>{{ t.detail.libs }}</span> {{ activeDetail.stack.libs.join(' · ') }}</li>
+                </ul>
+              </section>
+
+              <section v-if="activeDetail.tree" class="detail-block">
+                <h4>{{ t.detail.structure }}</h4>
+                <pre class="detail-code">{{ activeDetail.tree }}</pre>
+              </section>
+
+              <section v-if="activeDetail.howItFits" class="detail-block">
+                <h4>{{ t.detail.howItFits }}</h4>
+                <p>{{ activeDetail.howItFits[lang] }}</p>
+              </section>
+
+              <section v-if="activeDetail.practice" class="detail-block">
+                <h4>{{ t.detail.practice }}</h4>
+                <p>{{ activeDetail.practice[lang] }}</p>
+              </section>
+
+              <section v-if="activeDetail.components && activeDetail.components.length" class="detail-block">
+                <h4>{{ t.detail.components }}</h4>
+                <ul class="detail-list">
+                  <li v-for="c in activeDetail.components" :key="c.name">
+                    <code>{{ c.name }}</code> — {{ c.desc[lang] }}
+                  </li>
+                </ul>
+              </section>
+
+              <section v-if="activeDetail.run" class="detail-block">
+                <h4>{{ t.detail.run }}</h4>
+                <pre class="detail-code">{{ activeDetail.run }}</pre>
+              </section>
+
+              <section v-if="activeDetail.requirements && activeDetail.requirements.length" class="detail-block">
+                <h4>{{ t.detail.requirements }}</h4>
+                <ul class="detail-list">
+                  <li v-for="(r, i) in activeDetail.requirements" :key="i">{{ r[lang] }}</li>
+                </ul>
+              </section>
+
+              <section class="detail-block detail-block--oneliner">
+                <h4>{{ t.detail.oneLiner }}</h4>
+                <p>{{ activeDetail.oneLiner[lang] }}</p>
+              </section>
+
+              <section v-if="activeDetail.ask && activeDetail.ask.length" class="detail-block">
+                <h4>{{ t.detail.ask }}</h4>
+                <ul class="detail-list detail-list--ask">
+                  <li v-for="(q, i) in activeDetail.ask" :key="i"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> {{ q }}</li>
+                </ul>
+              </section>
+            </div>
           </div>
         </div>
       </Transition>
@@ -1982,6 +2254,475 @@ onBeforeUnmount(() => {
 
 @media (prefers-reduced-motion: reduce) {
   .flagship::after { animation: none; }
+}
+
+/* ===== PROJECT CARD: visibilidad + hint de detalle ===== */
+.project-card--clickable { cursor: pointer; }
+.project-card--clickable:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.project-card__vis {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+}
+.project-card__vis[data-vis='public'] { color: var(--emerald-400); border-color: rgba(57, 255, 136, 0.35); background: rgba(57, 255, 136, 0.08); }
+.project-card__vis[data-vis='private'] { color: var(--ivory-400); background: rgba(120, 120, 120, 0.1); }
+.project-card__vis[data-vis='live'] { color: var(--cyan-400); border-color: rgba(107, 229, 253, 0.35); background: rgba(107, 229, 253, 0.08); }
+
+.project-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-xs);
+  font-family: var(--font-display);
+  color: var(--color-accent);
+  transition: gap var(--duration-base) var(--ease-smooth);
+}
+.project-card:hover .project-card__more { gap: 10px; }
+
+/* ===== MODAL DE DETALLE DE PROYECTO ===== */
+.detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  background: var(--color-glass-deep);
+  backdrop-filter: blur(8px);
+}
+.detail-panel {
+  width: min(860px, 100%);
+  max-height: 88dvh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(160deg, var(--blue-800) 0%, var(--blue-950) 100%);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3), var(--glow-web);
+  overflow: hidden;
+}
+.detail-panel__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--win-bar-bg);
+}
+.detail-panel__title { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+.detail-panel__ic {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: rgba(57, 255, 136, 0.1);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-accent);
+}
+.detail-panel__ic[data-cat='cv'] { color: var(--cat-cv); border-color: rgba(107, 229, 253, 0.4); background: rgba(107, 229, 253, 0.1); }
+.detail-panel__ic[data-cat='ai'] { color: var(--cat-ai); border-color: rgba(255, 121, 198, 0.4); background: rgba(255, 121, 198, 0.1); }
+.detail-panel__ic[data-cat='api'] { color: var(--cat-api); border-color: rgba(255, 180, 84, 0.4); background: rgba(255, 180, 84, 0.1); }
+.detail-panel__title h3 {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  margin: 0;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.detail-panel__vis {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-family: var(--font-display);
+  color: var(--color-text-muted);
+}
+.detail-panel__vis[data-vis='public'] { color: var(--emerald-400); }
+.detail-panel__vis[data-vis='live'] { color: var(--cyan-400); }
+.detail-panel__actions { display: flex; gap: var(--space-2); flex: none; }
+.detail-panel__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--btn-radius);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: border-color var(--duration-base) ease, background var(--duration-base) ease;
+}
+.detail-panel__btn:hover { border-color: var(--color-border-strong); background: rgba(57, 255, 136, 0.08); }
+.detail-panel__body {
+  padding: var(--space-6);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.detail-note {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--amber-400);
+  background: rgba(255, 180, 84, 0.08);
+  border: 1px solid rgba(255, 180, 84, 0.25);
+  border-radius: var(--radius-md);
+}
+.detail-block h4 {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  margin: 0 0 var(--space-2);
+}
+.detail-block > p { color: var(--color-text); font-size: var(--text-base); line-height: 1.7; margin: 0; }
+.detail-block--oneliner > p {
+  padding: var(--space-4);
+  border-left: 3px solid var(--color-accent);
+  background: rgba(57, 255, 136, 0.05);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-style: italic;
+}
+.detail-stack { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.detail-stack li { font-size: var(--text-sm); color: var(--color-text); }
+.detail-stack li span {
+  display: inline-block;
+  min-width: 150px;
+  color: var(--color-text-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+}
+.detail-code {
+  margin: 0;
+  padding: var(--space-4);
+  background: var(--blue-950);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--ivory-100);
+  white-space: pre;
+  overflow-x: auto;
+}
+.detail-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.detail-list li { font-size: var(--text-sm); color: var(--color-text); line-height: 1.6; }
+.detail-list code {
+  font-family: var(--font-display);
+  color: var(--cyan-400);
+  background: rgba(107, 229, 253, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+.detail-list--ask li { color: var(--color-text-muted); }
+.detail-list--ask i { color: var(--color-accent); margin-right: 4px; }
+
+@media (max-width: 560px) {
+  .detail-overlay { padding: 0; }
+  .detail-panel { max-height: 100dvh; height: 100dvh; border-radius: 0; }
+  .detail-panel__btn-label { display: none; }
+}
+
+/* ===== IMPACT / WHY HIRE ME ===== */
+.impact__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: var(--space-6);
+}
+
+.impact-card {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--card-radius);
+  background: var(--card-bg);
+  border: var(--card-border);
+  backdrop-filter: blur(16px);
+  transition: transform var(--duration-base) var(--ease-smooth), box-shadow var(--duration-base) ease, border-color var(--duration-base) ease;
+}
+
+.impact-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(300px circle at var(--mx) var(--my), rgba(57, 255, 136, 0.08), transparent 65%);
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+  pointer-events: none;
+}
+
+.impact-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-2), var(--glow-web);
+}
+
+.impact-card:hover::before { opacity: 1; }
+
+.impact-card__ic {
+  display: inline-grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+  color: var(--color-accent);
+  background: rgba(57, 255, 136, 0.1);
+  border: 1px solid var(--color-border-strong);
+  position: relative;
+  z-index: 1;
+}
+
+.impact-card__metric {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  line-height: 1.1;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.impact-card__label {
+  font-size: var(--text-base);
+  color: var(--color-text);
+  position: relative;
+  z-index: 1;
+}
+
+.impact-card__desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== EXPERIENCE TIMELINE ===== */
+.timeline {
+  list-style: none;
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 var(--space-8);
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 7px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--color-accent), var(--cyan-400), rgba(57, 255, 136, 0.1));
+}
+
+.tl-item {
+  position: relative;
+  padding-bottom: var(--space-8);
+}
+.tl-item:last-child { padding-bottom: 0; }
+
+.tl-node {
+  position: absolute;
+  left: calc(-1 * var(--space-8) + 1px);
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 3px solid var(--color-accent);
+  box-shadow: 0 0 12px rgba(57, 255, 136, 0.5);
+}
+.tl-item[data-cat='cv'] .tl-node { border-color: var(--cat-cv); box-shadow: 0 0 12px rgba(107, 229, 253, 0.5); }
+.tl-item[data-cat='ai'] .tl-node { border-color: var(--cat-ai); box-shadow: 0 0 12px rgba(255, 121, 198, 0.5); }
+.tl-item[data-cat='web'] .tl-node { border-color: var(--cat-web); box-shadow: 0 0 12px rgba(57, 255, 136, 0.5); }
+.tl-item[data-cat='api'] .tl-node { border-color: var(--cat-api); box-shadow: 0 0 12px rgba(255, 180, 84, 0.5); }
+
+.tl-card {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-6);
+  border-radius: var(--card-radius);
+  background: var(--card-bg);
+  border: var(--card-border);
+  backdrop-filter: blur(16px);
+  transition: transform var(--duration-base) var(--ease-smooth), border-color var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+.tl-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(360px circle at var(--mx) var(--my), rgba(57, 255, 136, 0.06), transparent 65%);
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+  pointer-events: none;
+}
+.tl-card:hover { transform: translateX(4px); border-color: var(--color-border-strong); box-shadow: var(--shadow-2); }
+.tl-card:hover::before { opacity: 1; }
+
+.tl-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+.tl-card__role { font-size: var(--text-lg); color: var(--color-text); }
+.tl-card__company { font-size: var(--text-sm); color: var(--color-accent); font-weight: 600; margin-top: 2px; }
+.tl-card__company span { color: var(--color-text-muted); font-weight: 400; }
+.tl-card__period {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--ivory-600);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.tl-card__bullets { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); position: relative; z-index: 1; }
+.tl-card__bullets li { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; padding-left: 1.4em; text-indent: -1.4em; }
+.tl-card__bullets i { color: var(--color-accent); margin-right: 0.5em; }
+
+.tl-card__tags { display: flex; flex-wrap: wrap; gap: var(--space-2); position: relative; z-index: 1; }
+.tl-tag {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  padding: var(--space-1) var(--space-3);
+  background: rgba(14, 26, 18, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+/* ===== EDUCATION & CERTIFICATIONS ===== */
+.edu__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+@media (min-width: 780px) {
+  .edu__grid { grid-template-columns: 1fr 1fr; }
+}
+
+.edu-card {
+  overflow: hidden;
+  border-radius: var(--card-radius);
+  background: var(--card-bg);
+  border: var(--card-border);
+  backdrop-filter: blur(16px);
+  transition: transform var(--duration-base) var(--ease-smooth), border-color var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+.edu-card:hover { transform: translateY(-4px); border-color: var(--color-border-strong); box-shadow: var(--shadow-2), var(--glow-cv); }
+
+.edu-card__body { padding: var(--space-6); }
+
+.edu-card__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+  color: var(--color-accent);
+  margin-bottom: var(--space-4);
+}
+.edu-card__title--lang { margin-top: var(--space-6); }
+.edu-card__title i { font-size: var(--text-md); }
+
+.edu-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+.edu-list li { display: flex; flex-direction: column; gap: 2px; padding-left: var(--space-4); border-left: 2px solid var(--color-border-strong); }
+.edu-list__main { font-size: var(--text-base); color: var(--color-text); font-weight: 600; }
+.edu-list__sub { font-size: var(--text-sm); color: var(--color-text-muted); }
+.edu-list__meta { font-family: var(--font-display); font-size: var(--text-xs); color: var(--ivory-600); letter-spacing: 0.04em; }
+
+.edu-lang { font-size: var(--text-sm); color: var(--color-text); }
+
+.cert-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.cert-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+.cert-list i { color: var(--amber-400); margin-top: 3px; flex: none; }
+
+/* ===== CV PROFILE SELECTOR ===== */
+.cv-panel__profiles {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(6, 10, 8, 0.6);
+}
+.cv-panel__profiles-label {
+  font-size: var(--text-xs);
+  color: var(--ivory-600);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.cv-seg {
+  min-height: 36px;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: all var(--duration-fast) ease;
+}
+.cv-seg:hover { color: var(--color-text); border-color: var(--color-border-strong); }
+.cv-seg--active {
+  color: var(--blue-950);
+  background: var(--grad-accent);
+  border-color: transparent;
+  box-shadow: 0 0 14px rgba(57, 255, 136, 0.3);
+}
+.cv-panel__lang-hint {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
 }
 
 /* ===== FOOTER ===== */
