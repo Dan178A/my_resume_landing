@@ -53,12 +53,13 @@ const flagMetricDefs = [{ n: 94, suffix: '+' }, { n: 19, suffix: '' }, { n: 6, s
 const flagIcons = ['fa-solid fa-wand-magic-sparkles', 'fa-solid fa-code-compare', 'fa-solid fa-wallet', 'fa-solid fa-gauge-high']
 const flagMetrics = computed(() => flagMetricDefs.map((d, i) => ({ ...d, label: t.value.flagship.metrics[i] })))
 const flagFeatures = computed(() => t.value.flagship.features.map((f, i) => ({ icon: flagIcons[i], ...f })))
-const flagValues = ref([0, 0, 0])
+const flagValues = ref(flagMetricDefs.map(m => m.n))
 let flagAnimated = false
 const animateFlagStats = () => {
     if (flagAnimated) return
     flagAnimated = true
     if (reducedMotion) { flagValues.value = flagMetricDefs.map(m => m.n); return }
+    flagValues.value = flagMetricDefs.map(() => 0)
     const dur = 1200
     const start = performance.now()
     const tick = (now: number) => {
@@ -242,7 +243,7 @@ const statDefs = computed(() => ([
     { n: 4, suffix: '', label: t.value.stats.areas },
     { n: 1, suffix: '', label: t.value.stats.thesis },
 ]))
-const statValues = ref([0, 0, 0, 0])
+const statValues = ref(statDefs.value.map(s => s.n))
 let statsAnimated = false
 
 const animateStats = () => {
@@ -252,6 +253,7 @@ const animateStats = () => {
         statValues.value = statDefs.value.map(s => s.n)
         return
     }
+    statValues.value = statDefs.value.map(() => 0)
     const duration = 1200
     const start = performance.now()
     const tick = (now: number) => {
@@ -657,12 +659,7 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
-      <div v-if="loading" class="projects__status">
-        <div class="spinner" role="status" :aria-label="t.projects.loading"></div>
-        <p>{{ t.projects.loading }}</p>
-      </div>
-
-      <TransitionGroup v-else tag="div" name="card-shuffle" class="projects__grid">
+      <TransitionGroup tag="div" name="card-shuffle" class="projects__grid">
         <article
           v-for="p in filteredProjects" :key="p.name"
           class="project-card project-card--clickable" :data-cat="p.category"
