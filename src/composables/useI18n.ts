@@ -44,7 +44,7 @@ const messages = {
             thesis: 'Tesis en estabilización de video',
         },
         impact: {
-            title: 'Por qué contratarme',
+            title: '¿Por qué contratar a Daniel Silva?',
             subtitle: 'Resultados medibles en sistemas de producción, no demos.',
             items: [
                 { icon: 'fa-solid fa-gauge-high', metric: '1–10 ms', label: 'Latencia en tiempo real', desc: 'Rediseñé dashboards con una arquitectura WebSocket full-duplex: de 200–500 ms a 1–10 ms y hasta −95% de ancho de banda.' },
@@ -54,7 +54,7 @@ const messages = {
             ],
         },
         experience: {
-            title: 'Experiencia',
+            title: '¿Dónde ha trabajado Daniel Silva?',
             subtitle: 'Cinco años enviando software a producción en paralelo a mi formación.',
             present: 'Presente',
             items: [
@@ -136,7 +136,7 @@ const messages = {
             ],
         },
         specialties: {
-            title: 'Especialidades',
+            title: '¿En qué se especializa Daniel Silva?',
             subtitle: 'Cuatro frentes, un mismo estándar de ingeniería.',
             cv: {
                 title: 'Visión por Computadora',
@@ -156,7 +156,7 @@ const messages = {
             },
         },
         projects: {
-            title: 'Proyectos Destacados',
+            title: '¿Qué proyectos ha construido Daniel Silva?',
             subtitle: 'Selección curada de mi trabajo en GitHub.',
             all: 'Todos',
             loading: 'Cargando innovación...',
@@ -182,7 +182,7 @@ const messages = {
             close: 'Cerrar',
         },
         stack: {
-            title: 'Stack Tecnológico',
+            title: '¿Con qué tecnologías trabaja Daniel Silva?',
             subtitle: 'Herramientas que uso a diario.',
         },
         contact: {
@@ -220,7 +220,7 @@ const messages = {
             thesis: 'Thesis on video stabilization',
         },
         impact: {
-            title: 'Why hire me',
+            title: 'Why hire Daniel Silva?',
             subtitle: 'Measurable results in production systems, not demos.',
             items: [
                 { icon: 'fa-solid fa-gauge-high', metric: '1–10 ms', label: 'Real-time latency', desc: 'Redesigned dashboards with a full-duplex WebSocket architecture: from 200–500 ms down to 1–10 ms and up to −95% bandwidth.' },
@@ -230,7 +230,7 @@ const messages = {
             ],
         },
         experience: {
-            title: 'Experience',
+            title: 'Where has Daniel Silva worked?',
             subtitle: 'Five years shipping software to production alongside my degree.',
             present: 'Present',
             items: [
@@ -312,7 +312,7 @@ const messages = {
             ],
         },
         specialties: {
-            title: 'Specialties',
+            title: 'What does Daniel Silva specialize in?',
             subtitle: 'Four fronts, one engineering standard.',
             cv: {
                 title: 'Computer Vision',
@@ -332,7 +332,7 @@ const messages = {
             },
         },
         projects: {
-            title: 'Featured Projects',
+            title: 'What has Daniel Silva built?',
             subtitle: 'A curated selection of my work on GitHub.',
             all: 'All',
             loading: 'Loading innovation...',
@@ -358,7 +358,7 @@ const messages = {
             close: 'Close',
         },
         stack: {
-            title: 'Tech Stack',
+            title: 'Which technologies does Daniel Silva work with?',
             subtitle: 'Tools I use every day.',
         },
         contact: {
