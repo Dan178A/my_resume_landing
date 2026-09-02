@@ -144,3 +144,90 @@ capturas + README estilizado), sitio bilingüe con URL `/en` real, separar el "s
 `name`, funciona pero es un acoplamiento a tener en cuenta si se agregan más proyectos).
 
 **Status:** DONE.
+
+## 8. Addendum — riesgo de confidencialidad en Camara_OCR_Python (fuera de plan, corregido)
+
+Daniel detectó que la entrada `Camara_OCR_Python` en `projectDetails.ts` nombraba a un cliente
+(VIAAC) y describía en detalle la arquitectura de su sistema de inspección (nombres de clases
+internas, protocolo/puerto de integración por UDP, estructura exacta de las hojas del Excel de
+datos) — expuesto tanto en el código fuente del repo público `my_resume_landing` como, en texto
+plano, dentro del bundle de JavaScript que se sirve a cualquier visitante.
+
+Se reescribió la entrada para quedarse en un nivel general: qué hace la herramienta y qué problema
+resuelve, sin nombrar al cliente ni describir la integración/protocolo/esquema de datos internos. Se
+fijó `visibility: 'private'` explícito (antes dependía solo de la detección automática). Verificado
+con `grep` sobre el `dist/` final (HTML + JS ya compilados): 0 apariciones de los términos sensibles
+(`OcrListener`, `DrumDataManager`, `InspectionFileManager`, nombres de hojas del Excel, puerto UDP).
+Las 2 menciones de "VIAAC" que quedan en el sitio son el nombre del cliente en la sección de
+experiencia laboral (currículum), no relacionadas con este hallazgo — es información normal de un CV,
+no interna de ningún sistema.
+
+De paso, usando los README reales que Daniel adjuntó, se completaron las entradas README-style de
+`projectDetails.ts` para 5 proyectos que antes solo tenían la descripción corta de la card:
+`Socket-Communication-System`, `extract_rif`, `System_Stabilitation_Interpolation`,
+`RealtimeVoiceAssistant` y `Traffic_Simulation_Model`. Esto sigue siendo contenido para el modal
+existente (no páginas nuevas — eso sigue siendo Fase 2), pero como el modal ahora es SSR-friendly
+gracias a la Fase 1, este contenido ya mejora directamente lo que ve un buscador/IA generativa aunque
+el usuario nunca haga clic para abrirlo.
+
+## 9. CEO review del estado actual (`gs-ceo-review`, 2026-09-02)
+
+**Pregunta que originó esta revisión:** ¿puede hoy una IA, scraper o crawler leer la página a la
+perfección? Se verificó de forma empírica sobre `dist/index.html` (el HTML que de verdad se sirve,
+sin ejecutar JS) en vez de asumir.
+
+**Mode:** HOLD SCOPE para lo ya implementado (Fase 1 completa, verificada bulletproof en la revisión
+anterior) + SELECTIVE EXPANSION para cerrar el hallazgo nuevo de esta sección — se presentan
+alternativas para elegir, no se decide en silencio.
+
+### Los 3 desafíos más fuertes
+
+1. **El contenido más valioso para GEO es invisible para cualquier crawler.** Las 8 fichas
+   README-style en `projectDetails.ts` (DropAudio CCS, Camara_OCR_Python, Socket-Communication-System,
+   extract_rif, System_Stabilitation_Interpolation, RealtimeVoiceAssistant, Traffic_Simulation_Model,
+   FlowNet_Video_Stabilization) viven dentro de un modal con `v-if="activeProject"`, que es `false`
+   hasta que un humano hace clic. Verificado con `grep` sobre `dist/index.html`: 0 apariciones de
+   "PWC-Net", "Resend", "pdfplumber", "python-socketio", "MLPRegressor", "grid_sample" — y 0
+   apariciones de las clases `detail-panel`/`detail-overlay` en sí. Un crawler que no ejecuta JS (la
+   mayoría de los bots de IA) o que no simula el clic nunca ve ese contenido, por bueno que sea. Lo
+   que SÍ es visible: la descripción corta de cada card, la sección "Caso destacado" (DropAudio CCS,
+   siempre renderizada), y todo el JSON-LD (Person/WebSite/ProfilePage/FAQPage/ContactPoint).
+2. **Nada de esto está desplegado todavía.** Todo el trabajo de esta sesión vive sin comittear en el
+   repo local. Hasta que se haga commit + push a `main` (repo conectado a
+   `github.com/Dan178A/my_resume_landing`, con Vercel desplegando desde ahí), el sitio en producción
+   sigue exactamente como estaba antes de empezar — cero efecto real todavía.
+3. **`knownPublicRepos` es una foto fija, no una fuente de verdad viva.** Se calculó una sola vez
+   contra la API de GitHub el 2026-09-02. Si en el futuro Daniel privatiza uno de esos 7 repos, el
+   sitio lo seguirá anunciando como "Público" indefinidamente y sin ningún aviso — es un fallo
+   silencioso a 6 meses vista. Aceptable para un sitio personal de bajo riesgo, pero debe quedar
+   escrito, no asumido.
+
+### Alternativas de implementación para cerrar el hallazgo #1 (elegir una)
+
+| Opción | Qué hace | Esfuerzo | Riesgo |
+|---|---|---|---|
+| **A. Solo structured data** | Agregar cada ficha como `SoftwareSourceCode`/`CreativeWork` en el JSON-LD del `<head>`. Sin cambios visuales. | S | Ninguno — es exactamente el patrón que ya funcionó con FAQPage/ContactPoint. |
+| **B. Contenido SSR oculto visualmente** | Renderizar el detalle en el DOM siempre (SSR-safe), colapsado con CSS hasta el clic — patrón de acordeón, aceptado por Google si el contenido oculto es el mismo que se muestra al interactuar. | M | Bajo, pero es complejidad que la Opción C vuelve redundante. |
+| **C. Páginas dedicadas por proyecto (Fase 2 ya acordada)** | Rutas propias prerenderizadas por proyecto, con capturas y el README estilizado — resuelve esto Y el problema original ("repo privado = callejón sin salida") Y da URLs compartibles. | L/XL | El de siempre: más superficie, necesita pasada de diseño (`ui-ux-pro-max`). |
+
+**Recomendación:** hacer A ahora — es barato, no toca nada visual y usa el mismo patrón que ya
+funcionó. Tratar B como innecesaria (si C se construye, B queda redundante). Mantener C como el
+objetivo real de Fase 2 cuando haya tiempo para la pasada de diseño.
+
+### Accepted scope
+Todo lo implementado hasta ahora (Fase 1 completa + 8 fichas de contenido) se mantiene — ya pasó su
+propia revisión bulletproof.
+
+### Deferred (con motivo)
+- Opción C (páginas dedicadas): Fase 2, requiere diseño y las 4 fichas de contenido restantes.
+- Revalidación periódica de `knownPublicRepos`: aceptado como riesgo de bajo impacto por ahora,
+  documentado para no olvidarlo.
+
+### NOT in scope
+Rediseño general del sitio, CMS, o sitio bilingüe con URLs reales — siguen fuera, sin cambios desde
+la Fase 1.
+
+### Status: DONE_WITH_CONCERNS
+Fase 1 es sólida y verificada. La preocupación real y accionable es el hallazgo #1 (contenido rico
+invisible a crawlers) — sin resolver todavía, en espera de que Daniel elija A/B/C. El desbloqueo más
+urgente en la práctica sigue siendo el #2: nada de esto existe en producción hasta que se despliegue.
