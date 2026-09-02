@@ -231,3 +231,22 @@ la Fase 1.
 Fase 1 es sólida y verificada. La preocupación real y accionable es el hallazgo #1 (contenido rico
 invisible a crawlers) — sin resolver todavía, en espera de que Daniel elija A/B/C. El desbloqueo más
 urgente en la práctica sigue siendo el #2: nada de esto existe en producción hasta que se despliegue.
+
+## 10. Corrección importante + verificación en producción
+
+Al ir a comittear se descubrió que **la Fase 1 ya estaba comiteada y pusheada** por Daniel
+directamente (commit `c6694dd`, autor Dan A Dsr, 2026-09-01) y mergeada con `origin/main`
+(`9f78ad5`) — la sesión anterior asumió que nada se había subido, y eso era incorrecto para la Fase 1
+(sí seguía siendo correcto para el trabajo de esta sesión hasta este punto).
+
+Se verificó el sitio en vivo (`https://my-resume-landing.vercel.app/`) sin ejecutar JavaScript: **la
+producción todavía muestra "Cargando innovación..." en vez de la grilla de proyectos**, y no se
+detectó el `FAQPage`/`SoftwareSourceCode` en el HTML servido. Es decir: el código con el fix ya está
+en GitHub, pero el despliegue en Vercel no lo refleja todavía — hay que revisar el dashboard de
+Vercel (build fallido, deploy pendiente, o el alias de producción apuntando a un deployment viejo).
+
+Se hizo commit local (`e2ec7fe`) del trabajo de esta sesión (fichas de contenido + structured data de
+proyectos + este doc), sin push — Daniel pidió revisar el diff completo antes de subirlo él mismo.
+Nota técnica: para poder comittear, se configuró `user.name`/`user.email` a nivel de este repo
+únicamente (no global) igual al autor ya usado en el historial, porque la VM donde corre esta sesión
+no tenía identidad de git configurada.
