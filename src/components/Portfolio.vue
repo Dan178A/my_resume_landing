@@ -123,7 +123,7 @@ const projects: Project[] = [
         },
     },
     {
-        name: 'Web_SorteosEDJ', category: 'web', icon: 'fa-solid fa-ticket', tech: 'Nuxt 3 · TypeScript',
+        name: 'SorteosEDJ', category: 'web', icon: 'fa-solid fa-ticket', tech: 'Nuxt 3 · TypeScript',
         desc: {
             es: 'Plataforma de sorteos en producción construida con Nuxt 3: gestión de rifas, participantes y resultados.',
             en: 'Production raffle platform built with Nuxt 3: raffle, participant and results management.',
@@ -144,7 +144,7 @@ const projects: Project[] = [
         },
     },
     {
-        name: 'extract-rif', category: 'api', icon: 'fa-solid fa-file-invoice', tech: 'FastAPI · PaddleOCR',
+        name: 'extract_rif', category: 'api', icon: 'fa-solid fa-file-invoice', tech: 'FastAPI · PaddleOCR',
         desc: {
             es: 'Microservicio HTTP que extrae datos estructurados del RIF (SENIAT) desde PDF o imagen con OCR de doble motor.',
             en: 'HTTP microservice extracting structured RIF (SENIAT) data from PDFs or images with a dual-engine OCR pipeline.',
@@ -186,18 +186,30 @@ const filteredProjects = computed(() =>
 
 /* Enriquecimiento opcional con la API de GitHub */
 const apiRepos = ref<Map<string, GitHubRepo>>(new Map())
-const loading = ref(true)
 
 const repoUrl = (p: Project): string =>
     p.url ?? apiRepos.value.get(p.name)?.html_url ?? `https://github.com/${githubUsername}/${p.name}`
 const repoTag = (p: Project): string => apiRepos.value.get(p.name)?.language ?? p.tech
 
-/* Visibilidad del repo: override manual, o público si la API de GitHub lo devuelve */
+/* Repos confirmados públicos manualmente (verificado contra la API de GitHub):
+   evita que la grilla los muestre como "Privado" en SSR o antes de que resuelva
+   el fetch de enriquecimiento, que solo corre en el cliente. */
+const knownPublicRepos = new Set([
+    'System_Stabilitation_Interpolation',
+    'FlowNet_Video_Stabilization',
+    'RealtimeVoiceAssistant',
+    'Traffic_Simulation_Model',
+    'SorteosEDJ',
+    'extract_rif',
+    'Socket-Communication-System',
+])
+
+/* Visibilidad del repo: override manual, público conocido, o público si la API de GitHub lo devuelve */
 type Vis = 'public' | 'private' | 'live'
 const visOf = (p: Project): Vis => {
     const ov = projectDetails[p.name]?.visibility
     if (ov) return ov
-    return apiRepos.value.has(p.name) ? 'public' : 'private'
+    return (knownPublicRepos.has(p.name) || apiRepos.value.has(p.name)) ? 'public' : 'private'
 }
 const visMeta: Record<Vis, { icon: string; label: { es: string; en: string } }> = {
     public: { icon: 'fa-brands fa-github', label: { es: 'Público', en: 'Public' } },
@@ -384,9 +396,7 @@ onMounted(async () => {
             const data = (await res.json()) as GitHubRepo[]
             apiRepos.value = new Map(data.map(r => [r.name, r]))
         }
-    } catch { /* la metadata local cubre el fallback */ } finally {
-        loading.value = false
-    }
+    } catch { /* la metadata local + knownPublicRepos cubren el fallback */ }
 })
 
 onBeforeUnmount(() => {
@@ -657,12 +667,7 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
-      <div v-if="loading" class="projects__status">
-        <div class="spinner" role="status" :aria-label="t.projects.loading"></div>
-        <p>{{ t.projects.loading }}</p>
-      </div>
-
-      <TransitionGroup v-else tag="div" name="card-shuffle" class="projects__grid">
+      <TransitionGroup tag="div" name="card-shuffle" class="projects__grid">
         <article
           v-for="p in filteredProjects" :key="p.name"
           class="project-card project-card--clickable" :data-cat="p.category"
