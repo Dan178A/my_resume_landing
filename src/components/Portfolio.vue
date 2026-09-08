@@ -1,10 +1,16 @@
 <script setup lang="ts">
 /* Landing premium: aurora bg, tilt 3D, spotlight, marquee, count-up, i18n */
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useI18n, type Lang } from '../composables/useI18n'
+import { useI18n, rememberLang, pathForLang, type Lang } from '../composables/useI18n'
 import { projectDetails, type ProjectDetail } from '../composables/projectDetails'
 
-const { lang, t, toggleLang } = useI18n()
+const { lang, t } = useI18n()
+
+/* Cambiar de idioma es navegar a la otra URL: un enlace real que los
+   crawlers pueden seguir, y una carga completa con su propio head. */
+const otherLang = computed<Lang>(() => (lang.value === 'es' ? 'en' : 'es'))
+const otherLangHref = computed(() => pathForLang(otherLang.value))
+const rememberOtherLang = () => rememberLang(otherLang.value)
 
 interface GitHubRepo {
     id: number
@@ -18,6 +24,7 @@ type Category = 'cv' | 'ai' | 'web' | 'api'
 
 interface Project {
     name: string
+    title?: string
     category: Category
     icon: string
     tech: string
@@ -146,7 +153,7 @@ const cvProfiles = computed(() => ([
 /* Caso destacado: DropAudio CCS */
 const dropUrl = 'https://dropaudioccs.com'
 const dropDemoUrl = 'https://dropaudioccs.com/asesorate'
-const dropBoardUrl = '/dropaudioccs-portafolio.html'
+const dropBoardUrl = '/dropaudioccs-portafolio'
 const flagStack = ['Nuxt 3', 'Vue 3 · SSR', 'Supabase', 'PostgreSQL · RLS', 'Vercel', 'Web Push', 'Tailwind']
 const flagMetricDefs = [{ n: 102, suffix: '+' }, { n: 19, suffix: '' }, { n: 6, suffix: '' }]
 const flagIcons = ['fa-solid fa-wand-magic-sparkles', 'fa-solid fa-code-compare', 'fa-solid fa-wallet', 'fa-solid fa-gauge-high']
@@ -181,7 +188,7 @@ const projects: Project[] = [
         },
     },
     {
-        name: 'System_Stabilitation_Interpolation', category: 'cv', icon: 'fa-solid fa-video', tech: 'Python · OpenCV',
+        name: 'System_Stabilitation_Interpolation', title: 'System Stabilization Interpolation', category: 'cv', icon: 'fa-solid fa-video', tech: 'Python · OpenCV',
         desc: {
             es: 'Sistema de estabilización de video para dispositivos móviles usando mallas de movimiento e interpolación — tesis de grado.',
             en: 'Video stabilization system for mobile devices using motion meshes and interpolation — undergraduate thesis.',
@@ -209,41 +216,6 @@ const projects: Project[] = [
         },
     },
     {
-        name: 'Traffic_Simulation_Model', category: 'ai', icon: 'fa-solid fa-traffic-light', tech: 'Python',
-        desc: {
-            es: 'Modelo macroscópico de simulación de tráfico vehicular: interacción entre vehículos y semáforos en intersecciones.',
-            en: 'Macroscopic traffic simulation model: interaction between vehicles and traffic signals at intersections.',
-        },
-    },
-    {
-        name: 'cyrpto_chart', category: 'ai', icon: 'fa-solid fa-chart-line', tech: 'JS · Python',
-        desc: {
-            es: 'Gráficos de criptomonedas con la API de CoinGecko, Highcharts y regresión lineal dinámica.',
-            en: 'Crypto charting with the CoinGecko API, Highcharts and dynamic linear regression.',
-        },
-    },
-    {
-        name: 'SorteosEDJ', category: 'web', icon: 'fa-solid fa-ticket', tech: 'Nuxt 3 · TypeScript',
-        desc: {
-            es: 'Plataforma de sorteos en producción construida con Nuxt 3: gestión de rifas, participantes y resultados.',
-            en: 'Production raffle platform built with Nuxt 3: raffle, participant and results management.',
-        },
-    },
-    {
-        name: 'Sistema-Rifa-JS', category: 'web', icon: 'fa-solid fa-gift', tech: 'JavaScript',
-        desc: {
-            es: 'Sistema de rifas con exportación a Excel, persistencia en LocalStorage y visualización con gráficos.',
-            en: 'Raffle system with Excel export, LocalStorage persistence and chart visualization.',
-        },
-    },
-    {
-        name: 'cashea_clone', category: 'web', icon: 'fa-solid fa-mobile-screen-button', tech: 'React Native · Expo',
-        desc: {
-            es: 'Clon móvil de la app Cashea construido con React Native y Expo.',
-            en: 'Mobile clone of the Cashea app built with React Native and Expo.',
-        },
-    },
-    {
         name: 'extract_rif', category: 'api', icon: 'fa-solid fa-file-invoice', tech: 'FastAPI · PaddleOCR',
         desc: {
             es: 'Microservicio HTTP que extrae datos estructurados del RIF (SENIAT) desde PDF o imagen con OCR de doble motor.',
@@ -255,13 +227,6 @@ const projects: Project[] = [
         desc: {
             es: 'API pública en FastAPI con datos de las acciones listadas en la Bolsa de Valores de Caracas.',
             en: 'Public FastAPI serving data on stocks listed on the Caracas Stock Exchange.',
-        },
-    },
-    {
-        name: 'Socket-Communication-System', category: 'api', icon: 'fa-solid fa-network-wired', tech: 'Python · Sockets',
-        desc: {
-            es: 'Sistema de comunicación cliente-servidor sobre sockets TCP con protocolo propio.',
-            en: 'Client-server communication system over TCP sockets with a custom protocol.',
         },
     },
 ]
@@ -298,10 +263,7 @@ const knownPublicRepos = new Set([
     'System_Stabilitation_Interpolation',
     'FlowNet_Video_Stabilization',
     'RealtimeVoiceAssistant',
-    'Traffic_Simulation_Model',
-    'SorteosEDJ',
     'extract_rif',
-    'Socket-Communication-System',
 ])
 
 /* Visibilidad del repo: override manual, público conocido, o público si la API de GitHub lo devuelve */
@@ -415,8 +377,10 @@ const tickClock = () => {
 
 /* Nombre de archivo retro por proyecto */
 const fileExt: Record<Category, string> = { cv: '.py', ai: '.exe', web: '.vue', api: '.sh' }
+const displayName = (p: Project): string => p.title ?? p.name.replace(/[_-]/g, ' ')
+
 const fileName = (p: Project): string =>
-    p.name.toLowerCase().replace(/[^a-z0-9]+/g, '_') + fileExt[p.category]
+    (p.title ?? p.name).toLowerCase().replace(/[^a-z0-9]+/g, '_') + fileExt[p.category]
 
 /* Visor de CV en modal */
 const showCv = ref(false)
@@ -532,9 +496,9 @@ onBeforeUnmount(() => {
       </div>
       <div class="nav__right">
         <span class="nav__clock" aria-hidden="true">{{ clock }}</span>
-        <button class="nav__lang" @click="toggleLang" :aria-label="lang === 'es' ? 'Switch to English' : 'Cambiar a español'">
+        <a class="nav__lang" :href="otherLangHref" :hreflang="otherLang" @click="rememberOtherLang" :aria-label="lang === 'es' ? 'Switch to English' : 'Cambiar a español'">
           <i class="fa-solid fa-globe" aria-hidden="true"></i> {{ lang === 'es' ? 'EN' : 'ES' }}
-        </button>
+        </a>
       </div>
     </nav>
 
@@ -875,7 +839,7 @@ onBeforeUnmount(() => {
           v-for="p in filteredProjects" :key="p.name"
           class="project-card project-card--clickable" :data-cat="p.category"
           role="button" tabindex="0"
-          :aria-label="`${t.projects.detail}: ${p.name.replace(/[_-]/g, ' ')}`"
+          :aria-label="`${t.projects.detail}: ${displayName(p)}`"
           @mousemove="onCardMove"
           @click="openDetail(p)"
           @keydown.enter.prevent="openDetail(p)"
@@ -894,7 +858,7 @@ onBeforeUnmount(() => {
               <div class="project-card__badge" :data-cat="p.category" aria-hidden="true">
                 <i :class="p.icon"></i>
               </div>
-              <h3>{{ p.name.replace(/[_-]/g, ' ') }}</h3>
+              <h3>{{ displayName(p) }}</h3>
               <a :href="repoUrl(p)" target="_blank" rel="noopener noreferrer" class="project-card__icon" :aria-label="`${t.projects.viewRepo}: ${p.name}`" @click.stop>
                 <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
               </a>
@@ -1147,7 +1111,7 @@ onBeforeUnmount(() => {
               <div class="detail-panel__title">
                 <span class="detail-panel__ic" :data-cat="activeProject.category" aria-hidden="true"><i :class="activeProject.icon"></i></span>
                 <div>
-                  <h3>{{ activeProject.name.replace(/[_-]/g, ' ') }}</h3>
+                  <h3>{{ displayName(activeProject) }}</h3>
                   <span class="detail-panel__vis" :data-vis="visOf(activeProject)">
                     <i :class="visMeta[visOf(activeProject)].icon" aria-hidden="true"></i>
                     {{ visMeta[visOf(activeProject)].label[lang] }}

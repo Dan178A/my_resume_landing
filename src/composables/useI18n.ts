@@ -1,5 +1,5 @@
 /* i18n ligero ES/EN sin dependencias */
-import { computed, ref } from 'vue'
+import { computed, inject, ref, type InjectionKey, type Ref } from 'vue'
 
 export type Lang = 'es' | 'en'
 
@@ -8,16 +8,34 @@ const STORAGE_KEY = 'portfolio-lang'
 /* Por defecto inglés: la mayoría de clientes y reclutadores internacionales
    llegan en inglés. El español sigue disponible con el toggle y se respeta
    la preferencia guardada. */
-const detectLang = (): Lang => {
-    if (typeof window === 'undefined') return 'en' // SSR / prerender default
+/* El idioma lo manda la ruta (/ = en, /es = es): así cada versión se
+   prerenderiza con su propio HTML, su propio lang y su propio canonical.
+
+   Vive en un provide por instancia de app, no en un ref de módulo: vite-ssg
+   renderiza las páginas en paralelo y un singleton haría que la última en
+   fijarse pisara a las demás. */
+export const LANG_KEY: InjectionKey<Ref<Lang>> = Symbol('lang')
+
+export const createLangState = (l: Lang): Ref<Lang> => ref<Lang>(l)
+
+/* Solo se usa si alguien monta un componente fuera de la app (tests). */
+const fallbackLang = ref<Lang>('en')
+
+export const savedLang = (): Lang | null => {
     try {
         const saved = localStorage.getItem(STORAGE_KEY)
         if (saved === 'es' || saved === 'en') return saved
-    } catch { /* SSR / privacy mode */ }
-    return 'en'
+    } catch { /* SSR / modo privado */ }
+    return null
 }
 
-const lang = ref<Lang>(detectLang())
+export const rememberLang = (l: Lang): void => {
+    try { localStorage.setItem(STORAGE_KEY, l) } catch { /* noop */ }
+}
+
+/* Ruta canónica de cada idioma */
+export const pathForLang = (l: Lang): string => (l === 'es' ? '/es' : '/')
+export const langForPath = (path: string): Lang => (path.startsWith('/es') ? 'es' : 'en')
 
 const messages = {
     es: {
@@ -156,11 +174,11 @@ const messages = {
         },
         experience: {
             title: '¿Dónde ha trabajado Daniel Silva?',
-            subtitle: 'Cinco años enviando software a producción en paralelo a mi formación.',
+            subtitle: 'Cinco años enviando software a producción. Los roles se solapan a propósito: Ea2technology es un contrato part-time y, en paralelo, llevo consultoría independiente y mi propio producto.',
             present: 'Presente',
             items: [
                 {
-                    role: 'Lead Performance & Systems Engineer', company: 'Ea2technology', location: 'Canadá · Remoto', period: 'Jul 2021 — Presente', accent: 'cv',
+                    role: 'Lead Performance & Systems Engineer', company: 'Ea2technology', location: 'Canadá · Remoto · Contrato part-time', period: 'Jul 2021 — Presente', accent: 'cv',
                     bullets: [
                         'Diseñé y desplegué un Digital Twin industrial de telemetría para monitoreo estructural en tiempo real, procesando datos de sensores de alta frecuencia para anticipar fallos críticos.',
                         'Diseñé una arquitectura WebSocket full-duplex de baja latencia que reemplazó el polling HTTP: de 200–500 ms a 1–10 ms y hasta −95% de ancho de banda.',
@@ -172,7 +190,7 @@ const messages = {
                     tags: ['Rust', 'C++', 'AWS', 'WebSockets', 'IoT', 'Offline-first'],
                 },
                 {
-                    role: 'Consultor de Rendimiento & Ingeniero de Algoritmos', company: 'Freelance · Independiente', location: 'Remoto · Industrial / Marítimo', period: 'Ene 2023 — Presente', accent: 'ai',
+                    role: 'Consultor de Rendimiento & Ingeniero de Algoritmos', company: 'Freelance · Independiente', location: 'Remoto · Industrial / Marítimo · Por proyecto', period: 'Ene 2023 — Presente', accent: 'ai',
                     bullets: [
                         'Motores de estabilización de video de alto rendimiento con optical flow e interpolación matricial (Python, NumPy, SciPy, OpenCV).',
                         'Estimación global de movimiento con FlowNet (arquitecturas profundas destiladas), combinando matemática clásica con machine learning.',
@@ -182,7 +200,7 @@ const messages = {
                     tags: ['Python', 'OpenCV', 'PyTorch', 'Rust', 'Polars', 'PyO3'],
                 },
                 {
-                    role: 'Fundador & Arquitecto de Software', company: 'DropAudio CCS', location: 'dropaudioccs.com', period: 'Jun 2021 — Presente', accent: 'web',
+                    role: 'Fundador & Arquitecto de Software', company: 'DropAudio CCS', location: 'dropaudioccs.com · Producto propio', period: 'Jun 2021 — Presente', accent: 'web',
                     bullets: [
                         'Diseñé y lancé a producción un e-commerce completo (Nuxt 3 SSR + Supabase/PostgreSQL con RLS) en Vercel, con 102+ reseñas verificadas.',
                         'Desarrollé un recomendador interactivo de 3 pasos y un comparador técnico que redujeron la fricción de compra.',
@@ -192,7 +210,7 @@ const messages = {
                     tags: ['Nuxt 3', 'Supabase', 'PostgreSQL', 'Vercel', 'Web Push'],
                 },
                 {
-                    role: 'Especialista de Soporte IT', company: 'RenéDessés de Venezuela', location: 'Caracas, Venezuela', period: 'Ene — Sep 2021', accent: 'api',
+                    role: 'Especialista de Soporte IT', company: 'RenéDessés de Venezuela', location: 'Caracas, Venezuela · Tiempo completo', period: 'Ene — Sep 2021', accent: 'api',
                     bullets: [
                         'Mantuve equipos, software y servidores Apache/Linux.',
                         'Instalé y administré redes empresariales, incluyendo infraestructura Cisco.',
@@ -459,11 +477,11 @@ const messages = {
         },
         experience: {
             title: 'Where has Daniel Silva worked?',
-            subtitle: 'Five years shipping software to production alongside my degree.',
+            subtitle: 'Five years shipping software to production. The roles overlap by design: Ea2technology is a part-time contract, and alongside it I run independent consulting and my own product.',
             present: 'Present',
             items: [
                 {
-                    role: 'Lead Performance & Systems Engineer', company: 'Ea2technology', location: 'Canada · Remote', period: 'Jul 2021 — Present', accent: 'cv',
+                    role: 'Lead Performance & Systems Engineer', company: 'Ea2technology', location: 'Canada · Remote · Part-time contract', period: 'Jul 2021 — Present', accent: 'cv',
                     bullets: [
                         'Designed and deployed an industrial Digital Twin telemetry system for real-time structural monitoring, processing high-frequency sensor data to anticipate critical failures.',
                         'Designed a low-latency, full-duplex WebSocket architecture that replaced HTTP polling: from 200–500 ms to 1–10 ms and up to −95% bandwidth.',
@@ -475,7 +493,7 @@ const messages = {
                     tags: ['Rust', 'C++', 'AWS', 'WebSockets', 'IoT', 'Offline-first'],
                 },
                 {
-                    role: 'Software Performance Consultant & Algorithm Engineer', company: 'Freelance · Independent', location: 'Remote · Industrial / Maritime', period: 'Jan 2023 — Present', accent: 'ai',
+                    role: 'Software Performance Consultant & Algorithm Engineer', company: 'Freelance · Independent', location: 'Remote · Industrial / Maritime · Per project', period: 'Jan 2023 — Present', accent: 'ai',
                     bullets: [
                         'High-performance video stabilization engines with optical flow and matrix interpolation (Python, NumPy, SciPy, OpenCV).',
                         'Global motion estimation with FlowNet (distilled deep architectures), combining classical math with machine learning.',
@@ -485,7 +503,7 @@ const messages = {
                     tags: ['Python', 'OpenCV', 'PyTorch', 'Rust', 'Polars', 'PyO3'],
                 },
                 {
-                    role: 'Founder & Software Architect', company: 'DropAudio CCS', location: 'dropaudioccs.com', period: 'Jun 2021 — Present', accent: 'web',
+                    role: 'Founder & Software Architect', company: 'DropAudio CCS', location: 'dropaudioccs.com · Own product', period: 'Jun 2021 — Present', accent: 'web',
                     bullets: [
                         'Designed and shipped a complete e-commerce platform (Nuxt 3 SSR + Supabase/PostgreSQL with RLS) to production on Vercel, with 102+ verified reviews.',
                         'Built an interactive 3-step recommender and a technical comparator that reduced purchase friction.',
@@ -495,7 +513,7 @@ const messages = {
                     tags: ['Nuxt 3', 'Supabase', 'PostgreSQL', 'Vercel', 'Web Push'],
                 },
                 {
-                    role: 'IT Support Specialist', company: 'RenéDessés de Venezuela', location: 'Caracas, Venezuela', period: 'Jan — Sep 2021', accent: 'api',
+                    role: 'IT Support Specialist', company: 'RenéDessés de Venezuela', location: 'Caracas, Venezuela · Full-time', period: 'Jan — Sep 2021', accent: 'api',
                     bullets: [
                         'Maintained equipment, software and Apache/Linux servers.',
                         'Installed and administered enterprise networks, including Cisco infrastructure.',
@@ -629,11 +647,7 @@ const messages = {
 } as const
 
 export function useI18n() {
+    const lang = inject(LANG_KEY, fallbackLang)
     const t = computed(() => messages[lang.value])
-    const toggleLang = () => {
-        lang.value = lang.value === 'es' ? 'en' : 'es'
-        try { localStorage.setItem(STORAGE_KEY, lang.value) } catch { /* noop */ }
-        document.documentElement.lang = lang.value
-    }
-    return { lang, t, toggleLang }
+    return { lang, t }
 }

@@ -9,9 +9,9 @@
   --blue-900: #0a120d;
   --blue-800: #0e1a12;
   --blue-700: #142418;
-  --ivory-100: #d7fee0;
-  --ivory-400: #8fbf9c;
-  --ivory-600: #5e8069;
+  --ivory-100: #e3eee6;
+  --ivory-400: #a7bfae;
+  --ivory-600: #7f9887;
   --cyan-400: #6be5fd;
   --cyan-600: #3ab8d0;
   --violet-400: #ff79c6;
@@ -63,6 +63,7 @@
   /* ============================================================
      DESIGN TOKENS — capa 2: semánticos
      ============================================================ */
+  --nav-offset: 5.5rem;
   --color-bg: var(--blue-950);
   --color-bg-raised: var(--blue-800);
   --color-text: var(--ivory-100);
@@ -133,6 +134,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-offset);
 }
 
 html,
@@ -300,4 +302,9 @@ button:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* El nav sticky no debe tapar el inicio de la sección al saltar por ancla */
+section[id] {
+  scroll-margin-top: var(--nav-offset);
 }

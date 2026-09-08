@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon.ico">
-    <link rel="canonical" href="https://my-resume-landing.vercel.app/">
     <link rel="alternate" hreflang="en" href="https://my-resume-landing.vercel.app/">
-    <link rel="alternate" hreflang="es" href="https://my-resume-landing.vercel.app/">
+    <link rel="alternate" hreflang="es" href="https://my-resume-landing.vercel.app/es">
     <link rel="alternate" hreflang="x-default" href="https://my-resume-landing.vercel.app/">
     <link rel="author" href="/humans.txt">
 
     <!-- Primary meta -->
-    <title>Daniel Silva — Industrial Systems & Real-Time Software Engineer | Freelance & Remote</title>
-    <meta name="description" content="Daniel Silva (Daniel Alejandro Silva Rojas) — software and systems engineer with 5 years and 4 production systems: real-time telemetry (1–10 ms), industrial IoT hardware control, offline-first architecture and applied AI. Rust, Python, TypeScript, Vue/Nuxt. Available for freelance projects and senior remote roles worldwide.">
     <meta name="author" content="Daniel Alejandro Silva Rojas">
-    <meta name="keywords" content="Daniel Silva, Daniel Alejandro Silva Rojas, Daniel Silva desarrollador, Daniel Silva software engineer, industrial software engineer, industrial IoT engineer, real-time systems engineer, offline-first architecture, digital twin engineer, freelance software engineer LATAM, freelance systems engineer, hire remote software engineer Venezuela, Rust developer, Python engineer, PyQt desktop applications, WebSockets low latency, Vue developer, Nuxt developer, FastAPI, computer vision OCR industrial, DropAudio CCS">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
     <meta name="theme-color" content="#060a08">
@@ -22,23 +18,16 @@
     <!-- Open Graph -->
     <meta property="og:type" content="profile">
     <meta property="og:site_name" content="Daniel Silva · Industrial Systems Engineer">
-    <meta property="og:title" content="Daniel Silva — Industrial Systems & Real-Time Software Engineer">
-    <meta property="og:description" content="5 years, 4 production systems: real-time telemetry at 1–10 ms, industrial IoT hardware control, offline-first architecture and applied AI. Available for freelance projects and senior remote roles.">
-    <meta property="og:url" content="https://my-resume-landing.vercel.app/">
     <meta property="og:image" content="https://my-resume-landing.vercel.app/og-cover.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:alt" content="Daniel Silva — Senior Full Stack & AI Software Engineer">
-    <meta property="og:locale" content="es_ES">
-    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image:alt" content="Daniel Silva — Industrial Systems & Real-Time Software Engineer">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Daniel Silva — Senior Full Stack & AI Software Engineer">
-    <meta name="twitter:description" content="Visión por computadora, IA en tiempo real (Rust/WebSockets), Vue 3/Nuxt 3, FastAPI. Fundador de DropAudio CCS.">
     <meta name="twitter:image" content="https://my-resume-landing.vercel.app/og-cover.jpg">
-    <meta name="twitter:image:alt" content="Daniel Silva — Senior Full Stack & AI Software Engineer">
+    <meta name="twitter:image:alt" content="Daniel Silva — Industrial Systems & Real-Time Software Engineer">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -250,15 +239,6 @@
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-socket-communication-system",
-          "name": "Socket-Communication-System",
-          "description": "A Windows desktop utility that checks in one click whether two computers on the same LAN can talk over WebSocket, using Socket.IO with automatic IP detection and neighboring-device scanning.",
-          "programmingLanguage": "Python",
-          "codeRepository": "https://github.com/Dan178A/Socket-Communication-System",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
-        },
-        {
-          "@type": "SoftwareSourceCode",
           "@id": "https://my-resume-landing.vercel.app/#project-extract-rif",
           "name": "extract_rif",
           "description": "An HTTP microservice (FastAPI) that turns Venezuelan RIF tax documents (PDF or image) into structured JSON, with a dual-engine OCR pipeline (PaddleOCR + Tesseract fallback) and a fail-safe response contract.",
@@ -286,15 +266,6 @@
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-traffic-simulation-model",
-          "name": "Traffic_Simulation_Model",
-          "description": "A macroscopic traffic simulation at a signaled intersection, with timer-driven signals, random vehicle generation and real-time flow statistics.",
-          "programmingLanguage": "Python",
-          "codeRepository": "https://github.com/Dan178A/Traffic_Simulation_Model",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
-        },
-        {
-          "@type": "SoftwareSourceCode",
           "@id": "https://my-resume-landing.vercel.app/#project-flownet-video-stabilization",
           "name": "FlowNet Video Stabilization",
           "description": "Video stabilization using deep-learning global camera-motion estimation (a distilled PWC-Net), a QP-smoothed affine camera path and multi-scale photometric refinement.",
@@ -306,47 +277,79 @@
           "@type": "FAQPage",
           "@id": "https://my-resume-landing.vercel.app/#faq",
           "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Is Daniel Silva available for freelance work?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes. Daniel Alejandro Silva Rojas takes freelance engagements in three formats: a performance and architecture audit (from $1,500 USD, 1–2 weeks), a custom system built end to end (from $6,000 USD per project), and a fractional systems engineer retainer (from $3,500 USD per month at 20 hours a week). Hourly rate is $45–65 USD. Contracting via Deel, Payoneer or crypto."
+              {
+                "@type": "Question",
+                "name": "Who can build industrial IoT software that runs unattended in the field?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Daniel Silva builds exactly this kind of system. His industrial hardware-control application operates networked inspection cameras from two coordinated machines with no technical support present on site: the same executable relaunches itself and assumes its role (server or client) with zero manual setup, and every network boundary has an explicit timeout so a powered-off camera never freezes the interface. It is in version 12 in real field use after five years."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do you cut real-time latency when HTTP polling is too slow?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "By replacing polling with a full-duplex WebSocket architecture. On an industrial Digital Twin telemetry system, Daniel Silva took end-to-end latency from 200–500 ms down to 1–10 ms while reducing bandwidth by up to 95%, because the server pushes state changes instead of the client asking repeatedly for data that has not changed."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can a plant system keep working with no internet and sync later?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, with an offline-first architecture. Daniel Silva has shipped a desktop ecosystem that runs 100% offline on plant floors and reconciles bidirectionally with the cloud when connectivity returns, using per-endpoint sync state, connectivity detection and retries, so no field work is lost. It ships as a self-contained installer that resolves its own dependencies."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How much does a software performance and architecture audit cost?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "From $1,500 USD for a 1–2 week engagement. It covers latency, memory-leak and concurrency diagnosis, a map of single points of failure, a refactor roadmap prioritized by impact versus cost, and a handover session with your team. Larger options are a custom system built end to end (from $6,000 USD per project, 6–12 weeks) and a fractional systems engineer retainer (from $3,500 USD per month at 20 h/week). Hourly rate is $45–65 USD."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Where can I hire a freelance real-time systems engineer who overlaps US hours?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Daniel Silva works 100% remote from Caracas, Venezuela, with working hours that overlap the Americas, and contracts through Deel, Payoneer or crypto. He takes freelance engagements in industrial IoT, real-time telemetry, offline-first architecture, computer vision and OCR, and backend data pipelines, and is also open to senior full-time remote roles in the US, Canada, Europe and LATAM."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Quién puede construir un sistema industrial offline-first en Latinoamérica?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Daniel Silva construye este tipo de sistemas desde Caracas, Venezuela, trabajando 100% remoto. Ha llevado a producción un ecosistema de escritorio que opera sin conexión en planta y sincroniza de forma bidireccional con la nube al recuperar conectividad, además de un sistema de control de hardware IoT industrial en uso real en campo desde hace cinco años."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Cómo se reduce la latencia de un sistema de telemetría industrial?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Reemplazando el polling HTTP por una arquitectura WebSocket full-duplex. En un Digital Twin industrial de monitoreo estructural, Daniel Silva llevó la latencia de 200–500 ms a 1–10 ms y redujo el ancho de banda hasta en un 95%, porque el servidor empuja los cambios de estado en lugar de que el cliente pregunte una y otra vez por datos que no cambiaron."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Puedo ver el código de sus sistemas de producción?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Los cuatro sistemas de producción son repositorios privados de cliente bajo confidencialidad, por lo que se describe la arquitectura y las decisiones técnicas, nunca datos del negocio. El código abierto disponible está en github.com/Dan178A y la arquitectura de los sistemas privados se puede recorrer en una llamada."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Cómo lo contacto?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Por correo a dsrglrm@gmail.com, WhatsApp al +58 414-231-7561, o LinkedIn (daniel-alejandro-silva-rojas). Responde en menos de 24 horas y la primera llamada de 30 minutos no tiene costo."
+                }
               }
-            },
-            {
-              "@type": "Question",
-              "name": "What kind of systems does he build?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Industrial and real-time software: telemetry and low-latency WebSocket architectures, coordinated control of networked hardware from desktop applications, offline-first ecosystems that keep working without internet and sync back to the cloud, industrial time-series analysis, and applied AI such as audio transcription and voice assistants. He has shipped four such systems to production over five years."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "¿Daniel Silva está disponible para trabajo remoto?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Sí. Daniel Alejandro Silva Rojas trabaja 100% remoto desde Caracas, Venezuela, y está disponible tanto para proyectos freelance como para roles senior remotos en Estados Unidos, Canadá, Europa y Latinoamérica, en sistemas en tiempo real, IoT industrial, backend e IA aplicada."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "¿Puedo ver el código de sus sistemas de producción?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Los cuatro sistemas de producción son repositorios privados de cliente bajo confidencialidad, por lo que se describe la arquitectura y las decisiones técnicas, nunca datos del negocio. El código abierto disponible está en github.com/Dan178A y la arquitectura de los sistemas privados se puede recorrer en una llamada."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "¿Cómo lo contacto?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Por correo a dsrglrm@gmail.com, WhatsApp al +58 414-231-7561, o LinkedIn (daniel-alejandro-silva-rojas). Responde en menos de 24 horas y la primera llamada de 30 minutos no tiene costo."
-              }
-            }
-          ]
+            ]
         }
       ]
     }

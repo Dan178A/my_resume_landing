@@ -45,7 +45,9 @@
    SciPy peak/valley detection, CLI parameters, JSON/Excel/PNG outputs, archived Rust port.
 
 ## Roles
-- Lead Performance & Systems Engineer — Ea2technology (Canada, remote), Jul 2021–present.
+Note: these roles overlap on purpose. Ea2technology is a part-time contract; the consulting
+practice and DropAudio CCS run alongside it, not instead of it.
+- Lead Performance & Systems Engineer — Ea2technology (Canada, remote, part-time contract), Jul 2021–present.
   Industrial Digital Twin telemetry for real-time structural monitoring; full-duplex WebSocket
   architecture that cut latency from 200–500 ms to 1–10 ms and reduced bandwidth up to 95%;
   desktop control of industrial IoT hardware; offline-first ecosystem; AI audio pipeline;
@@ -77,9 +79,6 @@
 - System Stabilization Interpolation — Python · PyTorch · OpenCV — degree thesis on video stabilization.
 - extract_rif — FastAPI · PaddleOCR — OCR microservice extracting structured data from documents.
 - FlowNet_Video_Stabilization — Python · PyTorch — deep-learning video stabilization from optical flow.
-- SorteosEDJ — Nuxt 3 · TypeScript — production raffle platform.
-- Socket-Communication-System — Python · Sockets — LAN client-server connectivity checker.
-- Traffic_Simulation_Model — Python — macroscopic traffic simulation at intersections.
 - Camara_OCR_Python — Python · PyQt5 · OpenCV — industrial inspection tool with camera/OCR guidance (private).
 
 ## Confidentiality
