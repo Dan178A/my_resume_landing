@@ -47,8 +47,8 @@ const messages = {
             remote: 'Remoto · LATAM ⇄ NA/UE',
         },
         impact: {
-            title: 'Por qué contratarme',
-            subtitle: 'Sistemas que operan en campo todos los días, no demos.',
+            title: '¿Por qué contratar a Daniel Silva?',
+            subtitle: 'Resultados medibles en sistemas de producción, no demos.',
             items: [
                 { icon: 'fa-solid fa-gauge-high', metric: '1–10 ms', label: 'Latencia en tiempo real', desc: 'Reemplacé polling HTTP por una arquitectura WebSocket full-duplex: de 200–500 ms a 1–10 ms y hasta −95% de ancho de banda.' },
                 { icon: 'fa-solid fa-industry', metric: '77%', label: 'Arquitecto en solitario', desc: 'De 681 commits en el sistema de control de hardware industrial: 5 años, 398 archivos, versión 12 en uso real en campo.' },
@@ -155,7 +155,7 @@ const messages = {
             how: ['Asíncrono por defecto, con una llamada semanal fija.', 'Entrego software que se ejecuta, no diapositivas.', 'Todo lo que construyo queda con pruebas y documentación.', 'Si el alcance cambia, se cotiza antes, no después.'],
         },
         experience: {
-            title: 'Experiencia',
+            title: '¿Dónde ha trabajado Daniel Silva?',
             subtitle: 'Cinco años enviando software a producción en paralelo a mi formación.',
             present: 'Presente',
             items: [
@@ -239,7 +239,7 @@ const messages = {
             ],
         },
         specialties: {
-            title: 'Especialidades',
+            title: '¿En qué se especializa Daniel Silva?',
             subtitle: 'Cuatro frentes, un mismo estándar de ingeniería.',
             cv: {
                 title: 'Visión Industrial & OCR',
@@ -259,8 +259,8 @@ const messages = {
             },
         },
         projects: {
-            title: 'Proyectos Públicos',
-            subtitle: 'Código abierto que sí puedo mostrar. Los sistemas de cliente están arriba.',
+            title: '¿Qué proyectos ha construido Daniel Silva?',
+            subtitle: 'Selección curada de mi trabajo en GitHub.',
             all: 'Todos',
             loading: 'Cargando innovación...',
             fallback: 'Explora el código fuente y la arquitectura de este proyecto directamente en GitHub.',
@@ -285,7 +285,7 @@ const messages = {
             close: 'Cerrar',
         },
         stack: {
-            title: 'Stack Tecnológico',
+            title: '¿Con qué tecnologías trabaja Daniel Silva?',
             subtitle: 'Herramientas que uso a diario.',
         },
         contact: {
@@ -350,8 +350,8 @@ const messages = {
             remote: 'Remote · LATAM ⇄ NA/EU',
         },
         impact: {
-            title: 'Why hire me',
-            subtitle: 'Systems running in the field every day, not demos.',
+            title: 'Why hire Daniel Silva?',
+            subtitle: 'Measurable results in production systems, not demos.',
             items: [
                 { icon: 'fa-solid fa-gauge-high', metric: '1–10 ms', label: 'Real-time latency', desc: 'Replaced HTTP polling with a full-duplex WebSocket architecture: from 200–500 ms down to 1–10 ms and up to −95% bandwidth.' },
                 { icon: 'fa-solid fa-industry', metric: '77%', label: 'Sole architect', desc: 'Of 681 commits in the industrial hardware-control system: 5 years, 398 files, version 12 in real field use.' },
@@ -458,7 +458,7 @@ const messages = {
             how: ['Async by default, with one fixed weekly call.', 'I deliver software that runs, not slides.', 'Everything I build ships with tests and documentation.', 'If scope changes, it gets quoted before, not after.'],
         },
         experience: {
-            title: 'Experience',
+            title: 'Where has Daniel Silva worked?',
             subtitle: 'Five years shipping software to production alongside my degree.',
             present: 'Present',
             items: [
@@ -542,7 +542,7 @@ const messages = {
             ],
         },
         specialties: {
-            title: 'Specialties',
+            title: 'What does Daniel Silva specialize in?',
             subtitle: 'Four fronts, one engineering standard.',
             cv: {
                 title: 'Industrial Vision & OCR',
@@ -562,8 +562,8 @@ const messages = {
             },
         },
         projects: {
-            title: 'Public Projects',
-            subtitle: 'Open code I can show. The client systems are above.',
+            title: 'What has Daniel Silva built?',
+            subtitle: 'A curated selection of my work on GitHub.',
             all: 'All',
             loading: 'Loading innovation...',
             fallback: 'Explore the source code and architecture of this project directly on GitHub.',
@@ -588,7 +588,7 @@ const messages = {
             close: 'Close',
         },
         stack: {
-            title: 'Tech Stack',
+            title: 'Which technologies does Daniel Silva work with?',
             subtitle: 'Tools I use every day.',
         },
         contact: {
