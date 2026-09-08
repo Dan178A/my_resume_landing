@@ -31,6 +31,105 @@ const linkedInUrl = 'https://www.linkedin.com/in/daniel-alejandro-silva-rojas/'
 const emailAddress = 'dsrglrm@gmail.com'
 const whatsappUrl = 'https://wa.me/584142317561?text=Hola%20Daniel'
 const avatarSrc = '/1699966173589.jpg'
+/* Servicios: el CTA lleva al formulario con el paquete ya elegido.
+   Web3Forms entrega el mensaje al correo de Daniel; su access key es pública por
+   diseño (uso desde el navegador). Si no hay key configurada, el envío cae de
+   vuelta a un mailto prellenado para no perder el contacto. */
+const web3formsKey = import.meta.env.VITE_WEB3FORMS_KEY as string | undefined
+
+const whatsappFor = (service?: string) => {
+    const text = service
+        ? `Hola Daniel, me interesa: ${service}.`
+        : 'Hola Daniel'
+    return `https://wa.me/584142317561?text=${encodeURIComponent(text)}`
+}
+
+const form = ref({ name: '', email: '', company: '', service: '', budget: '', message: '', botcheck: '' })
+const formErrors = ref<Record<string, string>>({})
+const formState = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+const serviceOptions = computed(() => [...t.value.services.items.map(i => i.name), t.value.form.other])
+
+const requestProposal = (service: string) => {
+    form.value.service = service
+    formErrors.value = {}
+    formState.value = 'idle'
+    const target = document.getElementById('contact')
+    target?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' })
+    window.setTimeout(() => document.getElementById('form-name')?.focus(), reducedMotion ? 0 : 600)
+}
+
+const validateField = (field: 'name' | 'email' | 'message') => {
+    const f = t.value.form
+    const v = form.value[field].trim()
+    let err = ''
+    if (!v) err = f.required
+    else if (field === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) err = f.invalidEmail
+    else if (field === 'message' && v.length < 20) err = f.tooShort
+    if (err) formErrors.value = { ...formErrors.value, [field]: err }
+    else {
+        const next = { ...formErrors.value }
+        delete next[field]
+        formErrors.value = next
+    }
+    return !err
+}
+
+/* Respaldo sin backend: abre el correo del visitante con todo ya redactado */
+const mailtoFallback = () => {
+    const f = form.value
+    const body = [
+        `${t.value.form.name}: ${f.name}`,
+        `${t.value.form.email}: ${f.email}`,
+        f.company ? `${t.value.form.company}: ${f.company}` : '',
+        f.service ? `${t.value.form.service}: ${f.service}` : '',
+        f.budget ? `${t.value.form.budget}: ${f.budget}` : '',
+        '',
+        f.message,
+    ].filter(Boolean).join('\n')
+    const subject = f.service ? `Proposal request - ${f.service}` : 'Proposal request'
+    window.location.href =
+        `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+}
+
+const submitForm = async () => {
+    if (form.value.botcheck) return /* honeypot: solo los bots lo rellenan */
+    const ok = (['name', 'email', 'message'] as const).map(validateField).every(Boolean)
+    if (!ok) {
+        const first = (['name', 'email', 'message'] as const).find(k => formErrors.value[k])
+        document.getElementById(`form-${first}`)?.focus()
+        return
+    }
+    if (!web3formsKey) { mailtoFallback(); return }
+
+    formState.value = 'sending'
+    try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+                access_key: web3formsKey,
+                subject: form.value.service
+                    ? `Nueva solicitud - ${form.value.service}`
+                    : 'Nueva solicitud desde el portafolio',
+                from_name: 'Portafolio Daniel Silva',
+                name: form.value.name,
+                email: form.value.email,
+                company: form.value.company,
+                service: form.value.service,
+                budget: form.value.budget,
+                message: form.value.message,
+            }),
+        })
+        if (!res.ok) throw new Error(String(res.status))
+        formState.value = 'sent'
+        form.value = { name: '', email: '', company: '', service: '', budget: '', message: '', botcheck: '' }
+    } catch {
+        formState.value = 'error'
+    }
+}
+/* Nombre de archivo retro para las tarjetas de sistemas */
+const sysFile = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '_') + '.md'
 /* CV: 4 variantes (idioma × perfil). El visor combina el idioma activo con el perfil elegido. */
 type CvProfile = 'fullstack' | 'backend'
 const cvProfile = ref<CvProfile>('fullstack')
@@ -49,7 +148,7 @@ const dropUrl = 'https://dropaudioccs.com'
 const dropDemoUrl = 'https://dropaudioccs.com/asesorate'
 const dropBoardUrl = '/dropaudioccs-portafolio.html'
 const flagStack = ['Nuxt 3', 'Vue 3 · SSR', 'Supabase', 'PostgreSQL · RLS', 'Vercel', 'Web Push', 'Tailwind']
-const flagMetricDefs = [{ n: 94, suffix: '+' }, { n: 19, suffix: '' }, { n: 6, suffix: '' }]
+const flagMetricDefs = [{ n: 102, suffix: '+' }, { n: 19, suffix: '' }, { n: 6, suffix: '' }]
 const flagIcons = ['fa-solid fa-wand-magic-sparkles', 'fa-solid fa-code-compare', 'fa-solid fa-wallet', 'fa-solid fa-gauge-high']
 const flagMetrics = computed(() => flagMetricDefs.map((d, i) => ({ ...d, label: t.value.flagship.metrics[i] })))
 const flagFeatures = computed(() => t.value.flagship.features.map((f, i) => ({ icon: flagIcons[i], ...f })))
@@ -251,9 +350,9 @@ const specialtyList = computed(() => ([
 /* Stats con count-up */
 const statDefs = computed(() => ([
     { n: 5, suffix: '+', label: t.value.stats.years },
-    { n: 60, suffix: '+', label: t.value.stats.repos },
-    { n: 4, suffix: '', label: t.value.stats.areas },
-    { n: 1, suffix: '', label: t.value.stats.thesis },
+    { n: 4, suffix: '', label: t.value.stats.systems },
+    { n: 3, suffix: 'K+', label: t.value.stats.commits },
+    { n: 100, suffix: '%', label: t.value.stats.remote },
 ]))
 const statValues = ref(statDefs.value.map(s => s.n))
 let statsAnimated = false
@@ -425,10 +524,10 @@ onBeforeUnmount(() => {
       <a href="#hero" class="nav__brand">daniel@dev<span class="nav__brand-dot">:~$</span></a>
       <div class="nav__links">
         <a href="#impact">{{ t.nav.impact }}</a>
+        <a href="#systems">{{ t.nav.systems }}</a>
         <a href="#experience">{{ t.nav.experience }}</a>
+        <a href="#services">{{ t.nav.services }}</a>
         <a href="#projects">{{ t.nav.projects }}</a>
-        <a href="#education">{{ t.nav.education }}</a>
-        <a href="#stack">{{ t.nav.stack }}</a>
         <a href="#contact">{{ t.nav.contact }}</a>
       </div>
       <div class="nav__right">
@@ -481,7 +580,7 @@ onBeforeUnmount(() => {
       </div>
 
       <div class="hero__actions">
-        <a href="#projects" class="btn btn--gradient">
+        <a href="#systems" class="btn btn--gradient">
           <i class="fa-solid fa-code" aria-hidden="true"></i> {{ t.hero.ctaProjects }}
         </a>
         <button class="btn btn--outline btn--cv" @click="openCv">
@@ -525,6 +624,54 @@ onBeforeUnmount(() => {
           <p class="impact-card__desc">{{ it.desc }}</p>
         </article>
       </div>
+    </section>
+
+    <!-- SISTEMAS EN PRODUCCIÓN -->
+    <section id="systems" class="section" aria-labelledby="systems-title">
+      <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ systemctl status production --all</span>
+        <h2 id="systems-title">{{ t.systems.title }}</h2>
+        <p class="section-subtitle">{{ t.systems.subtitle }}</p>
+        <div class="header-decoration" aria-hidden="true"></div>
+      </div>
+
+      <div class="sys__grid">
+        <article
+          v-for="(sy, i) in t.systems.items" :key="sy.name"
+          class="sys-card reveal" :style="{ '--reveal-delay': `${i * 80}ms` }"
+          @mousemove="onCardMove"
+        >
+          <div class="win-bar">
+            <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="win-bar__file">{{ sysFile(sy.name) }}</span>
+            <span class="sys-card__period">{{ sy.period }}</span>
+          </div>
+
+          <div class="sys-card__body">
+            <h3 class="sys-card__title">{{ sy.name }}</h3>
+            <span class="sys-card__role"><i class="fa-solid fa-user-gear" aria-hidden="true"></i> {{ sy.role }}</span>
+            <p class="sys-card__pitch">{{ sy.pitch }}</p>
+
+            <ul class="sys-card__metrics" aria-label="Métricas">
+              <li v-for="m in sy.metrics" :key="m">{{ m }}</li>
+            </ul>
+
+            <ul class="sys-card__bullets">
+              <li v-for="b in sy.bullets" :key="b">
+                <i class="fa-solid fa-angle-right" aria-hidden="true"></i><span>{{ b }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sys-card__stack" aria-label="Stack">
+            <span v-for="st in sy.stack" :key="st" class="sys-card__tag">{{ st }}</span>
+          </div>
+        </article>
+      </div>
+
+      <p class="sys__note reveal">
+        <i class="fa-solid fa-lock" aria-hidden="true"></i> {{ t.systems.note }}
+      </p>
     </section>
 
     <!-- FLAGSHIP CASE STUDY -->
@@ -645,6 +792,60 @@ onBeforeUnmount(() => {
             <p>{{ sp.desc }}</p>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- SERVICIOS FREELANCE -->
+    <section id="services" class="section" aria-labelledby="services-title">
+      <div class="section-header reveal">
+        <span class="section-cmd" aria-hidden="true">$ cat services.json</span>
+        <h2 id="services-title">{{ t.services.title }}</h2>
+        <p class="section-subtitle">{{ t.services.subtitle }}</p>
+        <div class="header-decoration" aria-hidden="true"></div>
+      </div>
+
+      <div class="svc__grid">
+        <article
+          v-for="(sv, i) in t.services.items" :key="sv.name"
+          class="svc-card reveal" :class="{ 'svc-card--featured': i === 1 }"
+          :style="{ '--reveal-delay': `${i * 80}ms` }"
+          @mousemove="onCardMove"
+        >
+          <span class="svc-card__ic" aria-hidden="true"><i :class="sv.icon"></i></span>
+          <h3 class="svc-card__name">{{ sv.name }}</h3>
+          <p class="svc-card__price">
+            <span class="svc-card__from">{{ t.services.from }}</span>
+            <span class="svc-card__amount">{{ sv.price }}</span>
+          </p>
+          <span class="svc-card__meta">{{ sv.meta }}</span>
+          <p class="svc-card__desc">{{ sv.desc }}</p>
+          <ul class="svc-card__points">
+            <li v-for="pt in sv.points" :key="pt">
+              <i class="fa-solid fa-check" aria-hidden="true"></i><span>{{ pt }}</span>
+            </li>
+          </ul>
+          <div class="svc-card__ctas">
+            <button type="button" class="btn btn--outline svc-card__cta" @click="requestProposal(sv.name)">
+              <i class="fa-regular fa-paper-plane" aria-hidden="true"></i> {{ t.services.cta }}
+            </button>
+            <a
+              :href="whatsappFor(sv.name)" target="_blank" rel="noopener noreferrer"
+              class="svc-card__wa" :aria-label="`${t.contact.whatsapp}: ${sv.name}`"
+            >
+              <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="svc__foot reveal">
+        <p class="svc__rate"><i class="fa-solid fa-file-signature" aria-hidden="true"></i> {{ t.services.rate }}</p>
+        <div class="svc__how">
+          <h3>{{ t.services.howTitle }}</h3>
+          <ul>
+            <li v-for="h in t.services.how" :key="h"><i class="fa-solid fa-terminal" aria-hidden="true"></i><span>{{ h }}</span></li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -805,6 +1006,90 @@ onBeforeUnmount(() => {
         <button class="contact__cv" @click="openCv">
           <i class="fa-solid fa-file-lines" aria-hidden="true"></i> {{ t.hero.ctaCV }} · PDF
         </button>
+
+        <form class="cform" novalidate @submit.prevent="submitForm">
+          <h3 class="cform__title">{{ t.form.title }}</h3>
+          <p class="cform__subtitle">{{ t.form.subtitle }}</p>
+
+          <!-- Honeypot anti-spam: invisible para personas -->
+          <input v-model="form.botcheck" type="checkbox" name="botcheck" class="cform__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="form-name">{{ t.form.name }} <span aria-hidden="true">*</span></label>
+              <input
+                id="form-name" v-model="form.name" type="text" name="name" autocomplete="name"
+                :placeholder="t.form.namePh" required
+                :aria-invalid="!!formErrors.name" :aria-describedby="formErrors.name ? 'err-name' : undefined"
+                @blur="validateField('name')"
+              >
+              <p v-if="formErrors.name" id="err-name" class="cform__err" role="alert">{{ formErrors.name }}</p>
+            </div>
+
+            <div class="cform__field">
+              <label for="form-email">{{ t.form.email }} <span aria-hidden="true">*</span></label>
+              <input
+                id="form-email" v-model="form.email" type="email" name="email" autocomplete="email" inputmode="email"
+                :placeholder="t.form.emailPh" required
+                :aria-invalid="!!formErrors.email" :aria-describedby="formErrors.email ? 'err-email' : undefined"
+                @blur="validateField('email')"
+              >
+              <p v-if="formErrors.email" id="err-email" class="cform__err" role="alert">{{ formErrors.email }}</p>
+            </div>
+          </div>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label for="form-company">{{ t.form.company }}</label>
+              <input id="form-company" v-model="form.company" type="text" name="company" autocomplete="organization" :placeholder="t.form.companyPh">
+            </div>
+
+            <div class="cform__field">
+              <label for="form-service">{{ t.form.service }}</label>
+              <select id="form-service" v-model="form.service" name="service">
+                <option value="">{{ t.form.servicePh }}</option>
+                <option v-for="opt in serviceOptions" :key="opt" :value="opt">{{ opt }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cform__field">
+            <label for="form-budget">{{ t.form.budget }}</label>
+            <select id="form-budget" v-model="form.budget" name="budget">
+              <option value="">{{ t.form.budgetPh }}</option>
+              <option v-for="b in t.form.budgets" :key="b" :value="b">{{ b }}</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label for="form-message">{{ t.form.message }} <span aria-hidden="true">*</span></label>
+            <textarea
+              id="form-message" v-model="form.message" name="message" rows="5"
+              :placeholder="t.form.messagePh" required
+              :aria-invalid="!!formErrors.message" :aria-describedby="formErrors.message ? 'err-message' : undefined"
+              @blur="validateField('message')"
+            ></textarea>
+            <p v-if="formErrors.message" id="err-message" class="cform__err" role="alert">{{ formErrors.message }}</p>
+          </div>
+
+          <div class="cform__actions">
+            <button type="submit" class="btn btn--gradient cform__submit" :disabled="formState === 'sending'">
+              <i class="fa-regular fa-paper-plane" aria-hidden="true"></i>
+              {{ formState === 'sending' ? t.form.sending : t.form.send }}
+            </button>
+            <a :href="whatsappFor(form.service)" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+              <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> {{ t.form.whatsapp }}
+            </a>
+          </div>
+
+          <p class="cform__status cform__status--ok" v-if="formState === 'sent'" role="status" aria-live="polite">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i> {{ t.form.sent }}
+          </p>
+          <p class="cform__status cform__status--err" v-else-if="formState === 'error'" role="alert" aria-live="assertive">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> {{ t.form.error }}
+          </p>
+          <p class="cform__privacy" v-else>{{ t.form.privacy }}</p>
+        </form>
       </div>
     </section>
 
@@ -2745,5 +3030,461 @@ onBeforeUnmount(() => {
   .nav__links { display: flex; }
   .hero__actions, .contact__actions { grid-template-columns: repeat(3, 1fr); }
   .stats { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ===== SISTEMAS EN PRODUCCIÓN ===== */
+.sys__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.sys-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  transition: border-color var(--duration-base) ease, transform var(--duration-base) var(--ease-smooth);
+}
+
+.sys-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(57, 255, 136, 0.08), transparent 60%);
+}
+
+.sys-card:hover {
+  border-color: var(--color-border-strong);
+  transform: translateY(-4px);
+}
+
+.sys-card:hover::before { opacity: 1; }
+
+.sys-card__period {
+  margin-left: auto;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.sys-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  flex: 1;
+}
+
+.sys-card__title {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+.sys-card__role {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--chip-bg);
+  color: var(--color-accent);
+  font-size: var(--text-xs);
+}
+
+.sys-card__pitch {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.sys-card__metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.sys-card__metrics li {
+  padding: var(--space-1) var(--space-3);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.sys-card__bullets {
+  display: grid;
+  gap: var(--space-2);
+  list-style: none;
+  margin-top: var(--space-2);
+}
+
+.sys-card__bullets li {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.sys-card__bullets i {
+  color: var(--color-accent);
+  margin-top: 0.35em;
+  flex-shrink: 0;
+}
+
+.sys-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  background: rgba(6, 10, 8, 0.35);
+}
+
+.sys-card__tag {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--chip-bg);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.sys__note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: rgba(6, 10, 8, 0.5);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.sys__note i { color: var(--amber-400); }
+
+/* ===== SERVICIOS ===== */
+.svc__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.svc-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--card-bg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  transition: border-color var(--duration-base) ease, transform var(--duration-base) var(--ease-smooth);
+}
+
+.svc-card:hover {
+  border-color: var(--color-border-strong);
+  transform: translateY(-4px);
+}
+
+.svc-card--featured {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--glow-web);
+}
+
+.svc-card__ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--chip-bg);
+  color: var(--color-accent);
+  font-size: var(--text-md);
+}
+
+.svc-card__name { font-size: var(--text-md); }
+
+.svc-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.svc-card__from {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.svc-card__amount {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.svc-card__meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.svc-card__desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.svc-card__points {
+  display: grid;
+  gap: var(--space-2);
+  list-style: none;
+  margin-top: var(--space-1);
+}
+
+.svc-card__points li {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.svc-card__points i {
+  color: var(--color-accent);
+  margin-top: 0.35em;
+  flex-shrink: 0;
+}
+
+.svc-card__cta {
+  margin-top: auto;
+  align-self: flex-start;
+  min-height: 44px;
+}
+
+.svc__foot {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.svc__rate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(6, 10, 8, 0.5);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.svc__rate i { color: var(--color-accent); }
+
+.svc__how {
+  padding: var(--space-4) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(6, 10, 8, 0.5);
+}
+
+.svc__how h3 {
+  font-size: var(--text-md);
+  margin-bottom: var(--space-3);
+}
+
+.svc__how ul {
+  display: grid;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.svc__how li {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.svc__how i { color: var(--cyan-400); margin-top: 0.35em; flex-shrink: 0; }
+
+@media (min-width: 900px) {
+  .sys__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .svc__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .svc__foot { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+
+/* ===== FORMULARIO DE CONTACTO ===== */
+.svc-card__ctas {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+}
+
+.svc-card__cta { margin-top: 0; }
+
+.svc-card__wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--chip-bg);
+  color: var(--color-accent);
+  font-size: var(--text-md);
+  transition: border-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.svc-card__wa:hover { border-color: var(--color-border-strong); }
+
+.cform {
+  display: grid;
+  gap: var(--space-4);
+  width: 100%;
+  margin-top: var(--space-8);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.cform__title { font-size: var(--text-md); }
+
+.cform__subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: calc(var(--space-2) * -1);
+}
+
+.cform__hp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cform__row {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.cform__field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.cform__field label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.cform__field label span { color: var(--color-accent); }
+
+.cform__field input,
+.cform__field select,
+.cform__field textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(6, 10, 8, 0.7);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  transition: border-color var(--duration-fast) ease;
+}
+
+.cform__field textarea { resize: vertical; line-height: 1.6; }
+
+.cform__field input::placeholder,
+.cform__field textarea::placeholder { color: rgba(214, 222, 216, 0.42); }
+
+.cform__field input:hover,
+.cform__field select:hover,
+.cform__field textarea:hover { border-color: var(--color-border-strong); }
+
+.cform__field input:focus-visible,
+.cform__field select:focus-visible,
+.cform__field textarea:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: var(--focus-ring);
+}
+
+.cform__field [aria-invalid='true'] { border-color: var(--color-danger); }
+
+.cform__err {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-danger);
+}
+
+.cform__err::before { content: '!'; font-weight: 700; }
+
+.cform__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.cform__submit[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.cform__status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+}
+
+.cform__status--ok {
+  border: 1px solid var(--color-border-strong);
+  background: rgba(57, 255, 136, 0.08);
+  color: var(--color-text);
+}
+
+.cform__status--ok i { color: var(--color-accent); }
+
+.cform__status--err {
+  border: 1px solid var(--color-danger);
+  background: rgba(255, 107, 107, 0.08);
+  color: var(--color-text);
+}
+
+.cform__status--err i { color: var(--color-danger); }
+
+.cform__privacy {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 720px) {
+  .cform__row { grid-template-columns: 1fr 1fr; }
 }
 </style>

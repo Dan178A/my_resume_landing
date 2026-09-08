@@ -4,7 +4,7 @@
 
 # Daniel Silva — Portfolio & Resume Landing
 
-**Ingeniero de Software Full Stack & IA** · Visión por computadora · Sistemas en tiempo real · Web end-to-end
+**Ingeniero de Software y Sistemas** · Tiempo real e IoT industrial · Arquitectura offline-first · IA aplicada
 
 [![Live Demo](https://img.shields.io/badge/🔴_LIVE_DEMO-my--resume--landing.vercel.app-00c896?style=for-the-badge)](https://my-resume-landing.vercel.app/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Daniel_Silva-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/daniel-alejandro-silva-rojas/)
@@ -39,7 +39,7 @@
 
 Este repositorio contiene el código fuente de mi **portafolio / landing de currículum**: una single-page application construida con **Vue 3 + Vite + TypeScript** y pre-renderizada con **vite-ssg** para SEO real, que sirve como carta de presentación técnica. No es una plantilla genérica: todo el contenido (experiencia, proyectos, stack) se gestiona como datos tipados en TypeScript, con soporte bilingüe **ES/EN** nativo, animaciones cuidadas (aurora background, tilt 3D, spotlight, marquee, count-up), un caso de estudio en profundidad de mi proyecto insignia (**DropAudio CCS**, e-commerce en producción) y un visor de CV con 4 variantes (idioma × perfil).
 
-> 5+ años enviando software a producción en paralelo a mi formación universitaria: visión por computadora aplicada a la industria, asistentes de IA en tiempo real y plataformas web de extremo a extremo.
+> Cinco años y cuatro sistemas en producción: telemetría en tiempo real (1–10 ms), control de hardware IoT industrial en red, ecosistemas offline-first e IA aplicada. Disponible para proyectos freelance y roles senior remotos.
 
 ### 🚀 Demo en vivo
 
@@ -134,7 +134,7 @@ npm run test:unit
 **Ingeniero de Software Senior — Full Stack & IA**, con sede en Caracas, Venezuela, disponible para roles remotos.
 
 - **Lead Performance & Systems Engineer** en Ea2technology (Canadá, remoto) — Digital Twin industrial y arquitectura WebSocket full-duplex que redujo la latencia de 200–500 ms a 1–10 ms.
-- **Fundador & Arquitecto de Software** de DropAudio CCS — e-commerce en producción sobre Nuxt 3 + Supabase, con 94+ reseñas verificadas.
+- **Fundador & Arquitecto de Software** de DropAudio CCS — e-commerce en producción sobre Nuxt 3 + Supabase, con 102+ reseñas verificadas.
 - **Consultor de Rendimiento & Ingeniero de Algoritmos** (freelance, sector marítimo/petrolero) — motores de estabilización de video con optical flow y FlowNet.
 - **B.Sc. en Ciencias de la Computación** — LUZ-IUTA, Universidad del Zulia.
 
@@ -154,7 +154,7 @@ npm run test:unit
 
 This repository holds the source code of my **portfolio / resume landing page**: a single-page application built with **Vue 3 + Vite + TypeScript** and pre-rendered with **vite-ssg** for real SEO, serving as my technical calling card. It's not a generic template — every piece of content (experience, projects, tech stack) is managed as typed TypeScript data, with native **ES/EN** bilingual support, polished animations (aurora background, 3D tilt, cursor-aware spotlight, marquee, count-up stats), an in-depth case study of my flagship project (**DropAudio CCS**, a live e-commerce platform), and a multi-profile resume viewer (4 combinations).
 
-> 5+ years shipping software to production alongside my degree: computer vision applied to industry, real-time AI assistants, and end-to-end web platforms.
+> Five years and four production systems: real-time telemetry (1–10 ms), networked industrial IoT hardware control, offline-first ecosystems and applied AI. Available for freelance projects and senior remote roles.
 
 ### 🚀 Live demo
 
@@ -249,7 +249,7 @@ npm run test:unit
 **Senior Software Engineer — Full Stack & AI**, based in Caracas, Venezuela, available for remote roles.
 
 - **Lead Performance & Systems Engineer** at Ea2technology (Canada, remote) — industrial Digital Twin and a full-duplex WebSocket architecture that cut latency from 200–500 ms to 1–10 ms.
-- **Founder & Software Architect** of DropAudio CCS — a production e-commerce platform on Nuxt 3 + Supabase with 94+ verified reviews.
+- **Founder & Software Architect** of DropAudio CCS — a production e-commerce platform on Nuxt 3 + Supabase with 102+ verified reviews.
 - **Software Performance Consultant & Algorithm Engineer** (freelance, maritime/oil sector) — video stabilization engines using optical flow and FlowNet.
 - **B.Sc. in Computer Science** — LUZ-IUTA, University of Zulia.
 
@@ -271,3 +271,13 @@ Diseñado y construido por **Daniel Silva** · Designed and built by **Daniel Si
 *Personal portfolio code — available for review and technical reference.*
 
 </div>
+
+---
+
+## ⚙️ Variables de entorno / Environment variables
+
+| Variable | Uso |
+|---|---|
+| `VITE_WEB3FORMS_KEY` | Access key de [Web3Forms](https://web3forms.com) que entrega el formulario de contacto a dsrglrm@gmail.com. Es **pública por diseño** (se usa desde el navegador). Si está vacía, el formulario cae de vuelta a un `mailto:` prellenado. Configúrala en `.env.local` para desarrollo y en Vercel → Settings → Environment Variables para producción. |
+
+<sub>EN: `VITE_WEB3FORMS_KEY` is the Web3Forms access key that delivers the contact form to dsrglrm@gmail.com. It is public by design (browser-side). When empty, the form falls back to a prefilled `mailto:` link.</sub>
