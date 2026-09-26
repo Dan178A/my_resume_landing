@@ -55,17 +55,6 @@ const form = ref({ name: '', email: '', company: '', service: '', budget: '', me
 const formErrors = ref<Record<string, string>>({})
 const formState = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
-const serviceOptions = computed(() => [...t.value.services.items.map(i => i.name), t.value.form.other])
-
-const requestProposal = (service: string) => {
-    form.value.service = service
-    formErrors.value = {}
-    formState.value = 'idle'
-    const target = document.getElementById('contact')
-    target?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' })
-    window.setTimeout(() => document.getElementById('form-name')?.focus(), reducedMotion ? 0 : 600)
-}
-
 const validateField = (field: 'name' | 'email' | 'message') => {
     const f = t.value.form
     const v = form.value[field].trim()
@@ -490,7 +479,6 @@ onBeforeUnmount(() => {
         <a href="#impact">{{ t.nav.impact }}</a>
         <a href="#systems">{{ t.nav.systems }}</a>
         <a href="#experience">{{ t.nav.experience }}</a>
-        <a href="#services">{{ t.nav.services }}</a>
         <a href="#projects">{{ t.nav.projects }}</a>
         <a href="#contact">{{ t.nav.contact }}</a>
       </div>
@@ -759,60 +747,6 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <!-- SERVICIOS FREELANCE -->
-    <section id="services" class="section" aria-labelledby="services-title">
-      <div class="section-header reveal">
-        <span class="section-cmd" aria-hidden="true">$ cat services.json</span>
-        <h2 id="services-title">{{ t.services.title }}</h2>
-        <p class="section-subtitle">{{ t.services.subtitle }}</p>
-        <div class="header-decoration" aria-hidden="true"></div>
-      </div>
-
-      <div class="svc__grid">
-        <article
-          v-for="(sv, i) in t.services.items" :key="sv.name"
-          class="svc-card reveal" :class="{ 'svc-card--featured': i === 1 }"
-          :style="{ '--reveal-delay': `${i * 80}ms` }"
-          @mousemove="onCardMove"
-        >
-          <span class="svc-card__ic" aria-hidden="true"><i :class="sv.icon"></i></span>
-          <h3 class="svc-card__name">{{ sv.name }}</h3>
-          <p class="svc-card__price">
-            <span class="svc-card__from">{{ t.services.from }}</span>
-            <span class="svc-card__amount">{{ sv.price }}</span>
-          </p>
-          <span class="svc-card__meta">{{ sv.meta }}</span>
-          <p class="svc-card__desc">{{ sv.desc }}</p>
-          <ul class="svc-card__points">
-            <li v-for="pt in sv.points" :key="pt">
-              <i class="fa-solid fa-check" aria-hidden="true"></i><span>{{ pt }}</span>
-            </li>
-          </ul>
-          <div class="svc-card__ctas">
-            <button type="button" class="btn btn--outline svc-card__cta" @click="requestProposal(sv.name)">
-              <i class="fa-regular fa-paper-plane" aria-hidden="true"></i> {{ t.services.cta }}
-            </button>
-            <a
-              :href="whatsappFor(sv.name)" target="_blank" rel="noopener noreferrer"
-              class="svc-card__wa" :aria-label="`${t.contact.whatsapp}: ${sv.name}`"
-            >
-              <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-            </a>
-          </div>
-        </article>
-      </div>
-
-      <div class="svc__foot reveal">
-        <p class="svc__rate"><i class="fa-solid fa-file-signature" aria-hidden="true"></i> {{ t.services.rate }}</p>
-        <div class="svc__how">
-          <h3>{{ t.services.howTitle }}</h3>
-          <ul>
-            <li v-for="h in t.services.how" :key="h"><i class="fa-solid fa-terminal" aria-hidden="true"></i><span>{{ h }}</span></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <!-- PROJECTS -->
     <section id="projects" class="section" aria-labelledby="projects-title">
       <div class="section-header reveal">
@@ -1008,13 +942,6 @@ onBeforeUnmount(() => {
               <input id="form-company" v-model="form.company" type="text" name="company" autocomplete="organization" :placeholder="t.form.companyPh">
             </div>
 
-            <div class="cform__field">
-              <label for="form-service">{{ t.form.service }}</label>
-              <select id="form-service" v-model="form.service" name="service">
-                <option value="">{{ t.form.servicePh }}</option>
-                <option v-for="opt in serviceOptions" :key="opt" :value="opt">{{ opt }}</option>
-              </select>
-            </div>
           </div>
 
           <div class="cform__field">
