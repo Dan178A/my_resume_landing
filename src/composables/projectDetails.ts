@@ -27,6 +27,44 @@ export interface ProjectDetail {
 }
 
 export const projectDetails: Record<string, ProjectDetail> = {
+    'dropaudio-reel-studio': {
+        visibility: 'public',
+        whatThis: {
+            es: 'Aplicación de escritorio que automatiza el montaje de reels para DropAudio CCS: toma el material grabado en el teléfono, lo transcribe, describe y puntúa cada toma con modelos de IA que corren en la misma máquina, escribe el guion y entrega un borrador 1080×1920 armado en CapCut, listo para exportar.',
+            en: 'Desktop application that automates reel editing for DropAudio CCS: it takes raw phone footage, transcribes it, describes and scores every take with AI models running on the same machine, writes the script and delivers a 1080×1920 draft assembled in CapCut, ready to export.',
+        },
+        stack: {
+            language: 'Python 3.10+',
+            runtime: 'pywebview (ventana nativa) + servidor local 127.0.0.1',
+            libs: ['faster-whisper', 'Ollama (visión y texto)', 'pyCapCut', 'Pillow / pillow-heif', 'NumPy', 'ffmpeg', 'PyInstaller'],
+        },
+        howItFits: {
+            es: 'La interfaz es una web local servida solo en 127.0.0.1 dentro de una ventana nativa, empaquetada como .exe. El motor ejecuta tres pasos encadenados —analizar, escribir guion, armar en CapCut— y escribe su progreso en disco para poder retomarlo.',
+            en: 'The UI is a local web app served only on 127.0.0.1 inside a native window, packaged as an .exe. The engine runs three chained steps — analyze, write script, build in CapCut — and writes progress to disk so a run can resume.',
+        },
+        practice: {
+            es: 'Resuelve un cuello de botella real del negocio: revisar a mano todo lo grabado para encontrar las tomas usables costaba unas 2 horas por reel; ahora toma unos 15 minutos y la mayor parte corre sin supervisión. El material nunca sale de la máquina y de las capturas de ventas solo se usan los productos, nunca datos de clientes.',
+            en: 'It solves a real business bottleneck: manually reviewing all the footage to find usable takes cost about 2 hours per reel; it now takes around 15 minutes, most of it unattended. Footage never leaves the machine, and from sales screenshots only products are used, never customer data.',
+        },
+        components: [
+            { name: 'Análisis reanudable', desc: { es: 'El progreso se guarda en JSON sobre la marcha: una interrupción cuesta el archivo en curso, no la corrida completa.', en: 'Progress is written to JSON as it goes: an interruption costs the current file, not the whole run.' } },
+            { name: 'Deduplicación de fotogramas', desc: { es: 'Cada fotograma se reduce a una miniatura gris de 24×24 y se compara con el anterior; las tomas estáticas se saltan el modelo de visión. De ahí salió la mayor parte de la velocidad.', en: 'Each frame is reduced to a 24×24 grayscale thumbnail and compared to the previous one; static shots skip the vision model. Most of the speedup came from this.' } },
+            { name: 'Degradación controlada', desc: { es: 'Timeouts explícitos con progreso visible en cada llamada al modelo y un generador de guion por reglas como respaldo: la corrida siempre termina en un borrador.', en: 'Explicit timeouts with visible progress on every model call, plus a rule-based script generator as fallback: a run always ends in a draft.' } },
+            { name: 'Empaquetado de escritorio', desc: { es: 'PyInstaller produce un ejecutable único; sin navegador, sin puerto expuesto y sin instalación manual de dependencias.', en: 'PyInstaller produces a single executable; no browser, no exposed port and no manual dependency install.' } },
+        ],
+        requirements: [
+            { es: 'Windows con Python 3.10+, Ollama en ejecución, ffmpeg en el PATH y CapCut de escritorio.', en: 'Windows with Python 3.10+, Ollama running, ffmpeg on PATH and the CapCut desktop app.' },
+        ],
+        oneLiner: {
+            es: 'Herramienta interna que convierte dos horas de edición manual en quince minutos, con IA corriendo en la propia máquina.',
+            en: 'Internal tool that turns two hours of manual editing into fifteen minutes, with AI running on the machine itself.',
+        },
+        ask: [
+            '¿Cómo decide qué toma sirve y cuál no?',
+            '¿Qué pasa si el modelo falla a mitad del proceso?',
+            '¿Por qué correr la IA en local y no en la nube?',
+        ],
+    },
     'DropAudio CCS': {
         visibility: 'live',
         whatThis: {

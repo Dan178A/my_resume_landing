@@ -198,6 +198,14 @@ const projects: Project[] = [
         },
     },
     {
+        name: 'dropaudio-reel-studio', category: 'ai', icon: 'fa-solid fa-film', tech: 'Python · IA local',
+        featured: true,
+        desc: {
+            es: 'App de escritorio que convierte el material grabado en el teléfono en un borrador de reel listo en CapCut: transcribe, puntúa cada toma, escribe el guion y arma el proyecto. De ~2 h de edición manual a ~15 min.',
+            en: 'Desktop app that turns phone footage into a finished CapCut reel draft: transcribes, scores every take, writes the script and assembles the project. From ~2 h of manual editing to ~15 min.',
+        },
+    },
+    {
         name: 'RealtimeVoiceAssistant', category: 'ai', icon: 'fa-solid fa-microphone-lines', tech: 'Rust · Python · Gemini',
         desc: {
             es: 'Asistente de voz conversacional en tiempo real: transcripción, NLP y síntesis de voz con Gemini Live.',
@@ -249,6 +257,7 @@ const repoTag = (p: Project): string => apiRepos.value.get(p.name)?.language ?? 
    evita que la grilla los muestre como "Privado" en SSR o antes de que resuelva
    el fetch de enriquecimiento, que solo corre en el cliente. */
 const knownPublicRepos = new Set([
+    'dropaudio-reel-studio',
     'System_Stabilitation_Interpolation',
     'FlowNet_Video_Stabilization',
     'RealtimeVoiceAssistant',
