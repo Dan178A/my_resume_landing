@@ -474,6 +474,9 @@ const onKeydown = (e: KeyboardEvent) => {
 let reducedMotion = false
 let observer: IntersectionObserver | undefined
 
+/* Fondo del hero: bucle de 12 s sin audio. Con movimiento reducido queda el póster. */
+const heroBg = ref<HTMLVideoElement | null>(null)
+
 const onCardMove = (e: MouseEvent) => {
     if (reducedMotion) return
     const card = e.currentTarget as HTMLElement
@@ -533,6 +536,9 @@ onMounted(async () => {
         }, { threshold: 0.35 })
         caseVideos.forEach(v => videoObserver?.observe(v))
         if (!hoverCapable) cardVideos.forEach(v => videoObserver?.observe(v))
+        if (heroBg.value) videoObserver?.observe(heroBg.value)
+    } else if (heroBg.value) {
+        heroBg.value.pause()
     }
 
     /* Rotación de palabras */
@@ -589,6 +595,10 @@ onBeforeUnmount(() => {
 
     <!-- HERO -->
     <section id="hero" class="hero">
+      <video
+        ref="heroBg" class="hero__bg" src="/hero-bg.mp4" poster="/hero-bg.jpg"
+        muted loop playsinline autoplay preload="auto" aria-hidden="true" tabindex="-1"
+      ></video>
       <span class="hero__badge">
         <span class="badge-dot" aria-hidden="true"></span>
         {{ t.hero.available }}
@@ -1418,6 +1428,33 @@ onBeforeUnmount(() => {
   text-align: center;
   gap: var(--space-4);
   padding: var(--space-16) 0 var(--space-16);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Señales en bucle, de orilla a orilla: el velo del centro deja que el texto mande */
+.hero__bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  z-index: -1;
+  object-fit: cover;
+  opacity: 0.5;
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 90%, transparent 100%);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 58% 52% at 50% 46%, rgba(12, 11, 9, 0.72), transparent 72%);
 }
 
 .hero__badge {
