@@ -44,3 +44,5 @@ __screenshots__/
 motion/*/out.mp4
 motion/*/.hyperframes/
 motion/*/renders/
+
+mp4/
