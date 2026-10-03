@@ -595,8 +595,10 @@ onBeforeUnmount(() => {
 
     <!-- HERO -->
     <section id="hero" class="hero">
+      <!-- src/poster vinculados: un atributo estático dispararía la resolución
+           de assets de Vite y rompería el entorno de test en Windows -->
       <video
-        ref="heroBg" class="hero__bg" src="/hero-bg.mp4" poster="/hero-bg.jpg"
+        ref="heroBg" class="hero__bg" :src="'/hero-bg.mp4'" :poster="'/hero-bg.jpg'"
         muted loop playsinline autoplay preload="auto" aria-hidden="true" tabindex="-1"
       ></video>
       <span class="hero__badge">
