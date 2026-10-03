@@ -1412,7 +1412,7 @@ onBeforeUnmount(() => {
   border: 1px solid var(--color-border);
   font-size: var(--text-sm);
   font-weight: 600;
-  transition: all var(--duration-base) ease;
+  transition: border-color var(--duration-base) ease, color var(--duration-base) ease, box-shadow var(--duration-base) ease;
 }
 
 .nav__lang:hover {
@@ -1604,8 +1604,8 @@ onBeforeUnmount(() => {
   -webkit-text-fill-color: transparent;
 }
 
-.word-flip-enter-active { transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.word-flip-leave-active { transition: all 0.2s ease-in; }
+.word-flip-enter-active { transition: opacity 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.word-flip-leave-active { transition: opacity 0.2s ease-in, transform 0.2s ease-in; }
 .word-flip-enter-from { opacity: 0; transform: translateY(14px); }
 .word-flip-leave-to { opacity: 0; transform: translateY(-14px); }
 
@@ -1632,7 +1632,7 @@ onBeforeUnmount(() => {
   background: var(--color-glass);
   color: var(--color-text);
   font-size: var(--text-lg);
-  transition: all var(--duration-slow) var(--ease-spring);
+  transition: transform var(--duration-slow) var(--ease-spring), border-color var(--duration-slow) ease, color var(--duration-slow) ease, box-shadow var(--duration-slow) ease;
 }
 
 .hero__socials a:hover {
@@ -1645,9 +1645,12 @@ onBeforeUnmount(() => {
 .hero__actions {
   display: grid;
   gap: var(--space-4);
-  width: min(100%, 640px);
+  width: min(100%, 760px);
   margin-top: var(--space-2);
 }
+
+/* Las etiquetas no se parten en dos líneas dentro de la fila de 3 botones */
+.hero__actions .btn { white-space: nowrap; }
 
 /* Botón CV con acento */
 .btn--cv {
@@ -1674,7 +1677,7 @@ onBeforeUnmount(() => {
   font-size: var(--text-base);
   letter-spacing: 0.02em;
   border: 1px solid transparent;
-  transition: all var(--duration-base) ease;
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease, background var(--duration-base) ease, border-color var(--duration-base) ease, color var(--duration-base) ease;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -1944,7 +1947,7 @@ onBeforeUnmount(() => {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
   font-weight: 600;
-  transition: all var(--duration-base) ease;
+  transition: color var(--duration-base) ease, border-color var(--duration-base) ease, transform var(--duration-base) ease;
 }
 
 .filters__chip:hover {
@@ -1993,8 +1996,8 @@ onBeforeUnmount(() => {
 }
 
 /* Transición al filtrar */
-.card-shuffle-enter-active { transition: all 0.4s var(--ease-smooth); }
-.card-shuffle-leave-active { transition: all 0.25s ease-in; position: absolute; opacity: 0; }
+.card-shuffle-enter-active { transition: opacity 0.4s var(--ease-smooth), transform 0.4s var(--ease-smooth); }
+.card-shuffle-leave-active { transition: opacity 0.25s ease-in, transform 0.25s ease-in; position: absolute; opacity: 0; }
 .card-shuffle-enter-from { opacity: 0; transform: translateY(30px) scale(0.95); }
 .card-shuffle-move { transition: transform 0.4s var(--ease-smooth); }
 
@@ -2115,7 +2118,7 @@ onBeforeUnmount(() => {
   flex-shrink: 0;
   border-radius: 50%;
   background: rgba(250, 249, 247, 0.05);
-  transition: all var(--duration-slow) var(--ease-spring);
+  transition: background var(--duration-slow) ease, color var(--duration-slow) ease, transform var(--duration-slow) var(--ease-spring);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2214,7 +2217,7 @@ onBeforeUnmount(() => {
   font-size: var(--text-base);
   font-weight: 600;
   white-space: nowrap;
-  transition: all var(--duration-base) ease;
+  transition: border-color var(--duration-base) ease, box-shadow var(--duration-base) ease, transform var(--duration-base) ease;
 }
 
 .marquee__chip i { color: var(--color-accent); font-size: var(--text-md); }
@@ -2300,7 +2303,7 @@ onBeforeUnmount(() => {
   font-weight: 600;
   letter-spacing: 0.04em;
   border-bottom: 1px dashed var(--color-border-strong);
-  transition: all var(--duration-base) ease;
+  transition: color var(--duration-base) ease, border-bottom-color var(--duration-base) ease;
   position: relative;
 }
 
@@ -2371,7 +2374,7 @@ onBeforeUnmount(() => {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
   font-weight: 600;
-  transition: all var(--duration-fast) ease;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease, background var(--duration-fast) ease;
 }
 
 .cv-panel__btn:hover {
@@ -3046,7 +3049,7 @@ onBeforeUnmount(() => {
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.03em;
-  transition: all var(--duration-fast) ease;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
 }
 .cv-seg:hover { color: var(--color-text); border-color: var(--color-border-strong); }
 .cv-seg--active {
