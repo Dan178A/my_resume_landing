@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=1280, height=800" />
+<title>reel-studio es</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  body { margin:0; background:#0C0B09; color:#FAF9F7; font-family:'Segoe UI',system-ui,sans-serif; }
+  #root { position:relative; width:100%; height:100%; overflow:hidden;
+    background:radial-gradient(circle at 85% -10%, #3a2b12 0%, #0C0B09 55%); }
+  .grid { position:absolute; inset:0; opacity:.5;
+    background-image:linear-gradient(rgba(205,168,96,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(205,168,96,.07) 1px,transparent 1px);
+    background-size:64px 64px; }
+  .clip { position:absolute; inset:0; }
+  .stage { position:absolute; inset:0; padding:56px 72px; display:flex; flex-direction:column; gap:26px; }
+  h2 { margin:0; font-size:46px; font-weight:700; letter-spacing:-0.02em; }
+  .sub { font-size:25px; color:#BDB4A4; margin-top:-8px; }
+  .gold { color:#CDA860; } .wine { color:#D36A76; } .muted { color:#BDB4A4; }
+  .chip { border:1px solid rgba(205,168,96,.4); background:rgba(22,19,13,.92); border-radius:12px;
+    padding:14px 22px; font-size:26px; font-weight:600; }
+  .mono { font-family:monospace; }
+  
+  .row{display:flex;gap:10px}
+  .take{flex:1;height:100px;border-radius:10px;border:1px solid rgba(205,168,96,.3);background:#1a160e;
+    display:flex;flex-direction:column;justify-content:flex-end;padding:10px;font-size:20px;gap:2px}
+  .take small{font-size:16px;color:#8E8576}
+  .take.skip{opacity:.3}
+  .big{display:flex;align-items:baseline;gap:24px;margin-top:8px}
+  .big s{font-size:56px;color:#8E8576;text-decoration-color:#D36A76;text-decoration-thickness:4px}
+  .big b{font-size:124px;line-height:1;letter-spacing:-0.03em;color:#CDA860}
+
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1280" data-height="800" data-duration="8">
+<div class="grid"></div>
+<section id="scene" class="clip" data-start="0" data-duration="8"><div class="stage">
+<h2 id="h">De material crudo a borrador en CapCut</h2><div class="sub">Cada toma se transcribe, se describe y se puntúa en tu propia computadora.</div>
+<div class="row" id="takes"><div class="take"><span>9.1</span><small>usable</small></div><div class="take skip"><span>2.0</span><small>descartada</small></div><div class="take"><span>8.4</span><small>usable</small></div><div class="take skip"><span>3.2</span><small>descartada</small></div><div class="take"><span>9.4</span><small>usable</small></div><div class="take"><span>7.8</span><small>usable</small></div></div>
+<div class="chip gold" id="script" style="align-self:flex-start">Guion escrito · 1080×1920</div>
+<div class="big"><s id="from">2 h</s><b id="to">15 min</b></div>
+</div></section></div>
+<script>
+const tl = gsap.timeline({ paused: true });
+tl.fromTo(".grid",{backgroundPosition:"0px 0px"},{backgroundPosition:"-128px -128px",duration:8,ease:"none"},0);
+
+tl.from("#h",{y:30,opacity:0,duration:.6,ease:"power3.out"},.2);
+tl.from(".sub",{opacity:0,duration:.5},.6);
+tl.from(".take",{opacity:0,y:24,stagger:.15,duration:.4},1.2);
+tl.to(".take:not(.skip)",{borderColor:"#CDA860",duration:.4,stagger:.12},2.6);
+tl.from("#script",{opacity:0,x:-30,duration:.5},4.1);
+tl.from("#from",{opacity:0,duration:.4},5);
+tl.from("#to",{opacity:0,scale:.8,duration:.6,ease:"back.out(1.8)"},5.6);
+
+window.__timelines["main"] = tl;
+</script></body></html>

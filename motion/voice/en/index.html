@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=1280, height=800" />
+<title>voice en</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  body { margin:0; background:#0C0B09; color:#FAF9F7; font-family:'Segoe UI',system-ui,sans-serif; }
+  #root { position:relative; width:100%; height:100%; overflow:hidden;
+    background:radial-gradient(circle at 85% -10%, #3a2b12 0%, #0C0B09 55%); }
+  .grid { position:absolute; inset:0; opacity:.5;
+    background-image:linear-gradient(rgba(205,168,96,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(205,168,96,.07) 1px,transparent 1px);
+    background-size:64px 64px; }
+  .clip { position:absolute; inset:0; }
+  .stage { position:absolute; inset:0; padding:56px 72px; display:flex; flex-direction:column; gap:26px; }
+  h2 { margin:0; font-size:46px; font-weight:700; letter-spacing:-0.02em; }
+  .sub { font-size:25px; color:#BDB4A4; margin-top:-8px; }
+  .gold { color:#CDA860; } .wine { color:#D36A76; } .muted { color:#BDB4A4; }
+  .chip { border:1px solid rgba(205,168,96,.4); background:rgba(22,19,13,.92); border-radius:12px;
+    padding:14px 22px; font-size:26px; font-weight:600; }
+  .mono { font-family:monospace; }
+  
+  .pipe{display:flex;align-items:center;gap:12px}
+  .pipe .chip{opacity:0;font-size:24px}
+  .pipe i{flex:0 0 28px;height:2px;background:#CDA860;opacity:0}
+
+  .wave{display:flex;align-items:center;gap:6px;height:170px}
+  .wave b{flex:1;background:linear-gradient(#E2C47F,#967337);border-radius:4px;transform-origin:center}
+  .meta{display:flex;gap:16px}.meta .chip{font-size:22px}
+
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1280" data-height="800" data-duration="8">
+<div class="grid"></div>
+<section id="scene" class="clip" data-start="0" data-duration="8"><div class="stage">
+<h2 id="h">A conversation, in real time</h2><div class="wave" id="wave"><b style="height:20px"></b><b style="height:58px"></b><b style="height:79px"></b><b style="height:71px"></b><b style="height:40px"></b><b style="height:41px"></b><b style="height:72px"></b><b style="height:78px"></b><b style="height:57px"></b><b style="height:21px"></b><b style="height:59px"></b><b style="height:79px"></b><b style="height:71px"></b><b style="height:39px"></b><b style="height:41px"></b><b style="height:72px"></b><b style="height:78px"></b><b style="height:57px"></b><b style="height:22px"></b><b style="height:60px"></b><b style="height:79px"></b><b style="height:70px"></b><b style="height:38px"></b><b style="height:42px"></b><b style="height:73px"></b><b style="height:78px"></b><b style="height:56px"></b><b style="height:23px"></b><b style="height:60px"></b><b style="height:79px"></b><b style="height:70px"></b><b style="height:37px"></b><b style="height:43px"></b><b style="height:73px"></b><b style="height:78px"></b><b style="height:55px"></b><b style="height:24px"></b><b style="height:61px"></b><b style="height:79px"></b><b style="height:69px"></b><b style="height:36px"></b><b style="height:44px"></b><b style="height:74px"></b><b style="height:78px"></b><b style="height:54px"></b><b style="height:25px"></b><b style="height:62px"></b><b style="height:79px"></b></div><div class="pipe"><div class="chip" id="c0">Your voice</div><i class="pa" id="a1"></i><div class="chip" id="c1">Transcription</div><i class="pa" id="a2"></i><div class="chip" id="c2">Gemini 2.5 Flash</div><i class="pa" id="a3"></i><div class="chip" id="c3">Synthesized voice</div></div>
+<div class="meta"><div class="chip gold" id="m1">critical audio in Rust</div><div class="chip mono" id="m2">WebSocket</div></div>
+</div></section></div>
+<script>
+const tl = gsap.timeline({ paused: true });
+tl.fromTo(".grid",{backgroundPosition:"0px 0px"},{backgroundPosition:"-128px -128px",duration:8,ease:"none"},0);
+const START=2.2;
+document.querySelectorAll(".pipe .chip").forEach((el,i)=>{
+  tl.fromTo(el,{opacity:0,y:16},{opacity:1,y:0,duration:.4,ease:"back.out(1.6)"},START+i*.55);
+  const a=document.getElementById("a"+(i+1)); if(a) tl.fromTo(a,{opacity:0,scaleX:0},{opacity:1,scaleX:1,transformOrigin:"left",duration:.3},START+i*.55+.35);
+});
+
+tl.from("#h",{y:30,opacity:0,duration:.6,ease:"power3.out"},.2);
+tl.fromTo(".wave b",{scaleY:.15},{scaleY:1,duration:.35,ease:"sine.inOut",stagger:{each:.03,yoyo:true,repeat:7}},.6);
+tl.from("#m1",{opacity:0,x:-20,duration:.4},5.2);tl.from("#m2",{opacity:0,x:-20,duration:.4},5.5);
+
+window.__timelines["main"] = tl;
+</script></body></html>

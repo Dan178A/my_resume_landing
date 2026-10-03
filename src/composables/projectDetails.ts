@@ -109,47 +109,31 @@ test/              Pruebas Vitest (business, useMoney)`,
     },
 
     'Camara_OCR_Python': {
-        /* Privado a propósito: es trabajo de consultoría industrial para un cliente.
-           Este resumen es deliberadamente general — sin nombre de cliente, sin el
-           protocolo/puerto de integración con el sistema del cliente, y sin la
-           estructura exacta de sus datos — para no exponer nada bajo confidencialidad.
-           Si quieres el detalle técnico completo, escríbeme. */
+        /* Privado a propósito: es trabajo de consultoría para un cliente bajo
+           confidencialidad. Este resumen es deliberadamente genérico: no nombra al
+           cliente, el sector, el equipo inspeccionado, la estructura del código ni
+           los datos. No ampliarlo sin autorización escrita del cliente. */
         visibility: 'private',
         whatThis: {
-            es: 'Aplicación de escritorio en Python que asiste inspecciones industriales de equipos cilíndricos (tambores) en refinerías: ayuda a ubicar la cámara y visualizar deformaciones antes de una inspección real, combinando datos de geometría con lecturas de cámara/OCR.',
-            en: 'A Python desktop app that assists industrial inspections of cylindrical refinery equipment (drums): it helps position the camera and visualize deformations ahead of a real inspection, combining geometry data with camera/OCR input.',
+            es: 'Aplicación de escritorio en Python para asistir inspecciones industriales con cámara: combina visualización técnica en 2D con lectura por cámara y OCR para guiar la inspección.',
+            en: 'A Python desktop app that assists industrial camera-based inspections: it combines 2D technical visualization with camera input and OCR to guide the inspection.',
         },
         stack: {
             language: 'Python',
             runtime: 'PyQt5 + Matplotlib + OpenCV',
             libs: ['pandas', 'numpy', 'matplotlib', 'PyQt5', 'openpyxl', 'cv2'],
         },
-        tree: `app.py             controlador principal de la interfaz y lógica de actualización
-Layout/             UI de PyQt5 (diseño + carga de la ventana principal)
-Maps/               visualización: mapa radial del tambor y corte vertical
-ocr_core/           captura de cámara, segmentación OCR y regiones de interés
-requirements.txt    dependencias del entorno`,
-        howItFits: {
-            es: 'La app carga datos de geometría e inspección (soldaduras, dimensiones) y construye dos vistas sincronizadas: un mapa radial desenrollado del tambor y un corte vertical. También puede recibir lecturas externas de un módulo de cámara/OCR para mover la vista automáticamente, como si el usuario la estuviera controlando.',
-            en: 'The app loads geometry and inspection data (welds, dimensions) and builds two synced views: an unrolled radial map of the drum and a vertical section. It can also receive external camera/OCR readings to move the view automatically, as if the user were controlling it.',
-        },
         practice: {
-            es: 'Asiste la inspección de tambores industriales mostrando dónde están las soldaduras, qué zonas tienen mayor deformación y hacia dónde apuntar la cámara, recorriendo automáticamente las zonas más críticas. Combina visualización geométrica 2D con integración de cámara/OCR para guiar la inspección en tiempo real. Desarrollado como parte de una consultoría de ingeniería para el sector industrial — los detalles del cliente y de la integración quedan fuera de este resumen; escríbeme si quieres una demo o el detalle técnico completo.',
-            en: 'It assists industrial drum inspections by showing where welds are, which zones show the most deformation, and where to aim the camera, auto-scanning the most critical zones. It combines 2D geometric visualization with camera/OCR integration to guide inspection in real time. Built as part of an industrial engineering consulting engagement — client and integration details are out of scope for this summary; reach out for a demo or the full technical breakdown.',
+            es: 'Trabajo de consultoría de ingeniería para el sector industrial, bajo confidencialidad: por eso este resumen es general. Si quieres entender el tipo de problemas que resuelvo en este campo, escríbeme y lo conversamos sin entrar en datos del cliente.',
+            en: 'An industrial engineering consulting engagement under confidentiality, which is why this summary is general. If you want to understand the kind of problems I solve in this field, write to me and we can talk about it without client data.',
         },
-        components: [
-            { name: 'app.py', desc: { es: 'Orquesta la interfaz, la carga de datos y la actualización de las vistas.', en: 'Orchestrates the UI, data loading and view updates.' } },
-            { name: 'Maps/mapaRadio.py', desc: { es: 'Mapa radial del tambor con distintos modos de visualización.', en: 'Radial drum map with several visualization modes.' } },
-            { name: 'Maps/corteVertical.py', desc: { es: 'Perfil vertical y cálculo de deformación (strain).', en: 'Vertical profile and strain computation.' } },
-            { name: 'ocr_core/camara.py', desc: { es: 'Captura de cámara en un hilo separado (RTSP, MJPEG o webcam local).', en: 'Camera capture on a separate thread (RTSP, MJPEG or local webcam).' } },
-        ],
         oneLiner: {
-            es: 'Herramienta de apoyo a inspección industrial: visualización técnica de equipos cilíndricos, cálculo de deformación y guiado de cámara asistido por OCR.',
-            en: 'Industrial-inspection support tool: technical visualization of cylindrical equipment, deformation computation and OCR-assisted camera guidance.',
+            es: 'Herramienta de apoyo a inspección industrial con cámara, visualización técnica y OCR.',
+            en: 'Industrial inspection support tool with camera input, technical visualization and OCR.',
         },
         ask: [
-            '¿Puedes contarme más sobre cómo funciona la visualización geométrica?',
-            '¿Cómo se integra la lectura por cámara/OCR con el resto del sistema?',
+            '¿Qué tipo de problemas industriales resuelves con cámara y OCR?',
+            '¿Cómo manejas la confidencialidad con tus clientes?',
         ],
     },
 

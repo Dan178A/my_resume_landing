@@ -40,3 +40,7 @@ __screenshots__/
 
 .vercel
 .env*
+
+motion/*/out.mp4
+motion/*/.hyperframes/
+motion/*/renders/

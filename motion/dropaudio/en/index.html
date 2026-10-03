@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=1280, height=800" />
+<title>dropaudio en</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  body { margin:0; background:#0C0B09; color:#FAF9F7; font-family:'Segoe UI',system-ui,sans-serif; }
+  #root { position:relative; width:100%; height:100%; overflow:hidden;
+    background:radial-gradient(circle at 85% -10%, #3a2b12 0%, #0C0B09 55%); }
+  .grid { position:absolute; inset:0; opacity:.5;
+    background-image:linear-gradient(rgba(205,168,96,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(205,168,96,.07) 1px,transparent 1px);
+    background-size:64px 64px; }
+  .clip { position:absolute; inset:0; }
+  .stage { position:absolute; inset:0; padding:56px 72px; display:flex; flex-direction:column; gap:26px; }
+  h2 { margin:0; font-size:46px; font-weight:700; letter-spacing:-0.02em; }
+  .sub { font-size:25px; color:#BDB4A4; margin-top:-8px; }
+  .gold { color:#CDA860; } .wine { color:#D36A76; } .muted { color:#BDB4A4; }
+  .chip { border:1px solid rgba(205,168,96,.4); background:rgba(22,19,13,.92); border-radius:12px;
+    padding:14px 22px; font-size:26px; font-weight:600; }
+  .mono { font-family:monospace; }
+  
+  .steps{display:flex;gap:18px}.step{flex:1;opacity:.3;text-align:center}
+  .card{padding:28px 34px;border-radius:18px;border:1px solid rgba(205,168,96,.5);
+    background:linear-gradient(145deg,#1f1a11,#0f0d09);display:flex;flex-direction:column;gap:16px;box-shadow:0 0 60px rgba(205,168,96,.12)}
+  .bar{height:12px;border-radius:6px;background:rgba(205,168,96,.15);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#E2C47F,#967337)}
+  .pay{display:flex;gap:16px}.pay .chip{opacity:0}.tagc{align-self:flex-start;font-size:22px;padding:8px 16px}
+
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1280" data-height="800" data-duration="8">
+<div class="grid"></div>
+<section id="scene" class="clip" data-start="0" data-duration="8"><div class="stage">
+<div class="chip tagc gold" id="tag">● Store in production</div>
+<h2 id="h">Which headphones are right for you?</h2>
+<div class="steps"><div class="chip step" id="s1">1 · Your taste</div><div class="chip step" id="s2">2 · Your budget</div><div class="chip step" id="s3">3 · Your use</div></div>
+<div class="card" id="card"><div class="gold" style="font-size:30px;font-weight:700">Your recommendation</div>
+<div class="bar"><i id="b1"></i></div><div class="bar"><i id="b2"></i></div><div class="bar"><i id="b3"></i></div></div>
+<div class="muted" style="font-size:24px" id="rate">Live BCV and USDT rates</div>
+<div class="pay"><div class="chip" id="p1">USDT</div><div class="chip" id="p2">Zinli</div><div class="chip" id="p3">Pago Móvil</div></div>
+</div></section></div>
+<script>
+const tl = gsap.timeline({ paused: true });
+tl.fromTo(".grid",{backgroundPosition:"0px 0px"},{backgroundPosition:"-128px -128px",duration:8,ease:"none"},0);
+
+tl.from("#tag",{opacity:0,x:-30,duration:.5},.1);
+tl.from("#h",{y:30,opacity:0,duration:.6,ease:"power3.out"},.3);
+["s1","s2","s3"].forEach((id,i)=>tl.to("#"+id,{opacity:1,borderColor:"#CDA860",duration:.4},1+i*.8));
+tl.from("#card",{y:40,opacity:0,duration:.6,ease:"power3.out"},3.3);
+[["b1",.92],["b2",.74],["b3",.85]].forEach(([id,w],i)=>tl.to("#"+id,{width:(w*100)+"%",duration:.9,ease:"power2.out"},3.8+i*.2));
+tl.from("#rate",{opacity:0,duration:.4},5.2);
+["p1","p2","p3"].forEach((id,i)=>tl.fromTo("#"+id,{opacity:0,y:20},{opacity:1,y:0,duration:.45,ease:"back.out(1.6)"},5.5+i*.3));
+
+window.__timelines["main"] = tl;
+</script></body></html>

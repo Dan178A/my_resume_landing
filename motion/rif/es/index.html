@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=1280, height=800" />
+<title>rif es</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  body { margin:0; background:#0C0B09; color:#FAF9F7; font-family:'Segoe UI',system-ui,sans-serif; }
+  #root { position:relative; width:100%; height:100%; overflow:hidden;
+    background:radial-gradient(circle at 85% -10%, #3a2b12 0%, #0C0B09 55%); }
+  .grid { position:absolute; inset:0; opacity:.5;
+    background-image:linear-gradient(rgba(205,168,96,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(205,168,96,.07) 1px,transparent 1px);
+    background-size:64px 64px; }
+  .clip { position:absolute; inset:0; }
+  .stage { position:absolute; inset:0; padding:56px 72px; display:flex; flex-direction:column; gap:26px; }
+  h2 { margin:0; font-size:46px; font-weight:700; letter-spacing:-0.02em; }
+  .sub { font-size:25px; color:#BDB4A4; margin-top:-8px; }
+  .gold { color:#CDA860; } .wine { color:#D36A76; } .muted { color:#BDB4A4; }
+  .chip { border:1px solid rgba(205,168,96,.4); background:rgba(22,19,13,.92); border-radius:12px;
+    padding:14px 22px; font-size:26px; font-weight:600; }
+  .mono { font-family:monospace; }
+  
+  .wrap{display:flex;gap:40px;align-items:stretch}
+  .doc{position:relative;width:330px;height:420px;border-radius:14px;background:#ECE6DA;overflow:hidden;flex:none}
+  .doc p{margin:0;height:14px;border-radius:7px;background:#C9BFAE;margin:22px 26px 0}
+  .doc .scan{position:absolute;left:0;right:0;height:4px;background:#CDA860;box-shadow:0 0 24px #CDA860;top:0}
+  .doc .cap{position:absolute;bottom:16px;left:26px;color:#3a3226;font-size:20px;font-weight:600}
+  .right{flex:1;display:flex;flex-direction:column;gap:18px}
+  .eng{display:flex;gap:12px}.eng .chip{font-size:21px;opacity:0}
+  .json{font-family:monospace;font-size:24px;line-height:1.7;background:#110F0B;border:1px solid rgba(205,168,96,.35);border-radius:14px;padding:20px 26px}
+  .json div{opacity:0}.k{color:#CDA860}.v{color:#BDB4A4}
+
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1280" data-height="800" data-duration="8">
+<div class="grid"></div>
+<section id="scene" class="clip" data-start="0" data-duration="8"><div class="stage">
+<h2 id="h">Del PDF del RIF a JSON</h2><div class="wrap">
+<div class="doc" id="doc"><p style="width:60%"></p><p></p><p style="width:80%"></p><p></p><p style="width:70%"></p><p></p><p style="width:50%"></p><p></p><p style="width:75%"></p><div class="scan" id="scan"></div><div class="cap">RIF · PDF o imagen</div></div>
+<div class="right"><div class="eng"><div class="chip" id="e1">Texto nativo</div><div class="chip gold" id="e2">PaddleOCR</div><div class="chip" id="e3">Tesseract de respaldo</div></div>
+<div class="json"><div class="jl">{</div><div class="jl">&nbsp;&nbsp;<span class="k">"rif"</span>: <span class="v">"…"</span>,</div><div class="jl">&nbsp;&nbsp;<span class="k">"razon_social"</span>: <span class="v">"…"</span>,</div><div class="jl">&nbsp;&nbsp;<span class="k">"domicilio_fiscal"</span>: <span class="v">"…"</span>,</div><div class="jl">&nbsp;&nbsp;<span class="k">"estado"</span>: <span class="v">"…"</span></div><div class="jl">}</div></div><div class="muted" id="ok" style="font-size:22px">✓ respuesta siempre válida</div></div></div>
+</div></section></div>
+<script>
+const tl = gsap.timeline({ paused: true });
+tl.fromTo(".grid",{backgroundPosition:"0px 0px"},{backgroundPosition:"-128px -128px",duration:8,ease:"none"},0);
+
+tl.from("#h",{y:30,opacity:0,duration:.6,ease:"power3.out"},.2);
+tl.from("#doc",{opacity:0,x:-40,duration:.6},.6);
+tl.fromTo("#scan",{y:0},{y:416,duration:1.6,ease:"none",repeat:1,yoyo:true},1.1);
+["e1","e2","e3"].forEach((id,i)=>tl.fromTo("#"+id,{opacity:0,y:14},{opacity:1,y:0,duration:.4},1.4+i*.4));
+tl.to(".jl",{opacity:1,duration:.3,stagger:.25},3.2);
+tl.from("#ok",{opacity:0,duration:.4},5.4);
+
+window.__timelines["main"] = tl;
+</script></body></html>

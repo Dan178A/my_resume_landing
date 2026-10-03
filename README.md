@@ -123,7 +123,7 @@ npm run test:unit
 | **RealtimeVoiceAssistant** — asistente de voz conversacional en tiempo real con Gemini Live | Rust · Python · Gemini | IA |
 | **System_Stabilitation_Interpolation** — tesis de grado: estabilización de video con mallas de movimiento | Python · OpenCV | Computer Vision |
 | **FlowNet_Video_Stabilization** — estabilización de video con deep learning (optical flow) | Python · PyTorch | Computer Vision |
-| **Camara_OCR_Python** — monitoreo industrial por cámara con OCR para inspección de tambores de coque | Python · OCR | Computer Vision |
+| **Camara_OCR_Python** — monitoreo industrial por cámara con OCR | Python · OCR | Computer Vision |
 | **extract-rif** — microservicio que extrae datos estructurados de documentos fiscales | FastAPI · PaddleOCR | API |
 | **bolsa-valores-caracas-api** — API pública con datos de la Bolsa de Valores de Caracas | FastAPI · Selenium | API |
 
@@ -238,7 +238,7 @@ npm run test:unit
 | **RealtimeVoiceAssistant** — real-time conversational voice assistant with Gemini Live | Rust · Python · Gemini | AI |
 | **System_Stabilitation_Interpolation** — undergraduate thesis: video stabilization with motion meshes | Python · OpenCV | Computer Vision |
 | **FlowNet_Video_Stabilization** — deep-learning video stabilization (optical flow) | Python · PyTorch | Computer Vision |
-| **Camara_OCR_Python** — industrial camera monitoring with OCR for coke-drum inspection | Python · OCR | Computer Vision |
+| **Camara_OCR_Python** — industrial camera monitoring with OCR | Python · OCR | Computer Vision |
 | **extract-rif** — microservice extracting structured data from fiscal documents | FastAPI · PaddleOCR | API |
 | **bolsa-valores-caracas-api** — public API serving Caracas Stock Exchange data | FastAPI · Selenium | API |
 
