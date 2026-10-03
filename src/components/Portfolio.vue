@@ -2,7 +2,7 @@
 /* Landing premium: aurora bg, tilt 3D, spotlight, marquee, count-up, i18n */
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n, rememberLang, pathForLang, type Lang } from '../composables/useI18n'
-import { projectDetails, type ProjectDetail } from '../composables/projectDetails'
+import { projectDetails, type Bilingual, type ProjectDetail } from '../composables/projectDetails'
 import { caseStudies } from '../composables/caseStudies'
 
 const { lang, t } = useI18n()
@@ -185,6 +185,55 @@ const openCaseDetail = (name?: string) => {
     if (p) openDetail(p)
 }
 
+/* Videos por tarjeta: cada proyecto tiene su animación HyperFrames (renderizada
+   en es/en desde motion/build.py). En escritorio arranca al pasar el cursor y
+   en pantallas sin hover al entrar en pantalla; con movimiento reducido, póster. */
+const cardVideoSlug: Record<string, string> = {
+    'DropAudio CCS': 'dropaudio',
+    System_Stabilitation_Interpolation: 'mesh',
+    FlowNet_Video_Stabilization: 'flownet',
+    Camara_OCR_Python: 'monitoring',
+    'dropaudio-reel-studio': 'reel-studio',
+    RealtimeVoiceAssistant: 'voice',
+    extract_rif: 'rif',
+    'bolsa-valores-caracas-api': 'bolsa',
+}
+
+const cardMedia = (name: string): { src: Bilingual; poster: Bilingual } | undefined => {
+    const slug = cardVideoSlug[name]
+    if (!slug) return undefined
+    return {
+        src: { es: `/cases/${slug}.es.mp4`, en: `/cases/${slug}.en.mp4` },
+        poster: { es: `/cases/${slug}.es.jpg`, en: `/cases/${slug}.en.jpg` },
+    }
+}
+
+const cardVideos = new Set<HTMLVideoElement>()
+/* Registro de cada video de tarjeta. Al filtrar, TransitionGroup desmonta
+   tarjetas y monta otras nuevas: los videos nuevos se observan aquí y los
+   desconectados se purgan cuando Vue entrega null. */
+const registerCardVideo = (el: unknown) => {
+    if (el instanceof HTMLVideoElement) {
+        cardVideos.add(el)
+        if (!hoverCapable) videoObserver?.observe(el)
+    } else {
+        for (const v of [...cardVideos]) {
+            if (!v.isConnected) { videoObserver?.unobserve(v); cardVideos.delete(v) }
+        }
+    }
+}
+
+let hoverCapable = true
+const onCardVideoEnter = (e: MouseEvent) => {
+    if (!hoverCapable) return
+    const v = (e.currentTarget as HTMLElement | null)?.querySelector('video')
+    if (v && !reducedMotion) { v.preload = 'auto'; void v.play().catch(() => {}) }
+}
+const onCardVideoLeave = (e: MouseEvent) => {
+    const v = (e.currentTarget as HTMLElement | null)?.querySelector('video')
+    v?.pause()
+}
+
 /* Proyectos curados: metadata local bilingüe, enriquecida con la API de GitHub */
 const projects: Project[] = [
     {
@@ -263,6 +312,10 @@ const categoryLabel = (id: Category | 'all'): string => {
 const activeFilter = ref<Category | 'all'>('all')
 const filteredProjects = computed(() =>
     activeFilter.value === 'all' ? projects : projects.filter(p => p.category === activeFilter.value),
+)
+/* Grilla: el proyecto junto a su par de medios (video/póster por idioma) */
+const gridItems = computed(() =>
+    filteredProjects.value.map(p => ({ p, media: cardMedia(p.name) })),
 )
 
 /* Enriquecimiento opcional con la API de GitHub */
@@ -447,6 +500,7 @@ const onTiltLeave = (e: MouseEvent) => {
 
 onMounted(async () => {
     reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches
     window.addEventListener('keydown', onKeydown)
     tickClock()
     clockTimer = setInterval(tickClock, 1000)
@@ -468,7 +522,8 @@ onMounted(async () => {
     document.querySelectorAll('.reveal').forEach(el => observer?.observe(el))
 
 
-    /* Videos de los casos: reproducir solo a la vista */
+    /* Videos de los casos y tarjetas: reproducir solo a la vista. Con hover el
+       arreglo de tarjetas queda a cargo del cursor, no del scroll. */
     if (!reducedMotion) {
         videoObserver = new IntersectionObserver(entries => {
             for (const e of entries) {
@@ -477,6 +532,7 @@ onMounted(async () => {
             }
         }, { threshold: 0.35 })
         caseVideos.forEach(v => videoObserver?.observe(v))
+        if (!hoverCapable) cardVideos.forEach(v => videoObserver?.observe(v))
     }
 
     /* Rotación de palabras */
@@ -824,38 +880,46 @@ onBeforeUnmount(() => {
 
       <TransitionGroup tag="div" name="card-shuffle" class="projects__grid">
         <article
-          v-for="p in filteredProjects" :key="p.name"
-          class="project-card project-card--clickable" :data-cat="p.category"
+          v-for="item in gridItems" :key="item.p.name"
+          class="project-card project-card--clickable" :data-cat="item.p.category"
           role="button" tabindex="0"
-          :aria-label="`${t.projects.detail}: ${displayName(p)}`"
+          :aria-label="`${t.projects.detail}: ${displayName(item.p)}`"
           @mousemove="onCardMove"
-          @click="openDetail(p)"
-          @keydown.enter.prevent="openDetail(p)"
-          @keydown.space.prevent="openDetail(p)"
+          @mouseenter="onCardVideoEnter"
+          @mouseleave="onCardVideoLeave"
+          @click="openDetail(item.p)"
+          @keydown.enter.prevent="openDetail(item.p)"
+          @keydown.space.prevent="openDetail(item.p)"
         >
           <div class="win-bar">
             <span class="win-bar__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="win-bar__file">{{ fileName(p) }}</span>
-            <span class="project-card__vis" :data-vis="visOf(p)">
-              <i :class="visMeta[visOf(p)].icon" aria-hidden="true"></i>
-              {{ visMeta[visOf(p)].label[lang] }}
+            <span class="win-bar__file">{{ fileName(item.p) }}</span>
+            <span class="project-card__vis" :data-vis="visOf(item.p)">
+              <i :class="visMeta[visOf(item.p)].icon" aria-hidden="true"></i>
+              {{ visMeta[visOf(item.p)].label[lang] }}
             </span>
+          </div>
+          <div v-if="item.media" class="project-card__media">
+            <video
+              :ref="registerCardVideo" class="project-card__video"
+              :key="`${item.p.name}-${lang}`" muted loop playsinline preload="none" :poster="item.media.poster[lang]"
+              aria-hidden="true" width="1280" height="800"
+            >
+              <source :src="item.media.src[lang]" type="video/mp4" />
+            </video>
           </div>
           <div class="project-card__content">
             <div class="project-card__header">
-              <div class="project-card__badge" :data-cat="p.category" aria-hidden="true">
-                <i :class="p.icon"></i>
-              </div>
-              <h3>{{ displayName(p) }}</h3>
-              <a :href="repoUrl(p)" target="_blank" rel="noopener noreferrer" class="project-card__icon" :aria-label="`${t.projects.viewRepo}: ${p.name}`" @click.stop>
+              <h3>{{ displayName(item.p) }}</h3>
+              <a :href="repoUrl(item.p)" target="_blank" rel="noopener noreferrer" class="project-card__icon" :aria-label="`${t.projects.viewRepo}: ${item.p.name}`" @click.stop>
                 <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
               </a>
             </div>
-            <p class="project-card__description">{{ p.desc[lang] || t.projects.fallback }}</p>
+            <p class="project-card__description">{{ item.p.desc[lang] || t.projects.fallback }}</p>
             <div class="project-card__footer">
               <span class="project-card__tag">
-                <span class="tag-dot" :style="{ background: `var(--cat-${p.category})` }" aria-hidden="true"></span>
-                {{ repoTag(p) }}
+                <span class="tag-dot" :style="{ background: `var(--cat-${item.p.category})` }" aria-hidden="true"></span>
+                {{ repoTag(item.p) }}
               </span>
               <span class="project-card__more">{{ t.projects.detail }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
             </div>
@@ -1975,27 +2039,29 @@ onBeforeUnmount(() => {
   margin-bottom: var(--space-4);
 }
 
-/* Badge de icono por proyecto */
-.project-card__badge {
-  display: inline-grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  flex-shrink: 0;
-  border-radius: var(--radius-md);
-  font-size: var(--text-md);
-  color: var(--blue-950);
-  transition: transform var(--duration-base) var(--ease-spring);
+/* Media por tarjeta: la animación HyperFrames del proyecto (8 s, es/en) */
+.project-card__media {
+  position: relative;
+  aspect-ratio: 8 / 5;
+  overflow: hidden;
+  background: var(--blue-900);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.project-card:hover .project-card__badge {
-  transform: scale(1.12) rotate(-6deg);
+.project-card__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+  transform-origin: 50% 50%;
+  transition: transform var(--duration-slow) var(--ease-smooth), opacity var(--duration-base) ease;
 }
 
-.project-card__badge[data-cat='cv'] { background: linear-gradient(135deg, var(--cyan-400), var(--cyan-600)); box-shadow: 0 5px 15px rgba(205, 168, 96, 0.3); }
-.project-card__badge[data-cat='ai'] { background: linear-gradient(135deg, var(--violet-400), #a8343f); box-shadow: 0 5px 15px rgba(211, 106, 118, 0.3); }
-.project-card__badge[data-cat='web'] { background: linear-gradient(135deg, var(--emerald-400), #b8923a); box-shadow: 0 5px 15px rgba(205, 168, 96, 0.3); }
-.project-card__badge[data-cat='api'] { background: linear-gradient(135deg, var(--amber-400), #a8703f); box-shadow: 0 5px 15px rgba(192, 138, 91, 0.3); }
+.project-card:hover .project-card__video {
+  transform: scale(1.03);
+  opacity: 1;
+}
 
 .project-card__header h3 {
   font-size: var(--text-lg);
