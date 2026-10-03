@@ -32,6 +32,8 @@ interface Project {
     url?: string
     featured?: boolean
     desc: { es: string; en: string }
+    /* Prueba de vida: una cifra o hecho ya respaldado en caseStudies.ts o el JSON-LD */
+    proof?: { es: string; en: string }
 }
 
 const githubUsername = 'Dan178A'
@@ -226,12 +228,18 @@ const registerCardVideo = (el: unknown) => {
 let hoverCapable = true
 const onCardVideoEnter = (e: MouseEvent) => {
     if (!hoverCapable) return
-    const v = (e.currentTarget as HTMLElement | null)?.querySelector('video')
-    if (v && !reducedMotion) { v.preload = 'auto'; void v.play().catch(() => {}) }
+    const card = e.currentTarget as HTMLElement
+    const v = card.querySelector('video')
+    if (v && !reducedMotion) {
+        v.preload = 'auto'
+        card.querySelector('.project-card__media')?.setAttribute('data-playing', '1')
+        void v.play().catch(() => {})
+    }
 }
 const onCardVideoLeave = (e: MouseEvent) => {
-    const v = (e.currentTarget as HTMLElement | null)?.querySelector('video')
-    v?.pause()
+    const card = e.currentTarget as HTMLElement
+    const v = card.querySelector('video')
+    if (v) { v.pause(); card.querySelector('.project-card__media')?.removeAttribute('data-playing') }
 }
 
 /* Proyectos curados: metadata local bilingüe, enriquecida con la API de GitHub */
@@ -243,12 +251,20 @@ const projects: Project[] = [
             es: 'E-commerce completo en producción con panel de administración: catálogo, checkout multimoneda, recomendador de audio y entregas en tiempo real.',
             en: 'Complete e-commerce in production with an admin panel: catalog, multi-currency checkout, audio recommender and real-time deliveries.',
         },
+        proof: {
+            es: '102+ reseñas verificadas · pagos en tres monedas',
+            en: '102+ verified reviews · checkout in three currencies',
+        },
     },
     {
         name: 'System_Stabilitation_Interpolation', title: 'System Stabilization Interpolation', category: 'cv', icon: 'fa-solid fa-video', tech: 'Python · OpenCV',
         desc: {
             es: 'Sistema de estabilización de video para dispositivos móviles usando mallas de movimiento e interpolación — tesis de grado.',
             en: 'Video stabilization system for mobile devices using motion meshes and interpolation — undergraduate thesis.',
+        },
+        proof: {
+            es: 'Resultados medidos con MSE · PSNR · SSIM',
+            en: 'Results measured with MSE · PSNR · SSIM',
         },
     },
     {
@@ -257,12 +273,20 @@ const projects: Project[] = [
             es: 'Estabilización de video con deep learning: estimación global de movimiento destilada a partir de optical flow.',
             en: 'Deep learning video stabilization: global motion estimation distilled from optical flow.',
         },
+        proof: {
+            es: 'La versión GPU estabiliza videos nuevos sin reentrenar',
+            en: 'The GPU version stabilizes new videos without retraining',
+        },
     },
     {
         name: 'Camara_OCR_Python', category: 'cv', icon: 'fa-solid fa-camera', tech: 'Python · OCR',
         desc: {
             es: 'Monitoreo industrial por cámara con OCR para asistir inspecciones en planta.',
             en: 'Industrial camera monitoring with OCR to assist plant inspections.',
+        },
+        proof: {
+            es: '5 años operando en planta, sin soporte en sitio',
+            en: '5 years running on the plant floor, with no on-site support',
         },
     },
     {
@@ -272,12 +296,20 @@ const projects: Project[] = [
             es: 'App de escritorio que convierte el material grabado en el teléfono en un borrador de reel listo en CapCut: transcribe, puntúa cada toma, escribe el guion y arma el proyecto. De ~2 h de edición manual a ~15 min.',
             en: 'Desktop app that turns phone footage into a finished CapCut reel draft: transcribes, scores every take, writes the script and assembles the project. From ~2 h of manual editing to ~15 min.',
         },
+        proof: {
+            es: 'Todo local: el material nunca sale de tu equipo',
+            en: 'All local: footage never leaves your computer',
+        },
     },
     {
         name: 'RealtimeVoiceAssistant', category: 'ai', icon: 'fa-solid fa-microphone-lines', tech: 'Rust · Python · Gemini',
         desc: {
             es: 'Asistente de voz conversacional en tiempo real: transcripción, NLP y síntesis de voz con Gemini Live.',
             en: 'Real-time conversational voice assistant: transcription, NLP and speech synthesis with Gemini Live.',
+        },
+        proof: {
+            es: 'Audio crítico en Rust, respuesta <100 ms',
+            en: 'Critical audio in Rust, sub-100 ms responses',
         },
     },
     {
@@ -286,12 +318,20 @@ const projects: Project[] = [
             es: 'Microservicio HTTP que extrae datos estructurados del RIF (SENIAT) desde PDF o imagen con OCR de doble motor.',
             en: 'HTTP microservice extracting structured RIF (SENIAT) data from PDFs or images with a dual-engine OCR pipeline.',
         },
+        proof: {
+            es: 'Respuesta siempre válida, con motor de respaldo',
+            en: 'Always-valid response, with a fallback engine',
+        },
     },
     {
         name: 'bolsa-valores-caracas-api', category: 'api', icon: 'fa-solid fa-building-columns', tech: 'FastAPI · Selenium',
         desc: {
             es: 'API pública en FastAPI con datos de las acciones listadas en la Bolsa de Valores de Caracas.',
             en: 'Public FastAPI serving data on stocks listed on the Caracas Stock Exchange.',
+        },
+        proof: {
+            es: 'GET /acciones · GET /acciones/{simbolo}',
+            en: 'GET /acciones · GET /acciones/{simbolo}',
         },
     },
 ]
@@ -530,8 +570,10 @@ onMounted(async () => {
     if (!reducedMotion) {
         videoObserver = new IntersectionObserver(entries => {
             for (const e of entries) {
-                const v = e.target as HTMLVideoElement
-                if (e.isIntersecting) { v.preload = 'auto'; void v.play().catch(() => {}) } else v.pause()
+                const el = e.target as HTMLVideoElement
+                const media = el.closest('.project-card__media')
+                if (e.isIntersecting) { el.preload = 'auto'; void el.play().catch(() => {}) } else el.pause()
+                media?.setAttribute('data-playing', e.isIntersecting ? '1' : '0')
             }
         }, { threshold: 0.35 })
         caseVideos.forEach(v => videoObserver?.observe(v))
@@ -919,6 +961,7 @@ onBeforeUnmount(() => {
             >
               <source :src="item.media.src[lang]" type="video/mp4" />
             </video>
+            <span class="project-card__cue" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
           </div>
           <div class="project-card__content">
             <div class="project-card__header">
@@ -928,6 +971,10 @@ onBeforeUnmount(() => {
               </a>
             </div>
             <p class="project-card__description">{{ item.p.desc[lang] || t.projects.fallback }}</p>
+            <p v-if="item.p.proof" class="project-card__proof">
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <span>{{ item.p.proof[lang] }}</span>
+            </p>
             <div class="project-card__footer">
               <span class="project-card__tag">
                 <span class="tag-dot" :style="{ background: `var(--cat-${item.p.category})` }" aria-hidden="true"></span>
@@ -1992,9 +2039,15 @@ onBeforeUnmount(() => {
 
 .projects__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  /* Dos columnas en escritorio: las tarjetas quedan a ~580px y la animación
+     (1280×800) se ve a la mitad de escala, tan legible como el video de un caso */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-8);
   position: relative;
+}
+
+@media (min-width: 720px) {
+  .projects__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* Transición al filtrar */
@@ -2066,13 +2119,25 @@ onBeforeUnmount(() => {
 .project-card[data-cat='api']:hover { box-shadow: var(--shadow-3), var(--glow-api); }
 
 .project-card__content {
-  padding: var(--space-8) var(--space-6);
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  height: 100%;
   position: relative;
   z-index: 1;
 }
+
+/* La prueba de vida del proyecto: dato respaldado, mono, dorado */
+.project-card__proof {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+  line-height: 1.6;
+}
+
+.project-card__proof i { margin-top: 0.3em; font-size: 0.7em; color: var(--color-text-muted); }
 
 .project-card__header {
   display: flex;
@@ -2103,6 +2168,34 @@ onBeforeUnmount(() => {
 .project-card:hover .project-card__video {
   transform: scale(1.03);
   opacity: 1;
+}
+
+/* Pista de que la tarjeta se anima: un punto de play mientras el video está quieto */
+.project-card__cue {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(12, 11, 9, 0.72);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-accent);
+  font-size: 9px;
+  pointer-events: none;
+  transition: opacity var(--duration-base) ease, transform var(--duration-base) ease;
+}
+
+.project-card__media[data-playing='1'] .project-card__cue {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card__cue { display: none; }
+  .project-card:hover .project-card__video { transform: none; }
 }
 
 .project-card__header h3 {
@@ -2136,7 +2229,7 @@ onBeforeUnmount(() => {
   color: var(--color-text-muted);
   font-size: var(--text-base);
   line-height: 1.6;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-4);
   flex-grow: 1;
 }
 
