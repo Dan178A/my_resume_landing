@@ -12,17 +12,20 @@
 ## Contact
 - Email: dsrglrm@gmail.com
 - Phone / WhatsApp: +58 414-231-7561
-- Portfolio: https://my-resume-landing.vercel.app/
+- Portfolio: https://www.danielsilvarojas.dev/
 - GitHub: https://github.com/Dan178A
 - LinkedIn: https://www.linkedin.com/in/daniel-alejandro-silva-rojas/
 
 ## Availability and rates (freelance)
-- Performance & architecture audit — from $1,500 USD, 1–2 weeks. Latency, memory-leak and
+- Landing page with SEO, GEO and AEO — from $300 USD per landing page, 1–2 weeks. Fast bilingual
+  page, technical SEO (metadata, sitemap, Core Web Vitals), FAQ and structured data for answer
+  engines (AEO), and content plus llms.txt so AI assistants can cite the business (GEO).
+- Performance & architecture audit — $800–2,500 USD, 1–3 weeks depending on system size. Latency, memory-leak and
   concurrency diagnosis, map of single points of failure, refactor roadmap prioritized by impact.
-- Custom system, zero to production — from $6,000 USD per project, 6–12 weeks. Hardware
+- Custom system, zero to production — from $3,000 USD per project, 3–12 weeks depending on scope. Hardware
   integration, real-time data, offline-first operation, installers, tests and documentation.
-- Fractional systems engineer — from $3,500 USD per month, 20 h/week, 3-month minimum.
-- Hourly rate: $45–65 USD. Contracting via Deel, Payoneer or crypto. Overlaps American time zones.
+- Fractional systems engineer — $1,800–3,500 USD per month, 10–20 h/week, 2-month minimum.
+- Hourly rate: $35–65 USD depending on the work. Contracting via Deel, Payoneer or crypto. Overlaps American time zones.
 - Also open to senior full-time remote roles (US, Canada, Europe, LATAM).
 
 ## Production systems (client work, private repositories)
@@ -57,7 +60,7 @@ practice and DropAudio CCS run alongside it, not instead of it.
   custom TCP/WebSocket protocols, Rust/C++/Python (PyO3) performance audits.
 - Founder & Software Architect — DropAudio CCS (https://dropaudioccs.com), Jun 2021–present.
   Complete Nuxt 3 + Supabase e-commerce in production: multi-currency checkout, interactive audio
-  recommender, admin panel, 102+ verified reviews, technical SEO.
+  recommender, admin panel, 120+ verified reviews, technical SEO.
 
 ## Core skills
 - Languages: Python, TypeScript, Rust, C++, JavaScript, SQL

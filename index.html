@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon.ico">
-    <link rel="alternate" hreflang="en" href="https://my-resume-landing.vercel.app/">
-    <link rel="alternate" hreflang="es" href="https://my-resume-landing.vercel.app/es">
-    <link rel="alternate" hreflang="x-default" href="https://my-resume-landing.vercel.app/">
+    <link rel="alternate" hreflang="en" href="https://www.danielsilvarojas.dev/">
+    <link rel="alternate" hreflang="es" href="https://www.danielsilvarojas.dev/es">
+    <link rel="alternate" hreflang="x-default" href="https://www.danielsilvarojas.dev/">
     <link rel="author" href="/humans.txt">
 
     <!-- Primary meta -->
@@ -18,7 +18,7 @@
     <!-- Open Graph -->
     <meta property="og:type" content="profile">
     <meta property="og:site_name" content="Daniel Silva · Industrial Systems Engineer">
-    <meta property="og:image" content="https://my-resume-landing.vercel.app/og-cover.jpg">
+    <meta property="og:image" content="https://www.danielsilvarojas.dev/og-cover.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:type" content="image/jpeg">
@@ -26,7 +26,7 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://my-resume-landing.vercel.app/og-cover.jpg">
+    <meta name="twitter:image" content="https://www.danielsilvarojas.dev/og-cover.jpg">
     <meta name="twitter:image:alt" content="Daniel Silva — Industrial Systems & Real-Time Software Engineer">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,32 +48,32 @@
       "@graph": [
         {
           "@type": "ProfilePage",
-          "@id": "https://my-resume-landing.vercel.app/#profilepage",
-          "url": "https://my-resume-landing.vercel.app/",
+          "@id": "https://www.danielsilvarojas.dev/#profilepage",
+          "url": "https://www.danielsilvarojas.dev/",
           "name": "Daniel Silva — Industrial Systems & Real-Time Software Engineer",
           "inLanguage": "en",
-          "about": { "@id": "https://my-resume-landing.vercel.app/#person" },
-          "mainEntity": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "about": { "@id": "https://www.danielsilvarojas.dev/#person" },
+          "mainEntity": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "WebSite",
-          "@id": "https://my-resume-landing.vercel.app/#website",
-          "url": "https://my-resume-landing.vercel.app/",
+          "@id": "https://www.danielsilvarojas.dev/#website",
+          "url": "https://www.danielsilvarojas.dev/",
           "name": "Daniel Silva · Industrial Systems Engineer",
           "inLanguage": ["en", "es"],
-          "author": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "author": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "Person",
-          "@id": "https://my-resume-landing.vercel.app/#person",
+          "@id": "https://www.danielsilvarojas.dev/#person",
           "name": "Daniel Alejandro Silva Rojas",
           "alternateName": ["Daniel Silva", "Daniel Silva Rojas", "Daniel A. Silva"],
           "givenName": "Daniel Alejandro",
           "familyName": "Silva Rojas",
           "jobTitle": "Software & Systems Engineer — Real-Time and Industrial IoT",
           "description": "Software and systems engineer with 5 years shipping production systems: real-time telemetry and low-latency WebSocket architectures, coordinated control of industrial IoT hardware, offline-first ecosystems with bidirectional cloud sync, industrial time-series analysis and applied AI. Also founder and architect of DropAudio CCS, an e-commerce platform in production. Available for freelance engagements and senior remote roles.",
-          "url": "https://my-resume-landing.vercel.app/",
-          "image": "https://my-resume-landing.vercel.app/1699966173589.jpg",
+          "url": "https://www.danielsilvarojas.dev/",
+          "image": "https://www.danielsilvarojas.dev/1699966173589.jpg",
           "email": "mailto:dsrglrm@gmail.com",
           "telephone": "+58-414-231-7561",
           "address": {
@@ -111,11 +111,24 @@
           "makesOffer": [
             {
               "@type": "Offer",
-              "name": "Performance & architecture audit",
-              "description": "Diagnosis of latency, memory leaks and concurrency issues, a map of single points of failure and a refactor roadmap prioritized by impact and cost. Delivered in 1–2 weeks.",
+              "name": "Landing page with SEO, GEO and AEO",
+              "description": "Fast, bilingual landing page with technical SEO, FAQ and structured data for answer engines (AEO), and content plus llms.txt so AI assistants can cite the business (GEO). 1–2 weeks.",
               "priceSpecification": {
                 "@type": "PriceSpecification",
-                "price": 1500,
+                "minPrice": 300,
+                "priceCurrency": "USD",
+                "valueAddedTaxIncluded": false
+              },
+              "itemOffered": { "@type": "Service", "name": "Landing page development and SEO, GEO and AEO optimization", "serviceType": "Web development and search optimization" }
+            },
+            {
+              "@type": "Offer",
+              "name": "Performance & architecture audit",
+              "description": "Diagnosis of latency, memory leaks and concurrency issues, a map of single points of failure and a refactor roadmap prioritized by impact and cost. Delivered in 1–3 weeks depending on system size.",
+              "priceSpecification": {
+                "@type": "PriceSpecification",
+                "minPrice": 800,
+                "maxPrice": 2500,
                 "priceCurrency": "USD",
                 "valueAddedTaxIncluded": false
               },
@@ -124,10 +137,10 @@
             {
               "@type": "Offer",
               "name": "Custom system, zero to production",
-              "description": "End-to-end design and delivery of a desktop or web system: hardware integration, real-time data, offline-first operation, installers, tests and documentation. 6–12 weeks.",
+              "description": "End-to-end design and delivery of a desktop or web system: hardware integration, real-time data, offline-first operation, installers, tests and documentation. 3–12 weeks depending on scope.",
               "priceSpecification": {
                 "@type": "PriceSpecification",
-                "price": 6000,
+                "minPrice": 3000,
                 "priceCurrency": "USD",
                 "valueAddedTaxIncluded": false
               },
@@ -136,10 +149,11 @@
             {
               "@type": "Offer",
               "name": "Fractional systems engineer",
-              "description": "Ongoing ownership of one system: features, releases and architectural health, 20 hours per week, 3-month minimum.",
+              "description": "Ongoing ownership of one system: features, releases and architectural health, 10–20 hours per week, 2-month minimum.",
               "priceSpecification": {
                 "@type": "UnitPriceSpecification",
-                "price": 3500,
+                "minPrice": 1800,
+                "maxPrice": 3500,
                 "priceCurrency": "USD",
                 "unitCode": "MON",
                 "billingIncrement": 1
@@ -193,102 +207,102 @@
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#system-industrial-iot-control",
+          "@id": "https://www.danielsilvarojas.dev/#system-industrial-iot-control",
           "name": "Industrial IoT hardware control system",
           "description": "Desktop application (Python/PyQt5) for coordinated remote control of industrial inspection cameras across two networked machines: dual-PC architecture where the same executable relaunches itself into its role, chunked image transfer with reassembly, explicit network timeouts, interactive matplotlib maps rendered with blitting, a pytest/pytest-qt suite and a versioned Windows installer. Principal author: 524 of 681 commits (77%) across five years, 398 files and 214,000+ lines. Private client repository.",
           "programmingLanguage": "Python",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#system-industrial-web-platform",
+          "@id": "https://www.danielsilvarojas.dev/#system-industrial-web-platform",
           "name": "Industrial inspection and analytics web platform",
           "description": "Full-stack platform for industrial asset inspection and analytics: Nuxt/Vue frontend, Express/TypeScript backend, Sequelize/MySQL data layer, AWS deployment, 2D/3D visualization (Highcharts, D3, Three.js) and a real-time voice chatbot over WebSocket. Repository founder and integration point for a ~14-person team across ~2,000 commits and four years. Private client repository.",
           "programmingLanguage": "TypeScript",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#system-offline-first-ecosystem",
+          "@id": "https://www.danielsilvarojas.dev/#system-offline-first-ecosystem",
           "name": "Offline-first industrial ecosystem",
           "description": "Desktop client that runs 100% offline on plant floors and synchronizes bidirectionally with cloud storage and databases when connectivity returns: Python orchestrator, Node/TypeScript services, portable database, self-contained installers, an AI audio transcription pipeline (FastAPI) and CI/CD with GitHub Actions. Principal author since inception, ~250 commits over three years. Private client repository.",
           "programmingLanguage": "Python",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#system-time-series-analysis",
+          "@id": "https://www.danielsilvarojas.dev/#system-time-series-analysis",
           "name": "Industrial time-series gradient detector",
           "description": "Analysis pipeline that automatically detects thermal cycles and key gradient points in industrial sensor series: Polars-based cleaning, interpolation of faulty readings, peak/valley detection with SciPy, CLI parameters and JSON/Excel/PNG outputs, plus an archived Rust port exploration.",
           "programmingLanguage": "Python",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-dropaudio-reel-studio",
+          "@id": "https://www.danielsilvarojas.dev/#project-dropaudio-reel-studio",
           "name": "Reel Studio",
           "description": "Windows desktop application (Python, pywebview, PyInstaller) that turns raw phone footage into a finished 1080\u00d71920 CapCut draft: faster-whisper transcription, frame-by-frame scoring with vision models running locally through Ollama, automated scriptwriting with a rule-based fallback, and project assembly via pyCapCut. Cuts reel editing from about 2 hours to about 15 minutes. Resumable analysis, frame deduplication before any model call, explicit timeouts and a local-only 127.0.0.1 server.",
           "programmingLanguage": "Python",
           "codeRepository": "https://github.com/Dan178A/dropaudio-reel-studio",
           "license": "https://opensource.org/licenses/MIT",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-dropaudio-ccs",
+          "@id": "https://www.danielsilvarojas.dev/#project-dropaudio-ccs",
           "name": "DropAudio CCS",
           "description": "A complete e-commerce platform (store + admin panel) in production on Nuxt 3 and Supabase, with an audio recommender, multi-currency checkout and resilient operation. Public store (catalog, cart, checkout, SEO pages) plus a full admin panel (inventory, sales, deliveries, reviews, quotes, push alerts).",
           "programmingLanguage": "TypeScript",
           "url": "https://dropaudioccs.com",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-camara-ocr-python",
+          "@id": "https://www.danielsilvarojas.dev/#project-camara-ocr-python",
           "name": "Camara_OCR_Python",
           "description": "Industrial inspection support tool with camera input, technical visualization and OCR. Built as part of an industrial engineering consulting engagement under confidentiality; private repository.",
           "programmingLanguage": "Python",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-extract-rif",
+          "@id": "https://www.danielsilvarojas.dev/#project-extract-rif",
           "name": "extract_rif",
           "description": "An HTTP microservice (FastAPI) that turns Venezuelan RIF tax documents (PDF or image) into structured JSON, with a dual-engine OCR pipeline (PaddleOCR + Tesseract fallback) and a fail-safe response contract.",
           "programmingLanguage": "Python",
           "codeRepository": "https://github.com/Dan178A/extract_rif",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-system-stabilization-interpolation",
+          "@id": "https://www.danielsilvarojas.dev/#project-system-stabilization-interpolation",
           "name": "System Stabilization Interpolation",
           "description": "A video stabilizer for mobile devices (undergraduate thesis, University of Zulia) with a web UI: mesh-based motion estimation, interpolation, and adaptive algorithm weights predicted by a neural network (MLPRegressor).",
           "programmingLanguage": "Python",
           "codeRepository": "https://github.com/Dan178A/System_Stabilitation_Interpolation",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-realtimevoiceassistant",
+          "@id": "https://www.danielsilvarojas.dev/#project-realtimevoiceassistant",
           "name": "RealtimeVoiceAssistant",
           "description": "A real-time conversational voice assistant powered by Gemini 2.5 Flash with streaming responses, and critical audio components written in Rust for sub-100ms latency.",
           "programmingLanguage": "Rust, Python",
           "codeRepository": "https://github.com/Dan178A/RealtimeVoiceAssistant",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "SoftwareSourceCode",
-          "@id": "https://my-resume-landing.vercel.app/#project-flownet-video-stabilization",
+          "@id": "https://www.danielsilvarojas.dev/#project-flownet-video-stabilization",
           "name": "FlowNet Video Stabilization",
           "description": "Video stabilization using deep-learning global camera-motion estimation (a distilled PWC-Net), a QP-smoothed affine camera path and multi-scale photometric refinement.",
           "programmingLanguage": "Python",
           "codeRepository": "https://github.com/Dan178A/FlowNet_Video_Stabilization",
-          "creator": { "@id": "https://my-resume-landing.vercel.app/#person" }
+          "creator": { "@id": "https://www.danielsilvarojas.dev/#person" }
         },
         {
           "@type": "FAQPage",
-          "@id": "https://my-resume-landing.vercel.app/#faq",
+          "@id": "https://www.danielsilvarojas.dev/#faq",
           "mainEntity": [
               {
                 "@type": "Question",
@@ -319,7 +333,7 @@
                 "name": "How much does a software performance and architecture audit cost?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "From $1,500 USD for a 1–2 week engagement. It covers latency, memory-leak and concurrency diagnosis, a map of single points of failure, a refactor roadmap prioritized by impact versus cost, and a handover session with your team. Larger options are a custom system built end to end (from $6,000 USD per project, 6–12 weeks) and a fractional systems engineer retainer (from $3,500 USD per month at 20 h/week). Hourly rate is $45–65 USD."
+                  "text": "Between $800 and $2,500 USD for a 1–3 week engagement, depending on system size. It covers latency, memory-leak and concurrency diagnosis, a map of single points of failure, a refactor roadmap prioritized by impact versus cost, and a handover session with your team. Larger options are a custom system built end to end (from $3,000 USD per project, 3–12 weeks) and a fractional systems engineer retainer ($1,800–3,500 USD per month at 10–20 h/week). Landing pages with SEO, GEO and AEO start at $300 USD. Hourly rate is $35–65 USD depending on the work."
                 }
               },
               {

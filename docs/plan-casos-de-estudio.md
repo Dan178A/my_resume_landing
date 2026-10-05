@@ -26,7 +26,7 @@ Estado: diseño aprobado internamente, sin implementar. Retomar desde aquí.
    [ Resultado            ]
    ```
    En móvil: título, video y luego el texto.
-   - **DropAudio CCS**: 102+ reseñas verificadas, 19 modelos, checkout en 3 monedas. Enlaces: en vivo, asesor, tablero del caso.
+   - **DropAudio CCS**: 120+ reseñas verificadas, 19 modelos, checkout en 3 monedas. Enlaces: en vivo, asesor, tablero del caso.
    - **Reel Studio**: "2 h → 15 min" por reel; IA local, análisis reanudable, deduplicación de fotogramas.
    - **Inspección industrial con cámara**: 5 años en producción, sin soporte técnico en sitio; 214K+ líneas, 77 % de los commits. Video: tramo recortado de `public/p03-camara-mapas_*.mp4`.
    - **Estabilización de video** (tesis + FlowNet): malla + flujo óptico + red que predice los pesos; PWC-Net destilado + trayectoria suavizada con QP.

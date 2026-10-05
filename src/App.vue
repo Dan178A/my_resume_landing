@@ -4,7 +4,7 @@ import './assets/main.css'
 import Portfolio from './components/Portfolio.vue'
 import { useI18n } from './composables/useI18n'
 
-const SITE = 'https://my-resume-landing.vercel.app'
+const SITE = 'https://www.danielsilvarojas.dev'
 
 /* main.ts ya fijó el idioma a partir de la ruta antes de renderizar.
    Los metadatos se leen una sola vez, sin computed: durante el prerender un

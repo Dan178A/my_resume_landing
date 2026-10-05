@@ -35,7 +35,7 @@ export const caseStudies: CaseStudy[] = [
         cat: 'web',
         kind: { es: 'Producto propio, en producción', en: 'My own product, in production' },
         title: { es: 'DropAudio CCS', en: 'DropAudio CCS' },
-        outcome: { to: '102+', label: { es: 'reseñas verificadas de clientes reales', en: 'verified reviews from real customers' } },
+        outcome: { to: '120+', label: { es: 'reseñas verificadas de clientes reales', en: 'verified reviews from real customers' } },
         problem: {
             es: 'Un distribuidor de audio en Venezuela vendía por WhatsApp y hojas de cálculo: sin catálogo navegable, con precios en tres monedas que cambian a diario y entregas coordinadas a mano.',
             en: 'An audio distributor in Venezuela sold through WhatsApp and spreadsheets: no browsable catalog, prices in three currencies that change daily, and deliveries coordinated by hand.',

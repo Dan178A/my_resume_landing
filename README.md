@@ -6,7 +6,7 @@
 
 **Ingeniero de Software y Sistemas** · Tiempo real e IoT industrial · Arquitectura offline-first · IA aplicada
 
-[![Live Demo](https://img.shields.io/badge/🔴_LIVE_DEMO-my--resume--landing.vercel.app-00c896?style=for-the-badge)](https://my-resume-landing.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/🔴_LIVE_DEMO-my--resume--landing.vercel.app-00c896?style=for-the-badge)](https://www.danielsilvarojas.dev/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Daniel_Silva-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/daniel-alejandro-silva-rojas/)
 [![GitHub](https://img.shields.io/badge/GitHub-Dan178A-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Dan178A)
 [![Email](https://img.shields.io/badge/Email-dsrglrm%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:dsrglrm@gmail.com)
@@ -43,7 +43,7 @@ Este repositorio contiene el código fuente de mi **portafolio / landing de curr
 
 ### 🚀 Demo en vivo
 
-**[my-resume-landing.vercel.app →](https://my-resume-landing.vercel.app/)**
+**[www.danielsilvarojas.dev →](https://www.danielsilvarojas.dev/)**
 
 ### 🧩 Características
 
@@ -127,14 +127,14 @@ npm run test:unit
 | **extract-rif** — microservicio que extrae datos estructurados de documentos fiscales | FastAPI · PaddleOCR | API |
 | **bolsa-valores-caracas-api** — API pública con datos de la Bolsa de Valores de Caracas | FastAPI · Selenium | API |
 
-*El detalle completo, con arquitectura, decisiones técnicas y capturas, está disponible en la sección "Proyectos" del [portafolio en vivo](https://my-resume-landing.vercel.app/).*
+*El detalle completo, con arquitectura, decisiones técnicas y capturas, está disponible en la sección "Proyectos" del [portafolio en vivo](https://www.danielsilvarojas.dev/).*
 
 ### 👨‍💻 Sobre mí
 
 **Ingeniero de Software Senior — Full Stack & IA**, con sede en Caracas, Venezuela, disponible para roles remotos.
 
 - **Lead Performance & Systems Engineer** en Ea2technology (Canadá, remoto) — Digital Twin industrial y arquitectura WebSocket full-duplex que redujo la latencia de 200–500 ms a 1–10 ms.
-- **Fundador & Arquitecto de Software** de DropAudio CCS — e-commerce en producción sobre Nuxt 3 + Supabase, con 102+ reseñas verificadas.
+- **Fundador & Arquitecto de Software** de DropAudio CCS — e-commerce en producción sobre Nuxt 3 + Supabase, con 120+ reseñas verificadas.
 - **Consultor de Rendimiento & Ingeniero de Algoritmos** (freelance, sector marítimo/petrolero) — motores de estabilización de video con optical flow y FlowNet.
 - **B.Sc. en Ciencias de la Computación** — LUZ-IUTA, Universidad del Zulia.
 
@@ -158,7 +158,7 @@ This repository holds the source code of my **portfolio / resume landing page**:
 
 ### 🚀 Live demo
 
-**[my-resume-landing.vercel.app →](https://my-resume-landing.vercel.app/)**
+**[www.danielsilvarojas.dev →](https://www.danielsilvarojas.dev/)**
 
 ### 🧩 Features
 
@@ -242,14 +242,14 @@ npm run test:unit
 | **extract-rif** — microservice extracting structured data from fiscal documents | FastAPI · PaddleOCR | API |
 | **bolsa-valores-caracas-api** — public API serving Caracas Stock Exchange data | FastAPI · Selenium | API |
 
-*Full details — architecture, technical decisions and screenshots — are available in the "Projects" section of the [live portfolio](https://my-resume-landing.vercel.app/).*
+*Full details — architecture, technical decisions and screenshots — are available in the "Projects" section of the [live portfolio](https://www.danielsilvarojas.dev/).*
 
 ### 👨‍💻 About me
 
 **Senior Software Engineer — Full Stack & AI**, based in Caracas, Venezuela, available for remote roles.
 
 - **Lead Performance & Systems Engineer** at Ea2technology (Canada, remote) — industrial Digital Twin and a full-duplex WebSocket architecture that cut latency from 200–500 ms to 1–10 ms.
-- **Founder & Software Architect** of DropAudio CCS — a production e-commerce platform on Nuxt 3 + Supabase with 102+ verified reviews.
+- **Founder & Software Architect** of DropAudio CCS — a production e-commerce platform on Nuxt 3 + Supabase with 126 verified reviews.
 - **Software Performance Consultant & Algorithm Engineer** (freelance, maritime/oil sector) — video stabilization engines using optical flow and FlowNet.
 - **B.Sc. in Computer Science** — LUZ-IUTA, University of Zulia.
 
