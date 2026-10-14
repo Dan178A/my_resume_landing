@@ -26,9 +26,11 @@ export interface CaseStudy {
     stack: string[]
     links: CaseLink[]
     media: { src: Bilingual; poster: Bilingual; alt: Bilingual }
+    /* true = oculto temporalmente en la web (se conserva aquí para reactivarlo). */
+    hidden?: boolean
 }
 
-export const caseStudies: CaseStudy[] = [
+const allCaseStudies: CaseStudy[] = [
     {
         id: 'dropaudio',
         project: 'DropAudio CCS',
@@ -99,6 +101,8 @@ export const caseStudies: CaseStudy[] = [
     },
     {
         id: 'monitoring',
+        /* Desactivado temporalmente. Poner en false (o borrar) para volver a mostrarlo. */
+        hidden: true,
         /* Genérico a propósito: trabajo para un cliente bajo confidencialidad. No nombrar
            cliente, sector, equipo inspeccionado ni cifras del código, y no mostrar capturas
            ni dibujos del sistema, sin autorización escrita del cliente. */
@@ -165,3 +169,6 @@ export const caseStudies: CaseStudy[] = [
         },
     },
 ]
+
+/* Solo los casos visibles; los marcados con `hidden: true` no se renderizan. */
+export const caseStudies: CaseStudy[] = allCaseStudies.filter((c) => !c.hidden)

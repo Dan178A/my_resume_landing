@@ -29,12 +29,11 @@
 - Also open to senior full-time remote roles (US, Canada, Europe, LATAM).
 
 ## Production systems (client work, private repositories)
-1. Industrial IoT hardware control (2022–2026, 5 years) — Desktop application (Python/PyQt5) that
-   operates industrial inspection cameras coordinated across two networked machines with no
-   technical support on site. Principal author: 524 of 681 commits (77%), 398 files, 214,000+
-   lines. Dual-PC architecture where the same executable relaunches into its role; chunked image
-   transfer with reassembly; explicit timeouts at every network boundary; interactive matplotlib
-   maps rendered with blitting; pytest/pytest-qt suite; versioned Windows installer (v12.x).
+1. Industrial IoT hardware control (2022–2026, 5 years) — Desktop application (Python/PyQt5) for
+   coordinated control of networked industrial hardware, running unattended with no technical
+   support on site. Principal author and architect. Zero manual setup by the operator; explicit
+   timeouts at every network boundary; live interactive data visualization; automated tests;
+   versioned Windows installer.
 2. Industrial web platform (2022–2026, 4 years) — Inspection and analytics platform: Nuxt/Vue,
    Express/TypeScript, Sequelize/MySQL, AWS deployment, 2D/3D visualization (Highcharts, D3,
    Three.js), real-time voice chatbot over WebSocket. Repository founder and integration point for
@@ -82,7 +81,7 @@ practice and DropAudio CCS run alongside it, not instead of it.
 - System Stabilization Interpolation — Python · PyTorch · OpenCV — degree thesis on video stabilization.
 - extract_rif — FastAPI · PaddleOCR — OCR microservice extracting structured data from documents.
 - FlowNet_Video_Stabilization — Python · PyTorch — deep-learning video stabilization from optical flow.
-- Camara_OCR_Python — Python · PyQt5 · OpenCV — industrial inspection tool with camera/OCR guidance (private).
+- Camara_OCR_Python — Python · PyQt5 · OpenCV — industrial inspection support tool with computer vision and OCR (private).
 
 ## Confidentiality
 Client systems live in private repositories under confidentiality. Architecture, decisions and

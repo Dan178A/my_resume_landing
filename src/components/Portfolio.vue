@@ -238,7 +238,7 @@ const cardVideoSlug: Record<string, string> = {
     'DropAudio CCS': 'dropaudio',
     System_Stabilitation_Interpolation: 'mesh',
     FlowNet_Video_Stabilization: 'flownet',
-    Camara_OCR_Python: 'monitoring',
+    /* Camara_OCR_Python: 'monitoring', — oculto: el video muestra detalles del sistema del cliente */
     'dropaudio-reel-studio': 'reel-studio',
     RealtimeVoiceAssistant: 'voice',
     extract_rif: 'rif',
@@ -325,8 +325,8 @@ const projects: Project[] = [
     {
         name: 'Camara_OCR_Python', category: 'cv', icon: 'fa-solid fa-camera', tech: 'Python · OCR',
         desc: {
-            es: 'Monitoreo industrial por cámara con OCR para asistir inspecciones en planta.',
-            en: 'Industrial camera monitoring with OCR to assist plant inspections.',
+            es: 'Herramienta con visión por computadora y OCR para asistir inspecciones industriales.',
+            en: 'Computer vision and OCR tool to assist industrial inspections.',
         },
         proof: {
             es: '5 años operando en planta, sin soporte en sitio',
