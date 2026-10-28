@@ -1,7 +1,7 @@
 /* TEAM */
   Engineer: Daniel Alejandro Silva Rojas (Daniel Silva)
-  Role: Software & Systems Engineer — Real-Time and Industrial IoT
-  Available: Freelance projects and senior remote roles
+  Role: Senior Backend Engineer (Full-Stack) — Real-Time Systems
+  Available: Full-time remote roles · freelance at /services
   Contact: dsrglrm@gmail.com
   GitHub: @Dan178A
   LinkedIn: daniel-alejandro-silva-rojas

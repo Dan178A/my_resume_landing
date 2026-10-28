@@ -1,13 +1,14 @@
-# Daniel Silva — Industrial Systems & Real-Time Software Engineer
+# Daniel Silva — Senior Backend Engineer (Full-Stack) · Real-Time Systems
 
 > Daniel Alejandro Silva Rojas ("Daniel Silva") is a software and systems engineer with 5 years
 > of shipping production systems. He specializes in industrial and real-time software: telemetry
 > and low-latency WebSocket architectures, coordinated control of networked hardware from desktop
 > applications, offline-first ecosystems that keep operating without internet and reconcile with
 > the cloud, industrial time-series analysis, and applied AI (audio transcription/synthesis,
-> voice assistants, computer vision). He is also the founder and architect of DropAudio CCS, an
-> e-commerce platform in production. Based in Caracas, Venezuela; works 100% remote. Available for
-> freelance engagements and senior remote roles. Spanish (native), English (B2, professional).
+> voice assistants, computer vision). He also built and runs DropAudio CCS, an
+> e-commerce platform in production. Based in Caracas, Venezuela; works 100% remote. Open to
+> full-time remote roles (hireable as a contractor with W-8BEN or via an EOR such as Deel) and to
+> freelance engagements (https://www.danielsilvarojas.dev/services). Spanish (native), English (B2, professional).
 
 ## Contact
 - Email: dsrglrm@gmail.com
@@ -47,17 +48,16 @@
    SciPy peak/valley detection, CLI parameters, JSON/Excel/PNG outputs, archived Rust port.
 
 ## Roles
-Note: these roles overlap on purpose. Ea2technology is a part-time contract; the consulting
-practice and DropAudio CCS run alongside it, not instead of it.
-- Lead Performance & Systems Engineer — Ea2technology (Canada, remote, part-time contract), Jul 2021–present.
+- Lead Performance & Systems Engineer — Ea2technology (Canada, remote, full-time), Jul 2021–Sep 2026.
   Industrial Digital Twin telemetry for real-time structural monitoring; full-duplex WebSocket
   architecture that cut latency from 200–500 ms to 1–10 ms and reduced bandwidth up to 95%;
   desktop control of industrial IoT hardware; offline-first ecosystem; AI audio pipeline;
   AWS cloud-native microservices migration optimized with C++ and Rust.
-- Software Performance Consultant & Algorithm Engineer — Freelance, Jan 2023–present.
-  High-performance video stabilization (optical flow, FlowNet), industrial time-series pipelines,
+- Senior Software Engineer (Contract) — Vessel Inspection and Assessment Corp (VIAAC), maritime/oil sector, Jan 2023–Jul 2025.
+  NestJS + Docker services with GitLab CI / GitHub Actions / AWS CodePipeline; stack audits that cut a
+  12–14 h point-cloud job to 5 h; high-performance video stabilization (optical flow, FlowNet), industrial time-series pipelines,
   custom TCP/WebSocket protocols, Rust/C++/Python (PyO3) performance audits.
-- Founder & Software Architect — DropAudio CCS (https://dropaudioccs.com), Jun 2021–present.
+- Own product: DropAudio CCS (https://dropaudioccs.com), 2021–present, built and run end to end.
   Complete Nuxt 3 + Supabase e-commerce in production: multi-currency checkout, interactive audio
   recommender, admin panel, 120+ verified reviews, technical SEO.
 

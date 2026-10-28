@@ -33,16 +33,30 @@ export const rememberLang = (l: Lang): void => {
     try { localStorage.setItem(STORAGE_KEY, l) } catch { /* noop */ }
 }
 
-/* Ruta canónica de cada idioma */
-export const pathForLang = (l: Lang): string => (l === 'es' ? '/es' : '/')
+/* Dos páginas: el perfil (para reclutadores) y /services (clientes freelance). */
+export type Page = 'home' | 'services'
+export const PAGE_KEY: InjectionKey<Ref<Page>> = Symbol('page')
+export const createPageState = (p: Page): Ref<Page> => ref<Page>(p)
+const fallbackPage = ref<Page>('home')
+export const usePage = () => inject(PAGE_KEY, fallbackPage)
+export const pageForPath = (path: string): Page =>
+    (path.replace(/^\/es/, '').startsWith('/services') ? 'services' : 'home')
+
+/* Ruta canónica de cada idioma (y página) */
+export const pathForLang = (l: Lang, page: Page = 'home'): string => {
+    if (page === 'services') return l === 'es' ? '/es/services' : '/services'
+    return l === 'es' ? '/es' : '/'
+}
 export const langForPath = (path: string): Lang => (path.startsWith('/es') ? 'es' : 'en')
 
 const messages = {
     es: {
-        nav: { flagship: 'Caso destacado', impact: 'Impacto', systems: 'Sistemas', experience: 'Experiencia', services: 'Servicios', specialties: 'Especialidades', projects: 'Proyectos', education: 'Formación', stack: 'Stack', contact: 'Contacto' },
+        nav: { home: 'Perfil', freelance: 'Servicios freelance', flagship: 'Caso destacado', impact: 'Impacto', systems: 'Sistemas', experience: 'Experiencia', services: 'Servicios', specialties: 'Especialidades', projects: 'Proyectos', education: 'Formación', stack: 'Stack', contact: 'Contacto' },
         hero: {
-            role: 'Ingeniero de Software y Sistemas · Tiempo Real e IoT Industrial',
-            available: 'Disponible para proyectos freelance y roles remotos',
+            role: 'Senior Backend Engineer · Full-Stack · Sistemas en Tiempo Real',
+            available: 'Disponible de inmediato para roles remotos a tiempo completo',
+            roleFreelance: 'Ingeniero de Software y Sistemas · Tiempo Real e IoT Industrial',
+            availableFreelance: 'Disponible para proyectos freelance',
             wordsPrefix: 'Construyo',
             words: ['Sistemas en Tiempo Real', 'IoT Industrial', 'Arquitectura Offline-First', 'IA Aplicada'],
             tagline: 'Diseño y construyo el software del que dependen operaciones industriales: telemetría en tiempo real, control de hardware en red y sistemas que siguen funcionando cuando la red no. Cinco años, cuatro sistemas en producción, ~3.000 commits.',
@@ -71,7 +85,7 @@ const messages = {
                 { icon: 'fa-solid fa-gauge-high', metric: '1–10 ms', label: 'Latencia en tiempo real', desc: 'Reemplacé polling HTTP por una arquitectura WebSocket full-duplex: de 200–500 ms a 1–10 ms y hasta −95% de ancho de banda.' },
                 { icon: 'fa-solid fa-industry', metric: '5 años', label: 'Operando sin supervisión', desc: 'Sistema de control de hardware industrial en red, diseñado y mantenido como autor principal, en uso real en campo sin soporte técnico presente.' },
                 { icon: 'fa-solid fa-plug-circle-xmark', metric: '100%', label: 'Operación offline', desc: 'Ecosistema offline-first con sincronización bidireccional nube↔local: la planta trabaja sin internet y reconcilia al volver.' },
-                { icon: 'fa-solid fa-rocket', metric: '0 → prod', label: 'Fundador técnico', desc: 'DropAudio CCS de cero a producción: Nuxt 3 + Supabase, checkout multimoneda y 120+ reseñas verificadas.' },
+                { icon: 'fa-solid fa-rocket', metric: '0 → prod', label: 'Producto de punta a punta', desc: 'Construí y opero DropAudio CCS, un e-commerce en producción: Nuxt 3 + Supabase/PostgreSQL, checkout multimoneda y 120+ reseñas verificadas.' },
             ],
         },
         systems: {
@@ -96,7 +110,7 @@ const messages = {
                 {
                     name: 'Plataforma web industrial',
                     period: '2022 — 2026 · 4 años',
-                    role: 'Fundador del repositorio · punto de integración',
+                    role: 'Creador del repositorio · punto de integración',
                     pitch: 'Plataforma completa de inspección y analítica industrial: del "chasis" inicial del repositorio al producto en producción, integrando el trabajo de un equipo de ~14 personas.',
                     metrics: ['~2.000 commits', '~14 colaboradores integrados', '11+ ramas de integración'],
                     bullets: [
@@ -182,11 +196,11 @@ const messages = {
         },
         experience: {
             title: '¿Dónde ha trabajado Daniel Silva?',
-            subtitle: 'Cinco años enviando software a producción. Los roles se solapan a propósito: Ea2technology es un contrato part-time y, en paralelo, llevo consultoría independiente y mi propio producto.',
+            subtitle: 'Cinco años enviando software a producción para clientes industriales en Canadá y el sector marítimo/petrolero.',
             present: 'Presente',
             items: [
                 {
-                    role: 'Lead Performance & Systems Engineer', company: 'Ea2technology', location: 'Canadá · Remoto · Contrato part-time', period: 'Jul 2021 — Presente', accent: 'cv',
+                    role: 'Lead Performance & Systems Engineer', company: 'Ea2technology', location: 'Canadá · Remoto · Tiempo completo', period: 'Jul 2021 — Sep 2026', accent: 'cv',
                     bullets: [
                         'Diseñé y desplegué un Digital Twin industrial de telemetría para monitoreo estructural en tiempo real, procesando datos de sensores de alta frecuencia para anticipar fallos críticos.',
                         'Diseñé una arquitectura WebSocket full-duplex de baja latencia que reemplazó el polling HTTP: de 200–500 ms a 1–10 ms y hasta −95% de ancho de banda.',
@@ -198,24 +212,15 @@ const messages = {
                     tags: ['Rust', 'C++', 'AWS', 'WebSockets', 'IoT', 'Offline-first'],
                 },
                 {
-                    role: 'Consultor de Rendimiento & Ingeniero de Algoritmos', company: 'Freelance · Independiente', location: 'Remoto · Industrial / Marítimo · Por proyecto', period: 'Ene 2023 — Presente', accent: 'ai',
+                    role: 'Senior Software Engineer (Contrato)', company: 'VIAAC · Vessel Inspection and Assessment Corp', location: 'Remoto · Marítimo / Oil & Gas', period: 'Ene 2023 — Jul 2025', accent: 'ai',
                     bullets: [
+                        'Construí y contenericé servicios backend con NestJS y Docker, con pipelines CI/CD en GitLab CI, GitHub Actions y AWS CodePipeline.',
+                        'Auditoría de 4 stacks: detecté 3 fugas de memoria y cuellos de botella de concurrencia procesando nubes de hasta 1,2 M de puntos; un proceso secuencial bajó de 12–14 h a 5 h y la navegación de datos de ~1 s a 15–20 ms.',
                         'Motores de estabilización de video de alto rendimiento con optical flow e interpolación matricial (Python, NumPy, SciPy, OpenCV).',
                         'Estimación global de movimiento con FlowNet (arquitecturas profundas destiladas), combinando matemática clásica con machine learning.',
                         'Pipelines de series de tiempo para detectar ciclos y puntos de inflexión en datos de sensores industriales (Polars, SciPy), parametrizables por CLI.',
-                        'Auditorías de stack: fugas de memoria, concurrencia y latencia, con roadmaps de refactor en Rust, C++ y Python (PyO3).',
                     ],
-                    tags: ['Python', 'OpenCV', 'PyTorch', 'Rust', 'Polars', 'PyO3'],
-                },
-                {
-                    role: 'Fundador & Arquitecto de Software', company: 'DropAudio CCS', location: 'dropaudioccs.com · Producto propio', period: 'Jun 2021 — Presente', accent: 'web',
-                    bullets: [
-                        'Diseñé y lancé a producción un e-commerce completo (Nuxt 3 SSR + Supabase/PostgreSQL con RLS) en Vercel, con 126 reseñas verificadas.',
-                        'Desarrollé un recomendador interactivo de 3 pasos y un comparador técnico que redujeron la fricción de compra.',
-                        'Implementé un checkout multimoneda propio (USDT, Zinli, Pago Móvil) con tasas en vivo y Web Push automatizado vía pg_cron.',
-                        'Construí una arquitectura resiliente con catálogo de respaldo y SEO técnico (JSON-LD, sitemap, PWA).',
-                    ],
-                    tags: ['Nuxt 3', 'Supabase', 'PostgreSQL', 'Vercel', 'Web Push'],
+                    tags: ['NestJS', 'Docker', 'Python', 'OpenCV', 'PyTorch', 'Rust'],
                 },
                 {
                     role: 'Especialista de Soporte IT', company: 'RenéDessés de Venezuela', location: 'Caracas, Venezuela · Tiempo completo', period: 'Ene — Sep 2021', accent: 'api',
@@ -249,7 +254,7 @@ const messages = {
         },
         flagship: {
             badge: 'En producción',
-            role: 'Fundador & Arquitecto de Software',
+            role: 'Proyecto propio · Ingeniero principal',
             title: 'DropAudio CCS',
             tagline: 'Producto propio en producción: tienda pública y panel de administración, construidos de extremo a extremo.',
             pitch: 'El sistema industrial demuestra cómo trabajo bajo restricciones; DropAudio demuestra que también sé llevar un producto entero al mercado — de la arquitectura de datos con Supabase y RLS a la experiencia de compra, sobre Nuxt 3 y Vercel. No es una demo: es una tienda real operando.',
@@ -315,8 +320,10 @@ const messages = {
             subtitle: 'Herramientas que uso a diario.',
         },
         contact: {
-            title: '¿Tienes un sistema que arreglar o construir?',
-            subtitle: 'Respondo en menos de 24 horas. Primera llamada de 30 minutos sin costo para revisar tu caso.',
+            title: '¿Contratando un ingeniero backend o full-stack?',
+            subtitle: 'Respondo en menos de 24 horas. Con gusto hago una prueba técnica o recorro cualquiera de estos sistemas en una llamada.',
+            titleFreelance: '¿Tienes un sistema que arreglar o construir?',
+            subtitleFreelance: 'Respondo en menos de 24 horas. Primera llamada de 30 minutos sin costo para revisar tu caso.',
             whatsapp: 'WhatsApp',
             email: 'Correo',
         },
@@ -350,10 +357,12 @@ const messages = {
         footer: 'Diseñado y construido por Daniel Silva',
     },
     en: {
-        nav: { flagship: 'Case study', impact: 'Impact', systems: 'Systems', experience: 'Experience', services: 'Services', specialties: 'Specialties', projects: 'Projects', education: 'Education', stack: 'Stack', contact: 'Contact' },
+        nav: { home: 'Profile', freelance: 'Freelance services', flagship: 'Case study', impact: 'Impact', systems: 'Systems', experience: 'Experience', services: 'Services', specialties: 'Specialties', projects: 'Projects', education: 'Education', stack: 'Stack', contact: 'Contact' },
         hero: {
-            role: 'Software & Systems Engineer · Real-Time and Industrial IoT',
-            available: 'Available for freelance projects and remote roles',
+            role: 'Senior Backend Engineer · Full-Stack · Real-Time Systems',
+            available: 'Available now for full-time remote roles',
+            roleFreelance: 'Software & Systems Engineer · Real-Time and Industrial IoT',
+            availableFreelance: 'Available for freelance projects',
             wordsPrefix: 'I build',
             words: ['Real-Time Systems', 'Industrial IoT', 'Offline-First Architecture', 'Applied AI'],
             tagline: 'I design and ship the software industrial operations depend on: real-time telemetry, networked hardware control, and systems that keep working when the network does not. Five years, four production systems, ~3,000 commits.',
@@ -382,7 +391,7 @@ const messages = {
                 { icon: 'fa-solid fa-gauge-high', metric: '1–10 ms', label: 'Real-time latency', desc: 'Replaced HTTP polling with a full-duplex WebSocket architecture: from 200–500 ms down to 1–10 ms and up to −95% bandwidth.' },
                 { icon: 'fa-solid fa-industry', metric: '5 yrs', label: 'Running unattended', desc: 'A networked industrial hardware-control system, designed and maintained as principal author, in real field use with no technical support on site.' },
                 { icon: 'fa-solid fa-plug-circle-xmark', metric: '100%', label: 'Offline operation', desc: 'Offline-first ecosystem with bidirectional cloud↔local sync: the plant works with no internet and reconciles when it returns.' },
-                { icon: 'fa-solid fa-rocket', metric: '0 → prod', label: 'Technical founder', desc: 'DropAudio CCS from zero to production: Nuxt 3 + Supabase, multi-currency checkout and 126 verified reviews.' },
+                { icon: 'fa-solid fa-rocket', metric: '0 → prod', label: 'End-to-end product', desc: 'Built and run DropAudio CCS, a live e-commerce platform: Nuxt 3 + Supabase/PostgreSQL, multi-currency checkout and 120+ verified reviews.' },
             ],
         },
         systems: {
@@ -407,7 +416,7 @@ const messages = {
                 {
                     name: 'Industrial web platform',
                     period: '2022 — 2026 · 4 years',
-                    role: 'Repository founder · integration point',
+                    role: 'Created the repository · integration lead',
                     pitch: 'Full inspection and analytics platform for industrial assets: from the initial repository "chassis" to a product in production, integrating the work of a ~14-person team.',
                     metrics: ['~2,000 commits', '~14 contributors integrated', '11+ integration branches'],
                     bullets: [
@@ -493,11 +502,11 @@ const messages = {
         },
         experience: {
             title: 'Where has Daniel Silva worked?',
-            subtitle: 'Five years shipping software to production. The roles overlap by design: Ea2technology is a part-time contract, and alongside it I run independent consulting and my own product.',
+            subtitle: 'Five years shipping software to production for industrial clients in Canada and the maritime/oil sector.',
             present: 'Present',
             items: [
                 {
-                    role: 'Lead Performance & Systems Engineer', company: 'Ea2technology', location: 'Canada · Remote · Part-time contract', period: 'Jul 2021 — Present', accent: 'cv',
+                    role: 'Lead Performance & Systems Engineer', company: 'Ea2technology', location: 'Canada · Remote · Full-time', period: 'Jul 2021 — Sep 2026', accent: 'cv',
                     bullets: [
                         'Designed and deployed an industrial Digital Twin telemetry system for real-time structural monitoring, processing high-frequency sensor data to anticipate critical failures.',
                         'Designed a low-latency, full-duplex WebSocket architecture that replaced HTTP polling: from 200–500 ms to 1–10 ms and up to −95% bandwidth.',
@@ -509,24 +518,15 @@ const messages = {
                     tags: ['Rust', 'C++', 'AWS', 'WebSockets', 'IoT', 'Offline-first'],
                 },
                 {
-                    role: 'Software Performance Consultant & Algorithm Engineer', company: 'Freelance · Independent', location: 'Remote · Industrial / Maritime · Per project', period: 'Jan 2023 — Present', accent: 'ai',
+                    role: 'Senior Software Engineer (Contract)', company: 'VIAAC · Vessel Inspection and Assessment Corp', location: 'Remote · Maritime / Oil & Gas', period: 'Jan 2023 — Jul 2025', accent: 'ai',
                     bullets: [
+                        'Built and containerized backend services with NestJS and Docker, with CI/CD pipelines on GitLab CI, GitHub Actions and AWS CodePipeline.',
+                        'Audited 4 stacks and found 3 memory leaks and concurrency bottlenecks in point-cloud processing (up to 1.2M points): a sequential job went from 12–14 h to 5 h and data navigation from ~1 s to 15–20 ms.',
                         'High-performance video stabilization engines with optical flow and matrix interpolation (Python, NumPy, SciPy, OpenCV).',
                         'Global motion estimation with FlowNet (distilled deep architectures), combining classical math with machine learning.',
                         'Time-series pipelines that detect cycles and inflection points in industrial sensor data (Polars, SciPy), configurable via CLI.',
-                        'Stack audits: memory leaks, concurrency and latency, delivering refactor roadmaps in Rust, C++ and Python (PyO3).',
                     ],
-                    tags: ['Python', 'OpenCV', 'PyTorch', 'Rust', 'Polars', 'PyO3'],
-                },
-                {
-                    role: 'Founder & Software Architect', company: 'DropAudio CCS', location: 'dropaudioccs.com · Own product', period: 'Jun 2021 — Present', accent: 'web',
-                    bullets: [
-                        'Designed and shipped a complete e-commerce platform (Nuxt 3 SSR + Supabase/PostgreSQL with RLS) to production on Vercel, with 126 verified reviews.',
-                        'Built an interactive 3-step recommender and a technical comparator that reduced purchase friction.',
-                        'Implemented a custom multi-currency checkout (USDT, Zinli, Pago Móvil) with live rates and automated Web Push via pg_cron.',
-                        'Built a resilient architecture with a backup catalog and technical SEO (JSON-LD, sitemap, PWA).',
-                    ],
-                    tags: ['Nuxt 3', 'Supabase', 'PostgreSQL', 'Vercel', 'Web Push'],
+                    tags: ['NestJS', 'Docker', 'Python', 'OpenCV', 'PyTorch', 'Rust'],
                 },
                 {
                     role: 'IT Support Specialist', company: 'RenéDessés de Venezuela', location: 'Caracas, Venezuela · Full-time', period: 'Jan — Sep 2021', accent: 'api',
@@ -560,7 +560,7 @@ const messages = {
         },
         flagship: {
             badge: 'In production',
-            role: 'Founder & Software Architect',
+            role: 'Own product · Lead engineer',
             title: 'DropAudio CCS',
             tagline: 'My own product in production: public storefront and admin panel, built end to end.',
             pitch: 'The industrial systems show how I work under constraints; DropAudio shows I can also take a whole product to market — from the Supabase data layer with RLS to the buying experience, on Nuxt 3 and Vercel. Not a demo: a real store in operation.',
@@ -626,8 +626,10 @@ const messages = {
             subtitle: 'Tools I use every day.',
         },
         contact: {
-            title: 'Got a system to fix or build?',
-            subtitle: 'I reply within 24 hours. First 30-minute call is free to review your case.',
+            title: 'Hiring a backend or full-stack engineer?',
+            subtitle: "I reply within 24 hours. Happy to do a technical screen or walk you through any of these systems on a call.",
+            titleFreelance: 'Got a system to fix or build?',
+            subtitleFreelance: 'I reply within 24 hours. First 30-minute call is free to review your case.',
             whatsapp: 'WhatsApp',
             email: 'Email',
         },

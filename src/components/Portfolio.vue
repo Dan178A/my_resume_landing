@@ -1,17 +1,22 @@
 <script setup lang="ts">
 /* Landing premium: aurora bg, tilt 3D, spotlight, marquee, count-up, i18n */
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useI18n, rememberLang, pathForLang, type Lang } from '../composables/useI18n'
+import { useI18n, usePage, rememberLang, pathForLang, type Lang } from '../composables/useI18n'
 import { projectDetails, type Bilingual, type ProjectDetail } from '../composables/projectDetails'
 import { caseStudies } from '../composables/caseStudies'
 import { track } from '../composables/useAnalytics'
 
 const { lang, t } = useI18n()
+/* home = perfil para reclutadores; services = oferta freelance con precios y formulario */
+const page = usePage()
+const isHome = computed(() => page.value === 'home')
+const homeHref = computed(() => pathForLang(lang.value, 'home'))
+const servicesHref = computed(() => pathForLang(lang.value, 'services'))
 
 /* Cambiar de idioma es navegar a la otra URL: un enlace real que los
    crawlers pueden seguir, y una carga completa con su propio head. */
 const otherLang = computed<Lang>(() => (lang.value === 'es' ? 'en' : 'es'))
-const otherLangHref = computed(() => pathForLang(otherLang.value))
+const otherLangHref = computed(() => pathForLang(otherLang.value, page.value))
 const rememberOtherLang = () => rememberLang(otherLang.value)
 
 interface GitHubRepo {
@@ -77,6 +82,8 @@ const convCopy = {
         refs: 'Referencias profesionales disponibles a solicitud.',
         menu: 'Menú',
         where: 'Caracas, Venezuela · 100 % remoto · UTC−4',
+        hire: 'Fácil de contratar: como contratista independiente (W-8BEN) o vía EOR como Deel. No necesitas entidad en Venezuela.',
+        intro: 'Agendar llamada',
     },
     en: {
         headline: "Software that keeps running when the network doesn't.",
@@ -87,6 +94,8 @@ const convCopy = {
         refs: 'Professional references available on request.',
         menu: 'Menu',
         where: 'Caracas, Venezuela · 100% remote · UTC−4',
+        hire: 'Easy to hire: as an independent contractor (W-8BEN) or through an EOR such as Deel. No local entity needed.',
+        intro: 'Book an intro call',
     },
 }
 const conv = computed(() => convCopy[lang.value])
@@ -177,8 +186,9 @@ const sysFile = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '_')
 type CvProfile = 'fullstack' | 'backend'
 const cvProfile = ref<CvProfile>('fullstack')
 const cvFiles: Record<Lang, Record<CvProfile, string>> = {
-    en: { fullstack: '/CV_Daniel_Silva_EN_FullStack.pdf', backend: '/CV_Daniel_Silva_EN_Backend-AI.pdf' },
-    es: { fullstack: '/CV_Daniel_Silva_ES_FullStack.pdf', backend: '/CV_Daniel_Silva_ES_Backend-IA.pdf' },
+    /* Un solo CV ATS (Backend + Full-Stack) por idioma; los PDFs viejos quedan en /public sin enlazar */
+    en: { fullstack: '/Daniel_Silva_Senior_Backend_Engineer_CV_EN.pdf', backend: '/Daniel_Silva_Senior_Backend_Engineer_CV_EN.pdf' },
+    es: { fullstack: '/Daniel_Silva_Senior_Backend_Engineer_CV_ES.pdf', backend: '/Daniel_Silva_Senior_Backend_Engineer_CV_ES.pdf' },
 }
 const cvUrl = computed(() => cvFiles[lang.value][cvProfile.value])
 const cvProfiles = computed(() => ([
@@ -662,19 +672,27 @@ onBeforeUnmount(() => {
 
     <!-- NAV -->
     <nav class="nav" :class="{ 'nav--open': navOpen }" aria-label="Principal">
-      <a href="#hero" class="nav__brand">Daniel Silva<span class="nav__brand-dot" aria-hidden="true">.</span></a>
+      <a :href="isHome ? '#hero' : homeHref" class="nav__brand">Daniel Silva<span class="nav__brand-dot" aria-hidden="true">.</span></a>
       <div id="nav-links" class="nav__links" @click="navOpen = false">
-        <a href="#cases">{{ caseT.title }}</a>
-        <a href="#services">{{ t.nav.services }}</a>
-        <a href="#experience">{{ t.nav.experience }}</a>
-        <a href="#projects">{{ t.nav.projects }}</a>
-        <a href="#contact">{{ t.nav.contact }}</a>
+        <template v-if="isHome">
+          <a href="#cases">{{ caseT.title }}</a>
+          <a href="#experience">{{ t.nav.experience }}</a>
+          <a href="#projects">{{ t.nav.projects }}</a>
+          <a href="#contact">{{ t.nav.contact }}</a>
+        </template>
+        <template v-else>
+          <a href="#services">{{ t.nav.services }}</a>
+          <a href="#cases">{{ caseT.title }}</a>
+          <a href="#contact">{{ t.nav.contact }}</a>
+          <a :href="homeHref">{{ t.nav.home }}</a>
+        </template>
       </div>
       <div class="nav__right">
         <a class="nav__lang" :href="otherLangHref" :hreflang="otherLang" @click="rememberOtherLang" :aria-label="lang === 'es' ? 'Switch to English' : 'Cambiar a español'">
           <i class="fa-solid fa-globe" aria-hidden="true"></i> {{ lang === 'es' ? 'EN' : 'ES' }}
         </a>
-        <a class="btn btn--gradient nav__book" :href="bookingHref" data-track="book_call" target="_blank" rel="noopener noreferrer">{{ conv.bookShort }}</a>
+        <button v-if="isHome" type="button" class="btn btn--gradient nav__book" @click="openCv">{{ t.hero.ctaCV }}</button>
+        <a v-else class="btn btn--gradient nav__book" :href="bookingHref" data-track="book_call" target="_blank" rel="noopener noreferrer">{{ conv.bookShort }}</a>
         <button
           type="button" class="nav__toggle" :aria-expanded="navOpen" aria-controls="nav-links"
           :aria-label="conv.menu" @click="navOpen = !navOpen"
@@ -702,7 +720,7 @@ onBeforeUnmount(() => {
           <div class="hero__meta">
             <span class="hero__badge">
               <span class="badge-dot" aria-hidden="true"></span>
-              {{ t.hero.available }}
+              {{ isHome ? t.hero.available : t.hero.availableFreelance }}
             </span>
             <span class="hero__where"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ conv.where }}</span>
           </div>
@@ -712,19 +730,26 @@ onBeforeUnmount(() => {
           <span class="hero__name">Daniel Silva</span>
           <span class="hero__headline">{{ conv.headline }}</span>
         </h1>
-        <p class="hero__role">{{ t.hero.role }}</p>
+        <p class="hero__role">{{ isHome ? t.hero.role : t.hero.roleFreelance }}</p>
         <p class="hero__tagline">{{ t.hero.tagline }}</p>
 
-        <div class="hero__actions">
+        <div v-if="isHome" class="hero__actions">
+          <button type="button" class="btn btn--gradient" @click="openCv">
+            <i class="fa-solid fa-file-lines" aria-hidden="true"></i> {{ t.hero.ctaCV }}
+          </button>
+          <a href="#cases" class="btn btn--outline">{{ conv.seeCases }}</a>
+          <a :href="bookingHref" data-track="book_call" class="btn btn--ghost" target="_blank" rel="noopener noreferrer">
+            <i class="fa-regular fa-calendar" aria-hidden="true"></i> {{ conv.intro }}
+          </a>
+        </div>
+        <div v-else class="hero__actions">
           <a :href="bookingHref" data-track="book_call" class="btn btn--gradient" target="_blank" rel="noopener noreferrer">
             <i class="fa-regular fa-calendar" aria-hidden="true"></i> {{ conv.book }}
           </a>
-          <a href="#cases" class="btn btn--outline">{{ conv.seeCases }}</a>
-          <button type="button" class="btn btn--ghost" @click="openCv">
-            <i class="fa-solid fa-file-lines" aria-hidden="true"></i> {{ t.hero.ctaCV }}
-          </button>
+          <a href="#services" class="btn btn--outline">{{ t.nav.services }}</a>
+          <a href="#cases" class="btn btn--ghost">{{ conv.seeCases }}</a>
         </div>
-        <p class="hero__note">{{ conv.free }}</p>
+        <p class="hero__note">{{ isHome ? conv.hire : conv.free }}</p>
 
         <ul class="hero__proof reveal" data-stats :aria-label="lang === 'es' ? 'Trayectoria' : 'Track record'">
           <li v-for="(s, i) in statDefs" :key="s.label">
@@ -736,7 +761,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- IMPACT / WHY HIRE ME -->
-    <section id="impact" class="section" aria-labelledby="impact-title">
+    <section v-if="isHome" id="impact" class="section" aria-labelledby="impact-title">
       <div class="section-header reveal">
         <h2 id="impact-title">{{ t.impact.title }}</h2>
         <p class="section-subtitle">{{ t.impact.subtitle }}</p>
@@ -825,7 +850,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- SERVICIOS -->
-    <section id="services" class="section" aria-labelledby="services-title">
+    <section v-if="!isHome" id="services" class="section" aria-labelledby="services-title">
       <div class="section-header reveal">
         <h2 id="services-title">{{ t.services.title }}</h2>
         <p class="section-subtitle">{{ t.services.subtitle }}</p>
@@ -859,7 +884,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- SISTEMAS EN PRODUCCIÓN -->
-    <section id="systems" class="section" aria-labelledby="systems-title">
+    <section v-if="isHome" id="systems" class="section" aria-labelledby="systems-title">
       <div class="section-header reveal">
         <h2 id="systems-title">{{ t.systems.title }}</h2>
         <p class="section-subtitle">{{ t.systems.subtitle }}</p>
@@ -906,7 +931,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- EXPERIENCE TIMELINE -->
-    <section id="experience" class="section" aria-labelledby="experience-title">
+    <section v-if="isHome" id="experience" class="section" aria-labelledby="experience-title">
       <div class="section-header reveal">
         <h2 id="experience-title">{{ t.experience.title }}</h2>
         <p class="section-subtitle">{{ t.experience.subtitle }}</p>
@@ -938,7 +963,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- PROJECTS -->
-    <section id="projects" class="section" aria-labelledby="projects-title">
+    <section v-if="isHome" id="projects" class="section" aria-labelledby="projects-title">
       <div class="section-header reveal">
         <h2 id="projects-title">{{ t.projects.title }}</h2>
         <p class="section-subtitle">{{ t.projects.subtitle }}</p>
@@ -1013,7 +1038,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- EDUCATION & CERTIFICATIONS -->
-    <section id="education" class="section" aria-labelledby="education-title">
+    <section v-if="isHome" id="education" class="section" aria-labelledby="education-title">
       <div class="section-header reveal">
         <h2 id="education-title">{{ t.education.title }}</h2>
         <p class="section-subtitle">{{ t.education.subtitle }}</p>
@@ -1057,7 +1082,7 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- STACK (marquee) -->
-    <section id="stack" class="section" aria-labelledby="stack-title">
+    <section v-if="isHome" id="stack" class="section" aria-labelledby="stack-title">
       <div class="section-header reveal">
         <h2 id="stack-title">{{ t.stack.title }}</h2>
         <p class="section-subtitle">{{ t.stack.subtitle }}</p>
@@ -1082,7 +1107,10 @@ onBeforeUnmount(() => {
 
     <!-- Barra fija en móvil: la acción principal siempre a un toque -->
     <div class="mobile-cta" role="region" :aria-label="conv.bookShort">
-      <a :href="bookingHref" data-track="book_call" class="btn btn--gradient" target="_blank" rel="noopener noreferrer">
+      <button v-if="isHome" type="button" class="btn btn--gradient" @click="openCv">
+        <i class="fa-solid fa-file-lines" aria-hidden="true"></i> {{ t.hero.ctaCV }}
+      </button>
+      <a v-else :href="bookingHref" data-track="book_call" class="btn btn--gradient" target="_blank" rel="noopener noreferrer">
         <i class="fa-regular fa-calendar" aria-hidden="true"></i> {{ conv.bookShort }}
       </a>
       <a :href="whatsappUrl" class="btn btn--outline mobile-cta__wa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
@@ -1098,8 +1126,8 @@ onBeforeUnmount(() => {
           <span class="win-bar__file">{{ t.nav.contact.toLowerCase() }}.md</span>
         </div>
         <div class="contact__glow" aria-hidden="true"></div>
-        <h2 id="contact-title">{{ t.contact.title }}</h2>
-        <p>{{ t.contact.subtitle }}</p>
+        <h2 id="contact-title">{{ isHome ? t.contact.title : t.contact.titleFreelance }}</h2>
+        <p>{{ isHome ? t.contact.subtitle : t.contact.subtitleFreelance }}</p>
         <div class="contact__actions">
           <a :href="bookingHref" data-track="book_call" class="btn btn--gradient" target="_blank" rel="noopener noreferrer">
             <i class="fa-regular fa-calendar" aria-hidden="true"></i> {{ conv.book }}
@@ -1119,7 +1147,9 @@ onBeforeUnmount(() => {
         </button>
         <p class="contact__refs"><i class="fa-solid fa-user-check" aria-hidden="true"></i> {{ conv.refs }}</p>
 
-        <form class="cform" novalidate @submit.prevent="submitForm">
+        <p v-if="isHome" class="contact__refs"><i class="fa-solid fa-file-signature" aria-hidden="true"></i> {{ conv.hire }}</p>
+
+        <form v-if="!isHome" class="cform" novalidate @submit.prevent="submitForm">
           <h3 class="cform__title">{{ t.form.title }}</h3>
           <p class="cform__subtitle">{{ t.form.subtitle }}</p>
 
@@ -1200,6 +1230,7 @@ onBeforeUnmount(() => {
 
     <footer class="footer">
       <p>© {{ new Date().getFullYear() }} · {{ t.footer }}</p>
+      <p><a :href="isHome ? servicesHref : homeHref">{{ isHome ? t.nav.freelance : t.nav.home }}</a></p>
     </footer>
 
     <!-- VISOR DE CV -->
@@ -1219,7 +1250,7 @@ onBeforeUnmount(() => {
                 </button>
               </div>
             </header>
-            <div class="cv-panel__profiles" role="group" :aria-label="t.hero.cvProfile">
+            <div v-if="false" class="cv-panel__profiles" role="group" :aria-label="t.hero.cvProfile">
               <span class="cv-panel__profiles-label" aria-hidden="true">{{ t.hero.cvProfile }}:</span>
               <button
                 v-for="p in cvProfiles" :key="p.id"

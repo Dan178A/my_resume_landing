@@ -2,7 +2,7 @@ import { ViteSSG } from 'vite-ssg'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
-import { LANG_KEY, createLangState, langForPath } from './composables/useI18n'
+import { LANG_KEY, PAGE_KEY, createLangState, createPageState, langForPath, pageForPath } from './composables/useI18n'
 import { initAnalytics } from './composables/useAnalytics'
 
 // Dos rutas reales, una por idioma: vite-ssg prerenderiza cada una a su propio
@@ -14,6 +14,8 @@ export const createApp = ViteSSG(
     routes: [
       { path: '/', component: App },
       { path: '/es', component: App },
+      { path: '/services', component: App },
+      { path: '/es/services', component: App },
     ],
   },
   ({ app, routePath, isClient }) => {
@@ -22,6 +24,7 @@ export const createApp = ViteSSG(
     // prerender lo da vite-ssg en routePath, en el navegador la URL cargada.
     const path = isClient ? window.location.pathname : (routePath ?? '/')
     app.provide(LANG_KEY, createLangState(langForPath(path)))
+    app.provide(PAGE_KEY, createPageState(pageForPath(path)))
     if (isClient) initAnalytics(langForPath(path))
   },
 )

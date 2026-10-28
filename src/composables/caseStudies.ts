@@ -102,7 +102,7 @@ const allCaseStudies: CaseStudy[] = [
     {
         id: 'monitoring',
         /* Desactivado temporalmente. Poner en false (o borrar) para volver a mostrarlo. */
-        hidden: true,
+        hidden: false,
         /* Genérico a propósito: trabajo para un cliente bajo confidencialidad. No nombrar
            cliente, sector, equipo inspeccionado ni cifras del código, y no mostrar capturas
            ni dibujos del sistema, sin autorización escrita del cliente. */
