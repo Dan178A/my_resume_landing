@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { Analytics } from '@vercel/analytics/vue'
 import './assets/main.css'
 import Portfolio from './components/Portfolio.vue'
 import { useI18n, usePage, pathForLang } from './composables/useI18n'
@@ -72,4 +73,5 @@ useHead({
 
 <template>
   <Portfolio />
+  <Analytics />
 </template>
