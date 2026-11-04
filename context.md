@@ -95,4 +95,26 @@
 
 ## 5. Notas
 - CVs disponibles: `CV_Daniel_Silva_EN_Backend-AI.pdf` (usar este por defecto), FullStack y versiones ES.
-- Fecha de la última búsqueda: 2026-08-12.
+- Fecha de la última búsqueda: 2026-11-04 (ver sección 6).
+
+---
+
+## 6. Búsqueda 2026-11-04 (Get on Board + WWR + LinkedIn)
+
+| Rol | Empresa | Salario | Elegibilidad | Postulantes | Link |
+|---|---|---|---|---|---|
+| AI Engineer (agentes de voz, multiagente) | Interfell → Vixiees | $5.000–6.000/mes | Remoto | 59 | https://www.getonbrd.com/jobs/machine-learning-ai/ai-engineer-interfell-remote |
+| AI Engineering Lead (MCP, workstreams IA) | Niuro | $5.500–6.000/mes | Sudamérica/CA/MX | 18 | https://www.getonbrd.com/jobs/programacion/ai-engineering-lead-niuro-remote |
+| Real-Time AI Orchestration Engineer (freelance) | SugarShan | — | Remoto | 112 | https://www.getonbrd.com/jobs/machine-learning-ai/real-time-ai-orchestration-engineer-sugarshan-inc-remote |
+| Senior Forward Deployed Engineer | Niuro | $3.500–4.000/mes | Sudamérica/CA/MX | 78 | https://www.getonbrd.com/jobs/programming/forward-deployed-engineer-niuro-remote-87ec |
+| Senior AI Engineer / Full-Stack AI Healthcare | Niuro | ~$4.000–5.000/mes | Sudamérica/CA/MX | 55 / 71 | getonbrd.com (Niuro) |
+| Founding GTM Engineer | Hostop | $4.500–6.000/mes | Remoto | 30 | https://www.getonbrd.com/jobs/programming/founding-gtm-engineer-hostop-remote |
+| Senior SWE Serverless Workflow | Hyqoo | $3.000–4.500/mes | Remoto (4 ubic.) | 54 | getonbrd.com |
+| Tech Lead HubSpot Integrations | Wendt Partners | $3.000–5.000/mes | Remoto | 39 | getonbrd.com |
+| Software Engineer II | Dugu → Convo Relay | $3.400–5.000/mes | Sudamérica | 324 | getonbrd.com |
+| Back-end Software Engineer | Zaelot | $4.000–6.500/mes | Remoto | 413 | getonbrd.com |
+| Senior Software Engineer | Vetclaims.ai | $6.000/mes | Remoto | 713 | getonbrd.com |
+| Senior Backend Engineer (TS/Python) | Kake (LinkedIn, contrato) | USD | Global, 55+ países | 50 clics | LinkedIn job 4484693063 |
+| Senior Backend Developer (Python) | Proxify (WWR) | — | Anywhere | — | weworkremotely.com |
+
+Notas: Upwork bloqueó con Cloudflare desde Chrome. LinkedIn fuerza ubicación Canadá en la búsqueda.
