@@ -3,6 +3,7 @@ import { useHead } from '@unhead/vue'
 import './assets/main.css'
 import Portfolio from './components/Portfolio.vue'
 import { useI18n, usePage, pathForLang } from './composables/useI18n'
+import { pageStructuredData } from './composables/structuredData'
 
 const SITE = 'https://www.danielsilvarojas.dev'
 
@@ -52,11 +53,26 @@ const meta = page.value === 'services'
   ? { ...base, ...servicesSeo[lang.value], social: servicesSeo[lang.value].description, path: pathForLang(lang.value, 'services') }
   : base
 const canonical = SITE + meta.path
+// hreflang por página: cada URL declara su par en el otro idioma (no la portada).
+const altEn = SITE + pathForLang('en', page.value)
+const altEs = SITE + pathForLang('es', page.value)
 
 useHead({
   htmlAttrs: { lang: lang.value },
   title: meta.title,
-  link: [{ rel: 'canonical', href: canonical }],
+  link: [
+    { rel: 'canonical', href: canonical },
+    { rel: 'alternate', hreflang: 'en', href: altEn },
+    { rel: 'alternate', hreflang: 'es', href: altEs },
+    { rel: 'alternate', hreflang: 'x-default', href: altEn },
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      key: 'page-ld',
+      innerHTML: JSON.stringify(pageStructuredData(lang.value, page.value, canonical, meta.title)),
+    },
+  ],
   meta: [
     { name: 'description', content: meta.description },
     { property: 'og:title', content: meta.title },
